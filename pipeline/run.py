@@ -186,7 +186,9 @@ def main(argv=None):
         print(f"Searching Sentinel-2 images {start} .. {end}")
         items = search(cfg, lake, start, end)
         print(f"Found {len(items)} images; {sum(i.id not in scenes for i in items)} not checked before")
-        best: dict[str, float] = {} if a.force else {d: float(r["visible_pct"]) for d, r in history.items()}
+        if a.force:  # forget earlier results in this range; they are recomputed below
+            history = {d: r for d, r in history.items() if not start <= d <= end}
+        best: dict[str, float] = {d: float(r["visible_pct"]) for d, r in history.items()}
         failures = 0
         for it in items:
             if it.id in scenes and not a.force:

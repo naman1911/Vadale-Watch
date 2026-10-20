@@ -51,3 +51,11 @@ def test_main_end_to_end(tmp_path, monkeypatch):
     assert hist2 == hist
     assert sorted(p.name for p in (tmp_path / "images").iterdir()) == [
         "2025-09-08_rgb.jpg", "2025-09-08_weed.png", "2025-09-13_rgb.jpg", "2025-09-13_weed.png"]
+
+    # Forced re-check with a stricter visibility rule drops dates that now fail.
+    cfg = run.load_config()
+    cfg["satellite"]["min_visible_pct"] = 101
+    monkeypatch.setattr(run, "load_config", lambda: cfg)
+    run.main(["--start", "2025-09-01", "--end", "2025-09-30", "--force"])
+    assert list(csv.DictReader(open(tmp_path / "history.csv"))) == []
+    assert not any((tmp_path / "images").iterdir())
