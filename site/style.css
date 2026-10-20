@@ -96,12 +96,14 @@ th:first-child, td:first-child, th:last-child, td:last-child { text-align: left;
 tr.flagged td { color: var(--muted); }
 thead th { position: sticky; top: 0; background: var(--surface); }
 
-.cmp-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 10px; font-size: .9rem; color: var(--ink-2); }
-.cmp { position: relative; width: 100%; border-radius: 10px; overflow: hidden; background: #222; user-select: none; touch-action: pan-y; }
-.cmp-layer { position: absolute; inset: 0; }
-.cmp-layer:first-child { position: relative; }
-.cmp-layer img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
-.cmp-layer img.ov { position: absolute; inset: 0; opacity: .92; }
+.cmp-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; margin-bottom: 10px; font-size: .9rem; color: var(--ink-2); }
+.cmp { position: relative; width: 100%; max-width: 280px; margin: 0 auto; border-radius: 12px; overflow: hidden; background: #0b1f24; user-select: none; touch-action: pan-y; aspect-ratio: 3 / 4; }
+.cmp-layer { position: absolute; inset: 0; overflow: hidden; }
+.cmp-layer img { position: absolute; display: block; max-width: none; height: auto; }
+.cmp-layer img.ph { image-rendering: pixelated; }
+.cmp-layer img[hidden] { display: none; }
+.cmp-outline { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.cmp-outline path { fill: none; stroke: #ffd400; stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
 .cmp-top { clip-path: inset(0 50% 0 0); }
 .cmp-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 4px rgba(0,0,0,.6); pointer-events: none; }
 .cmp-handle::after {
@@ -110,7 +112,7 @@ thead th { position: sticky; top: 0; background: var(--surface); }
   font-size: 20px; font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,.5);
 }
 .cmp input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
-.cmp-tag { position: absolute; top: 8px; background: rgba(0,0,0,.65); color: #fff; font-size: .8rem; padding: 2px 8px; border-radius: 6px; pointer-events: none; }
+.cmp-tag { position: absolute; top: 8px; z-index: 2; background: rgba(0,0,0,.65); color: #fff; font-size: .72rem; padding: 2px 7px; border-radius: 6px; pointer-events: none; }
 .cmp-tag.left { left: 8px; } .cmp-tag.right { right: 8px; }
 
 .btn { background: var(--brand); color: #fff; border: 0; border-radius: 999px; padding: 12px 20px; font: inherit; font-weight: 600; cursor: pointer; }

@@ -4,7 +4,7 @@
   const GAP_DAYS = 25;          // longer than this between clear images = shown as a gap
   const DAY = 86400000;
   const $ = (s) => document.querySelector(s);
-  const state = { lang: "en", range: "campaign", site: null, lake: null, map: null, chart: null };
+  const state = { lang: "en", range: "campaign", site: null, lake: null, map: null, chart: null, cmpMode: "weed" };
 
   // ---------- helpers --------------------------------------------------------
   const t = (k, ...a) => {
@@ -388,19 +388,46 @@
   }
 
   // ---------- before / after -------------------------------------------------
+  // Crop the before/after pictures tightly around the lake (no surrounding houses).
+  function cmpCrop() {
+    const ib = state.site?.image_bounds;
+    if (!ib || !state.lake) return;
+    const [[S, W], [N, E]] = ib;
+    const my = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+    const fx = (lon) => (lon - W) / (E - W), fy = (lat) => (my(N) - my(lat)) / (my(N) - my(S));
+    const rings = [];
+    state.lake.features.forEach((f) => (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates)
+      .forEach((poly) => poly.forEach((ring) => rings.push(ring))));
+    const pts = rings.flat();
+    let x0 = Math.min(...pts.map((p) => fx(p[0]))), x1 = Math.max(...pts.map((p) => fx(p[0])));
+    let y0 = Math.min(...pts.map((p) => fy(p[1]))), y1 = Math.max(...pts.map((p) => fy(p[1])));
+    const pad = 0.06 * Math.max(x1 - x0, y1 - y0);
+    x0 = Math.max(0, x0 - pad); x1 = Math.min(1, x1 + pad); y0 = Math.max(0, y0 - pad); y1 = Math.min(1, y1 + pad);
+    const imgAspect = ((E - W) * Math.PI / 180) / (my(N) - my(S));
+    $("#cmp").style.aspectRatio = `${((x1 - x0) * imgAspect) / (y1 - y0)}`;
+    document.querySelectorAll("#cmp .cmp-layer img").forEach((im) => {
+      im.style.width = `${100 / (x1 - x0)}%`;
+      im.style.left = `${(-x0 / (x1 - x0)) * 100}%`;
+      im.style.top = `${(-y0 / (y1 - y0)) * 100}%`;
+    });
+    const sx = (lon) => ((fx(lon) - x0) / (x1 - x0)) * 100, sy = (lat) => ((fy(lat) - y0) / (y1 - y0)) * 100;
+    $("#cmp-outline path").setAttribute("d", rings.map((r) => "M" + r.map((p) => `${sx(p[0]).toFixed(2)},${sy(p[1]).toFixed(2)}`).join("L") + "Z").join(""));
+  }
+
   function renderCompare() {
     const a = $("#cmp-a").value, b = $("#cmp-b").value;
     if (!a || !b) return;
-    const show = $("#cmp-overlay").checked;
+    const photo = state.cmpMode === "photo";
     [["#cmp-a-layer", a], ["#cmp-b-layer", b]].forEach(([sel, d]) => {
-      const [rgb, ov] = document.querySelectorAll(`${sel} img`);
-      rgb.src = img(d, "rgb");
+      const ph = $(`${sel} img.ph`), ov = $(`${sel} img.ov`);
+      ph.src = img(d, "rgb");
       ov.src = img(d, "weed");
-      ov.hidden = !show;
+      ph.hidden = !photo;
+      ov.hidden = photo;
     });
     const ea = entries().find((e) => e.date === a), eb = entries().find((e) => e.date === b);
-    $("#cmp-a-tag").textContent = `${fmtDate(a)} · ${fmt(ea?.weed_pct)}%`;
-    $("#cmp-b-tag").textContent = `${fmtDate(b)} · ${fmt(eb?.weed_pct)}%`;
+    $("#cmp-a-tag").textContent = `${fmtDate(a)} · ${fmt(ea?.weed_pct, 0)}%`;
+    $("#cmp-b-tag").textContent = `${fmtDate(b)} · ${fmt(eb?.weed_pct, 0)}%`;
   }
   function setSlider(v) {
     $("#cmp-a-layer").style.clipPath = `inset(0 ${100 - v}% 0 0)`;
@@ -510,7 +537,13 @@
       document.querySelectorAll("[data-range]").forEach((x) => x.setAttribute("aria-pressed", x === b));
       renderChart();
     }));
-    ["#cmp-a", "#cmp-b", "#cmp-overlay"].forEach((s) => $(s).addEventListener("change", renderCompare));
+    ["#cmp-a", "#cmp-b"].forEach((s) => $(s).addEventListener("change", renderCompare));
+    document.querySelectorAll("[data-cmp]").forEach((b) => b.addEventListener("click", () => {
+      state.cmpMode = b.dataset.cmp;
+      document.querySelectorAll("[data-cmp]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      renderCompare();
+    }));
+    cmpCrop();
     $("#cmp-slider").addEventListener("input", (e) => setSlider(+e.target.value));
     $("#ig-btn").addEventListener("click", makeCard);
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", renderChart);

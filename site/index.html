@@ -112,15 +112,19 @@
   <section class="card">
     <div class="card-head">
       <h2 data-i18n="compare_title">Before / after</h2>
-      <label class="inline"><input type="checkbox" id="cmp-overlay" checked> <span data-i18n="compare_overlay">Show weed in green</span></label>
+      <div class="seg seg-sm" role="group" aria-label="Picture type">
+        <button type="button" data-cmp="weed" aria-pressed="true" data-i18n="layer_btn_weed">Weed</button>
+        <button type="button" data-cmp="photo" aria-pressed="false" data-i18n="layer_btn_photo">Photo</button>
+      </div>
     </div>
     <div class="cmp-controls">
       <label><span data-i18n="compare_before">Before</span> <select id="cmp-a"></select></label>
       <label><span data-i18n="compare_after">After</span> <select id="cmp-b"></select></label>
     </div>
     <div class="cmp" id="cmp">
-      <div class="cmp-layer" id="cmp-b-layer"><img alt=""><img alt="" class="ov"></div>
-      <div class="cmp-layer cmp-top" id="cmp-a-layer"><img alt=""><img alt="" class="ov"></div>
+      <div class="cmp-layer" id="cmp-b-layer"><img alt="" class="ph"><img alt="" class="ov"></div>
+      <div class="cmp-layer cmp-top" id="cmp-a-layer"><img alt="" class="ph"><img alt="" class="ov"></div>
+      <svg class="cmp-outline" id="cmp-outline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path></path></svg>
       <span class="cmp-tag left" id="cmp-a-tag"></span><span class="cmp-tag right" id="cmp-b-tag"></span>
       <div class="cmp-handle" id="cmp-handle" aria-hidden="true"></div>
       <input type="range" id="cmp-slider" min="0" max="100" value="50" aria-label="Drag to compare">
