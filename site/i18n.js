@@ -1,0 +1,150 @@
+// English and Marathi text for the website.
+// Marathi was machine-assisted: please have a native speaker check it.
+window.I18N = {
+  en: {
+    title: "Vadale Lake Watch",
+    subtitle: "Tracking invasive weed on Vadale Talao, Old Panvel, from space",
+    badge: "Satellite estimate",
+    banner: "All numbers on this page are estimates from 10 m satellite pixels, not ground measurements.",
+    stat_cover: "Weed cover now",
+    stat_change: "Change since September 2025",
+    stat_water: "Open water left",
+    range: (lo, hi) => `likely between ${lo}% and ${hi}%`,
+    image_of: (d) => `Satellite image of ${d}`,
+    change_pts: "percentage points",
+    change_detail: (a, d0, b) => `from ${a}% on ${d0} to ${b}% now`,
+    change_none: "Not enough clear images yet",
+    water_of: (a) => `of ${a} ha total lake area`,
+    checked: (d, n) => `Last satellite check: ${d}. ${n} images examined; cloudy ones are skipped.`,
+    map_title: "Map: where the weed is",
+    map_date: "Image date",
+    key_weed: "Weed (estimated)",
+    key_cloud: "Hidden by cloud",
+    key_outline: "Lake outline",
+    layer_weed: "Weed (satellite estimate)",
+    layer_rgb: "Sentinel-2 photo of that date",
+    layer_outline: "Lake outline",
+    chart_title: "Weed cover over time",
+    range_campaign: "Sep 2025 onwards",
+    range_all: "All years",
+    range_years: "Compare years",
+    chart_note: "Each dot is one clear satellite image. Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.",
+    chart_y: "Weed cover (% of lake)",
+    chart_gap: "no clear images",
+    season: (y) => `Jun ${y} – May ${y + 1}`,
+    tip_weed: "Weed cover",
+    tip_range: "Range",
+    tip_visible: "Lake visible",
+    table_toggle: "Show all numbers as a table",
+    th_date: "Date", th_weed: "Weed %", th_range: "Range", th_water: "Open water (ha)", th_visible: "Lake visible",
+    csv: "Download the data (CSV)",
+    compare_title: "Before / after",
+    compare_overlay: "Show weed in green",
+    compare_before: "Before",
+    compare_after: "After",
+    compare_note: "Drag the slider. Each square is one 10 m × 10 m satellite pixel.",
+    share_title: "Share the latest numbers",
+    share_text: "Download a ready-made 1080×1080 image for Instagram with today's satellite estimate.",
+    share_btn: "Download Instagram card",
+    ig_cover: "of the lake covered by weed",
+    ig_change: (p, d) => `${p} points since ${d}`,
+    ig_water: (w, a) => `${w} ha open water left of ${a} ha`,
+    ig_note: "Satellite estimate · Sentinel-2 · 10 m pixels",
+    no_data: "No clear satellite images processed yet.",
+    how_title: "How this works",
+    how_body: `
+<h3>What the satellite sees</h3>
+<p>The European Space Agency's <b>Sentinel-2</b> satellites photograph every part of the Earth roughly every 5 days. Besides normal colours they measure light our eyes can't see, especially <b>near-infrared</b>. Living leaves reflect a lot of near-infrared light; water absorbs almost all of it. So weed floating on the lake "glows" in near-infrared while open water stays dark.</p>
+<h3>How a pixel is labelled "weed"</h3>
+<p>The picture is made of squares called <b>pixels</b>, each <b>10 m × 10 m</b> on the ground (about the size of a small house plot). The lake (about 9.5 hectares) contains roughly 900 of them. For every pixel inside the fixed lake outline we calculate two scores:</p>
+<ul>
+<li><b>Greenness (NDVI)</b>: high for leaves, low for water.</li>
+<li><b>Wetness (water index, NDWI)</b>: high for open water, low when leaves cover it.</li>
+</ul>
+<p>A pixel is counted as weed when it is green <i>and</i> no longer looks like open water. Weed cover is the share of visible lake pixels labelled weed. Because the outline never changes, a lake fully choked with weed still counts as lake: it does not "disappear" from the numbers.</p>
+<h3>Clouds and the monsoon</h3>
+<p>Satellites can't see through clouds. Each image comes with a cloud map; we ignore cloud, cloud shadow and haze pixels, and skip the whole image if less than 70% of the lake is clearly visible. During the monsoon (June–September) there are often weeks with no clear image. The chart shows these as <b>gaps</b>: we never invent numbers for them.</p>
+<h3>Why these are estimates</h3>
+<ul>
+<li>10 m pixels can't see small patches of weed or thin strips along the bank. Pixels touching the shore are left out because trees and walls would be mistaken for weed.</li>
+<li>Thin or scattered weed, algae, or very muddy water can be misread. The shaded band on the chart shows how much the answer changes if the rule is made a little stricter or looser.</li>
+<li>The thresholds are being checked against photos taken at the lake, and may be adjusted. When they change, the whole history is recalculated the same way, so dates stay comparable.</li>
+</ul>
+<h3>Open and free</h3>
+<p>Everything runs automatically and for free: the images come from Microsoft Planetary Computer, the calculations run on GitHub Actions, and all the code and data are public. Anyone can check the method or reuse it for their own lake.</p>`,
+    footer: `Satellite estimates for public awareness by <a href="https://instagram.com/savevadalelake">@savevadalelake</a>. Contains modified Copernicus Sentinel data, processed via Microsoft Planetary Computer. Lake outline © OpenStreetMap contributors (ODbL). Map imagery © Esri, Maxar, Earthstar Geographics. <a href="https://github.com/naman1911/Vadale-Watch">Code and data</a>.`,
+  },
+  mr: {
+    title: "वडाळे तलाव निरीक्षण",
+    subtitle: "जुने पनवेल येथील वडाळे तलावावरील जलपर्णी/तणाचा अवकाशातून मागोवा",
+    badge: "उपग्रह अंदाज",
+    banner: "या पानावरील सर्व आकडे १० मीटरच्या उपग्रह पिक्सेलवरून काढलेले अंदाज आहेत, प्रत्यक्ष मोजमाप नाही.",
+    stat_cover: "सध्या तणाचे आच्छादन",
+    stat_change: "सप्टेंबर २०२५ पासूनचा बदल",
+    stat_water: "उरलेले मोकळे पाणी",
+    range: (lo, hi) => `बहुधा ${lo}% ते ${hi}% दरम्यान`,
+    image_of: (d) => `${d} ची उपग्रह प्रतिमा`,
+    change_pts: "टक्के गुण",
+    change_detail: (a, d0, b) => `${d0} रोजी ${a}% वरून आता ${b}%`,
+    change_none: "अजून पुरेशा स्वच्छ प्रतिमा नाहीत",
+    water_of: (a) => `तलावाच्या एकूण ${a} हेक्टरपैकी`,
+    checked: (d, n) => `शेवटची उपग्रह तपासणी: ${d}. ${n} प्रतिमा तपासल्या; ढगाळ प्रतिमा वगळल्या.`,
+    map_title: "नकाशा: तण कुठे आहे",
+    map_date: "प्रतिमेची तारीख",
+    key_weed: "तण (अंदाजे)",
+    key_cloud: "ढगांमुळे दिसत नाही",
+    key_outline: "तलावाची सीमा",
+    layer_weed: "तण (उपग्रह अंदाज)",
+    layer_rgb: "त्या दिवसाचा सेंटिनेल-२ फोटो",
+    layer_outline: "तलावाची सीमा",
+    chart_title: "काळानुसार तणाचे आच्छादन",
+    range_campaign: "सप्टें. २०२५ पासून",
+    range_all: "सर्व वर्षे",
+    range_years: "वर्षांची तुलना",
+    chart_note: "प्रत्येक ठिपका म्हणजे एक स्वच्छ उपग्रह प्रतिमा. छायांकित पट्टा = नियम थोडा कडक किंवा सैल केल्यास येणारी श्रेणी. रेषेतील खंड म्हणजे स्वच्छ प्रतिमा उपलब्ध नाहीत (बहुधा पावसाळ्यातील ढग); ती जागा आम्ही अंदाजाने भरत नाही.",
+    chart_y: "तणाचे आच्छादन (तलावाच्या %)",
+    chart_gap: "स्वच्छ प्रतिमा नाहीत",
+    season: (y) => `जून ${y} – मे ${y + 1}`,
+    tip_weed: "तणाचे आच्छादन",
+    tip_range: "श्रेणी",
+    tip_visible: "दिसणारा तलाव",
+    table_toggle: "सर्व आकडे तक्त्यात पाहा",
+    th_date: "तारीख", th_weed: "तण %", th_range: "श्रेणी", th_water: "मोकळे पाणी (हे.)", th_visible: "दिसणारा तलाव",
+    csv: "माहिती डाउनलोड करा (CSV)",
+    compare_title: "आधी / नंतर",
+    compare_overlay: "तण हिरव्या रंगात दाखवा",
+    compare_before: "आधी",
+    compare_after: "नंतर",
+    compare_note: "स्लायडर ओढा. प्रत्येक चौकोन म्हणजे १० मी × १० मी चा एक उपग्रह पिक्सेल.",
+    share_title: "ताजे आकडे शेअर करा",
+    share_text: "आजच्या उपग्रह अंदाजासह इन्स्टाग्रामसाठी तयार १०८०×१०८० प्रतिमा डाउनलोड करा.",
+    share_btn: "इन्स्टाग्राम कार्ड डाउनलोड करा",
+    ig_cover: "तलाव तणाने झाकलेला",
+    ig_change: (p, d) => `${d} पासून ${p} गुण`,
+    ig_water: (w, a) => `${a} हेक्टरपैकी ${w} हेक्टर मोकळे पाणी`,
+    ig_note: "उपग्रह अंदाज · सेंटिनेल-२ · १० मी पिक्सेल",
+    no_data: "अजून कोणतीही स्वच्छ उपग्रह प्रतिमा प्रक्रिया केलेली नाही.",
+    how_title: "हे कसे काम करते",
+    how_body: `
+<h3>उपग्रहाला काय दिसते</h3>
+<p>युरोपियन स्पेस एजन्सीचे <b>सेंटिनेल-२</b> उपग्रह पृथ्वीच्या प्रत्येक भागाचा साधारण दर ५ दिवसांनी फोटो घेतात. सामान्य रंगांबरोबरच ते आपल्या डोळ्यांना न दिसणारा प्रकाशही मोजतात, विशेषतः <b>निकट-अवरक्त (near-infrared)</b>. जिवंत पाने हा प्रकाश जास्त परावर्तित करतात, तर पाणी तो जवळजवळ पूर्ण शोषून घेते. म्हणून तलावावर तरंगणारे तण या प्रकाशात "उजळ" दिसते आणि मोकळे पाणी गडद राहते.</p>
+<h3>एखादा पिक्सेल "तण" कसा ठरतो</h3>
+<p>प्रतिमा <b>पिक्सेल</b> नावाच्या चौकोनांनी बनलेली असते; प्रत्येक पिक्सेल जमिनीवर <b>१० मी × १० मी</b> इतका असतो. तलावात (सुमारे ९.५ हेक्टर) असे सुमारे ९०० पिक्सेल आहेत. निश्चित तलाव-सीमेतील प्रत्येक पिक्सेलसाठी आम्ही दोन गुण काढतो:</p>
+<ul>
+<li><b>हिरवेपणा (NDVI)</b>: पानांसाठी जास्त, पाण्यासाठी कमी.</li>
+<li><b>ओलेपणा (जल निर्देशांक, NDWI)</b>: मोकळ्या पाण्यासाठी जास्त, पाने झाकल्यावर कमी.</li>
+</ul>
+<p>जो पिक्सेल हिरवा आहे <i>आणि</i> मोकळ्या पाण्यासारखा दिसत नाही, तो तण म्हणून मोजला जातो. दिसणाऱ्या तलाव-पिक्सेलपैकी तण असलेल्यांचा वाटा म्हणजे तणाचे आच्छादन. सीमा कधीच बदलत नसल्याने, पूर्ण तणाने भरलेला तलावही तलाव म्हणूनच मोजला जातो.</p>
+<h3>ढग आणि पावसाळा</h3>
+<p>उपग्रह ढगांच्या आरपार पाहू शकत नाही. प्रत्येक प्रतिमेसोबत ढगांचा नकाशा येतो; आम्ही ढग, ढगांची सावली आणि धुके असलेले पिक्सेल वगळतो, आणि तलावाचा ७०% पेक्षा कमी भाग स्पष्ट दिसत असल्यास ती प्रतिमाच वगळतो. पावसाळ्यात (जून–सप्टेंबर) अनेक आठवडे स्वच्छ प्रतिमा मिळत नाहीत. आलेखात हे <b>खंड</b> म्हणून दाखवले आहेत: आम्ही ते आकडे कधीच तयार करत नाही.</p>
+<h3>हे अंदाज का आहेत</h3>
+<ul>
+<li>१० मीटरच्या पिक्सेलमध्ये तणाचे छोटे तुकडे किंवा काठावरील अरुंद पट्टे दिसत नाहीत. काठाला लागून असलेले पिक्सेल वगळले जातात, कारण झाडे व भिंती तण समजल्या जाऊ शकतात.</li>
+<li>विरळ तण, शेवाळ किंवा खूप गढूळ पाणी चुकीचे ओळखले जाऊ शकते. नियम थोडा कडक किंवा सैल केल्यास उत्तर किती बदलते हे आलेखावरील छायांकित पट्टा दाखवतो.</li>
+<li>हे नियम तलावावर घेतलेल्या फोटोंशी तपासले जात आहेत आणि बदलू शकतात. बदल झाल्यास संपूर्ण इतिहास त्याच पद्धतीने पुन्हा मोजला जातो, त्यामुळे तारखांची तुलना योग्य राहते.</li>
+</ul>
+<h3>खुले आणि मोफत</h3>
+<p>सर्व काही आपोआप आणि मोफत चालते: प्रतिमा Microsoft Planetary Computer वरून येतात, गणना GitHub Actions वर होते, आणि सर्व कोड व माहिती सार्वजनिक आहे. कोणीही पद्धत तपासू शकतो किंवा आपल्या तलावासाठी वापरू शकतो.</p>`,
+    footer: `जनजागृतीसाठी उपग्रह अंदाज: <a href="https://instagram.com/savevadalelake">@savevadalelake</a>. सुधारित Copernicus Sentinel माहिती, Microsoft Planetary Computer द्वारे प्रक्रिया. तलाव सीमा © OpenStreetMap योगदानकर्ते (ODbL). नकाशा प्रतिमा © Esri, Maxar, Earthstar Geographics. <a href="https://github.com/naman1911/Vadale-Watch">कोड आणि माहिती</a>.`,
+  },
+};

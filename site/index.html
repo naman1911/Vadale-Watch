@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vadale Lake Watch</title>
+  <meta name="description" content="Satellite estimates of invasive weed cover on Vadale Lake (Vadale Talao), Old Panvel, updated automatically from Sentinel-2 imagery.">
+  <meta property="og:title" content="Vadale Lake Watch">
+  <meta property="og:description" content="How much of Vadale Lake is covered by weed? Satellite estimates, updated every few days.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Noto+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%230e5f76'/><path d='M18 58c10-8 20-8 32 0s22 8 32 0' stroke='%237CFC00' stroke-width='9' fill='none'/></svg>">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-row">
+    <div>
+      <h1 data-i18n="title">Vadale Lake Watch</h1>
+      <p class="sub" data-i18n="subtitle">Tracking invasive weed on Vadale Talao, Old Panvel, from space</p>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" data-lang="mr" aria-pressed="false">मराठी</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="estimate-banner"><span class="badge" data-i18n="badge">Satellite estimate</span>
+    <span data-i18n="banner">All numbers on this page are estimates from 10 m satellite pixels, not ground measurements.</span></p>
+
+  <section class="stats" aria-live="polite">
+    <article class="stat">
+      <h2 data-i18n="stat_cover">Weed cover now</h2>
+      <p class="big" id="s-cover">–</p>
+      <p class="small" id="s-cover-range"></p>
+      <p class="small" id="s-cover-date"></p>
+    </article>
+    <article class="stat">
+      <h2 data-i18n="stat_change">Change since September 2025</h2>
+      <p class="big" id="s-change">–</p>
+      <p class="small" id="s-change-detail"></p>
+    </article>
+    <article class="stat">
+      <h2 data-i18n="stat_water">Open water left</h2>
+      <p class="big" id="s-water">–</p>
+      <p class="small" id="s-water-detail"></p>
+    </article>
+  </section>
+  <p class="small muted" id="s-checked"></p>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 data-i18n="map_title">Map: where the weed is</h2>
+      <label class="inline"><span data-i18n="map_date">Image date</span>
+        <select id="map-date"></select></label>
+    </div>
+    <div id="map" role="region" aria-label="Map of Vadale Lake"></div>
+    <p class="legend">
+      <span class="key key-weed"></span><span data-i18n="key_weed">Weed (estimated)</span>
+      <span class="key key-cloud"></span><span data-i18n="key_cloud">Hidden by cloud</span>
+      <span class="key key-line"></span><span data-i18n="key_outline">Lake outline</span>
+    </p>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 data-i18n="chart_title">Weed cover over time</h2>
+      <div class="seg" role="group" aria-label="Time range">
+        <button type="button" data-range="campaign" aria-pressed="true" data-i18n="range_campaign">Sep 2025 onwards</button>
+        <button type="button" data-range="all" aria-pressed="false" data-i18n="range_all">All years</button>
+        <button type="button" data-range="years" aria-pressed="false" data-i18n="range_years">Compare years</button>
+      </div>
+    </div>
+    <div class="chart-box"><canvas id="chart" aria-label="Line chart of weed cover percentage by date" role="img"></canvas></div>
+    <p class="small muted" data-i18n="chart_note">Each dot is one clear satellite image. Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.</p>
+    <details>
+      <summary data-i18n="table_toggle">Show all numbers as a table</summary>
+      <div class="table-wrap"><table id="table"><thead><tr>
+        <th data-i18n="th_date">Date</th><th data-i18n="th_weed">Weed %</th><th data-i18n="th_range">Range</th>
+        <th data-i18n="th_water">Open water (ha)</th><th data-i18n="th_visible">Lake visible</th></tr></thead><tbody></tbody></table></div>
+      <p class="small"><a href="data/history.csv" download data-i18n="csv">Download the data (CSV)</a></p>
+    </details>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2 data-i18n="compare_title">Before / after</h2>
+      <label class="inline"><input type="checkbox" id="cmp-overlay" checked> <span data-i18n="compare_overlay">Show weed in green</span></label>
+    </div>
+    <div class="cmp-controls">
+      <label><span data-i18n="compare_before">Before</span> <select id="cmp-a"></select></label>
+      <label><span data-i18n="compare_after">After</span> <select id="cmp-b"></select></label>
+    </div>
+    <div class="cmp" id="cmp">
+      <div class="cmp-layer" id="cmp-b-layer"><img alt=""><img alt="" class="ov"></div>
+      <div class="cmp-layer cmp-top" id="cmp-a-layer"><img alt=""><img alt="" class="ov"></div>
+      <span class="cmp-tag left" id="cmp-a-tag"></span><span class="cmp-tag right" id="cmp-b-tag"></span>
+      <div class="cmp-handle" id="cmp-handle" aria-hidden="true"></div>
+      <input type="range" id="cmp-slider" min="0" max="100" value="50" aria-label="Drag to compare">
+    </div>
+    <p class="small muted" data-i18n="compare_note">Drag the slider. Each square is one 10 m × 10 m satellite pixel.</p>
+  </section>
+
+  <section class="card share">
+    <h2 data-i18n="share_title">Share the latest numbers</h2>
+    <p data-i18n="share_text">Download a ready-made 1080×1080 image for Instagram with today's satellite estimate.</p>
+    <button type="button" class="btn" id="ig-btn" data-i18n="share_btn">Download Instagram card</button>
+    <canvas id="ig-canvas" width="1080" height="1080" hidden></canvas>
+  </section>
+
+  <section class="card how" id="how">
+    <h2 data-i18n="how_title">How this works</h2>
+    <div data-i18n-html="how_body"></div>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p data-i18n-html="footer"></p>
+</footer>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/chart.umd.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
