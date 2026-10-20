@@ -9,10 +9,11 @@ import math
 
 import numpy as np
 from affine import Affine
-from PIL import Image
+from PIL import Image, ImageDraw
+from pyproj import Transformer
 from rasterio.warp import Resampling, reproject
 
-from .classify import MASKED, WEED
+from .classify import MASKED, OTHER, OUTSIDE, WATER, WEED
 from .common import lonlat_to_merc, merc_to_lonlat
 
 
@@ -56,14 +57,46 @@ def true_colour(refl: dict, src_transform, epsg: int, grid: dict) -> Image.Image
     return Image.fromarray(np.dstack(chans), "RGB")
 
 
+PIXEL_COLOURS = {WEED: (57, 255, 20, 255), WATER: (42, 143, 214, 255),
+                 OTHER: (196, 160, 98, 255), MASKED: (90, 90, 90, 170)}
+GRID_LINE = (6, 22, 26, 255)
+
+
 def weed_overlay(cls: np.ndarray, src_transform, epsg: int, grid: dict) -> Image.Image:
-    """Transparent PNG: green = weed, stripes = hidden by cloud/haze, clear = everything else."""
-    c = _warp(cls, src_transform, epsg, grid, 255)
-    rgba = np.zeros(c.shape + (4,), dtype="uint8")
-    rgba[c == WEED] = (57, 255, 20, 255)
-    # Hidden by cloud/haze: diagonal white/grey stripes, visible on any background.
-    yy, xx = np.indices(c.shape)
-    stripe = ((xx + yy) // 3) % 2 == 0
-    rgba[(c == MASKED) & stripe] = (255, 255, 255, 220)
-    rgba[(c == MASKED) & ~stripe] = (90, 90, 90, 160)
+    """Transparent PNG of the lake drawn as satellite pixels: green = weed,
+    blue = open water, sand = mud/mixed, stripes = hidden by cloud/haze.
+
+    Each 10 m pixel is drawn as its true (very slightly rotated) square, with
+    thin dark lines between squares, so the grid lines up with the map."""
+    h, w = cls.shape
+    # Corners of every satellite pixel, projected to display-image coordinates.
+    cols, rows = np.meshgrid(np.arange(w + 1), np.arange(h + 1))
+    xs = src_transform.c + cols * src_transform.a
+    ys = src_transform.f + rows * src_transform.e
+    mx, my = Transformer.from_crs(epsg, 3857, always_xy=True).transform(xs, ys)
+    g = grid["transform"]
+    ss = 4   # draw at 4x and scale down, so the slightly tilted grid lines are smooth
+    px, py = (mx - g.c) / g.a * ss, (my - g.f) / g.e * ss
+
+    size = (grid["width"], grid["height"])
+    big = (size[0] * ss, size[1] * ss)
+    img = Image.new("RGBA", big, (0, 0, 0, 0))
+    hidden = Image.new("L", big, 0)
+    draw, draw_hidden = ImageDraw.Draw(img), ImageDraw.Draw(hidden)
+    polys = []
+    for r, c in zip(*np.nonzero(cls != OUTSIDE)):
+        poly = [(px[r, c], py[r, c]), (px[r, c + 1], py[r, c + 1]),
+                (px[r + 1, c + 1], py[r + 1, c + 1]), (px[r + 1, c], py[r + 1, c])]
+        draw.polygon(poly, fill=PIXEL_COLOURS[int(cls[r, c])])
+        if cls[r, c] == MASKED:
+            draw_hidden.polygon(poly, fill=255)
+        polys.append(poly)
+    for poly in polys:
+        draw.polygon(poly, outline=GRID_LINE, width=ss // 2)   # neighbours share a line: ~1 px total
+    img = img.resize(size, Image.BOX)
+    # Hidden by cloud/haze: white diagonal stripes on the grey squares.
+    yy, xx = np.indices((size[1], size[0]))
+    stripes = (((xx + yy) // 3) % 2 == 0) & (np.array(hidden.resize(size, Image.BOX)) > 160)
+    rgba = np.array(img)
+    rgba[stripes] = (255, 255, 255, 220)
     return Image.fromarray(rgba, "RGBA")

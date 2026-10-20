@@ -174,6 +174,9 @@
       t("range_short", fmt(e.weed_pct_low, 0), fmt(e.weed_pct_high, 0)) +
       (e.visible_pct < 99 ? ` · ${t("visible_short", fmt(e.visible_pct, 0))}` : "");
     $("#to-latest").hidden = isLatest;
+    $("#map-key").hidden = hero.layer === "photo";
+    $("#key-mud").hidden = !(e.other_pct >= 0.5);
+    $("#key-hidden").hidden = !(e.visible_pct < 99.5);
     const stamp = $("#map-stamp");
     stamp.textContent = fmtDate(e.date, { day: "numeric", month: "short", year: "numeric" });
     stamp.classList.toggle("on", !isLatest);
@@ -437,7 +440,7 @@
       const iw = rgb.width * s, ih = rgb.height * s, ix = box.x + (box.w - iw) / 2, iy = box.y + (box.h - ih) / 2;
       ctx.imageSmoothingEnabled = false;
       ctx.drawImage(rgb, ix, iy, iw, ih);
-      ctx.globalAlpha = 0.75; ctx.drawImage(weed, ix, iy, iw, ih); ctx.globalAlpha = 1;
+      ctx.globalAlpha = 0.92; ctx.drawImage(weed, ix, iy, iw, ih); ctx.globalAlpha = 1;
       // lake outline
       const [[S, Wl], [N, E]] = state.site.image_bounds;
       const my = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));

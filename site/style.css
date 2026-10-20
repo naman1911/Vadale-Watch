@@ -101,7 +101,7 @@ thead th { position: sticky; top: 0; background: var(--surface); }
 .cmp-layer { position: absolute; inset: 0; }
 .cmp-layer:first-child { position: relative; }
 .cmp-layer img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
-.cmp-layer img.ov { position: absolute; inset: 0; opacity: .75; }
+.cmp-layer img.ov { position: absolute; inset: 0; opacity: .92; }
 .cmp-top { clip-path: inset(0 50% 0 0); }
 .cmp-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 4px rgba(0,0,0,.6); pointer-events: none; }
 .cmp-handle::after {
@@ -132,7 +132,7 @@ thead th { position: sticky; top: 0; background: var(--surface); }
 .leaflet-control-attribution { font-size: 10px; background: rgba(0,0,0,.45) !important; color: #ddd; }
 .leaflet-control-attribution a { color: #fff; }
 .hero .leaflet-bottom { bottom: 22px; }   /* keep credits above the overlapping panel */
-.weed-layer { image-rendering: pixelated; filter: drop-shadow(0 0 3px rgba(57,255,20,.85)) drop-shadow(0 0 10px rgba(57,255,20,.35)); }
+.weed-layer { filter: drop-shadow(0 0 8px rgba(0,0,0,.55)); }
 .photo-layer { image-rendering: pixelated; }
 .lake-glow { filter: drop-shadow(0 0 4px #ffd400); }
 .lake-line { stroke-dasharray: 10 8; animation: march 1.6s linear infinite; }
@@ -215,6 +215,10 @@ thead th { position: sticky; top: 0; background: var(--surface); }
 .strip-nav { display: none; position: absolute; top: 50%; transform: translateY(-60%); z-index: 2; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--glass-line); background: rgba(8,24,28,.9); color: #fff; font-size: 1.1rem; line-height: 1; cursor: pointer; }
 .strip-nav.prev { left: -8px; } .strip-nav.next { right: -8px; }
 @media (hover: hover) and (pointer: fine) { .strip-nav { display: block; } }
+.map-key { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 8px 0 0; font-size: .74rem; color: #cfe6e2; }
+.map-key i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; box-shadow: inset 0 0 0 1px rgba(6,22,26,.9); }
+.map-key .k-weed { background: #39ff14; } .map-key .k-water { background: #2a8fd6; } .map-key .k-mud { background: #c4a062; }
+.map-key .k-hidden { background: repeating-linear-gradient(135deg, #fff 0 2px, #5a5a5a 2px 4px); }
 .p-note { margin: 10px 0 0; font-size: .72rem; color: #9fbfba; }
 .p-note .badge { color: #ffd98a; }
 

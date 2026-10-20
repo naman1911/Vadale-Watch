@@ -75,6 +75,6 @@ quality:
 
 output:
   # Display images are drawn at this many screen pixels per 10 m satellite pixel.
-  display_scale: 4
+  display_scale: 6
   # Extra margin (metres) around the lake in the pictures.
   image_margin_m: 120
