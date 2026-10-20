@@ -10,6 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Noto+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <script>
+    // Always open at the top (the map), even from an old "#story" link.
+    if (location.hash) {
+      history.replaceState(null, "", location.pathname + location.search);
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      addEventListener("load", () => scrollTo(0, 0));
+    }
+  </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=dev">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%230e5f76'/><path d='M18 58c10-8 20-8 32 0s22 8 32 0' stroke='%237CFC00' stroke-width='9' fill='none'/></svg>">

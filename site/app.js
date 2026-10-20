@@ -546,6 +546,11 @@
     cmpCrop();
     $("#cmp-slider").addEventListener("input", (e) => setSlider(+e.target.value));
     $("#ig-btn").addEventListener("click", makeCard);
+    // Scroll down without adding "#story" to the address bar.
+    $(".scroll-cue").addEventListener("click", (ev) => {
+      ev.preventDefault();
+      $("#story").scrollIntoView({ behavior: "smooth" });
+    });
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", renderChart);
     applyLang(lang);
     initMap();
