@@ -1,0 +1,55 @@
+# Vadale Lake Watch — settings you can adjust.
+# Lines starting with "#" are explanations and are ignored by the program.
+
+lake:
+  name: "Vadale Lake (Vadale Talao), Old Panvel"
+  # Rough centre of the lake, used to search OpenStreetMap.
+  center_lat: 18.9935
+  center_lon: 73.1160
+  search_radius_m: 3000
+  # Names to look for in OpenStreetMap (case-insensitive, regular expressions).
+  name_patterns: ["vadale", "wadale", "vadala", "wadala", "वडाळ", "वडाळे"]
+  # Once the correct outline is confirmed, its OpenStreetMap ID is pinned here
+  # (e.g. "way/123456" or "relation/123456") so it never changes by accident.
+  osm_id: null
+  # Shoreline pixels mix land plants with the lake edge and look like weed.
+  # Pixels whose centre is closer than this to the shore are left out of the
+  # calculation (the percentage is then applied to the whole lake area).
+  edge_buffer_m: 10
+
+satellite:
+  stac_url: "https://planetarycomputer.microsoft.com/api/stac/v1"
+  collection: "sentinel-2-l2a"
+  # Skip whole satellite tiles that the provider rates as cloudier than this.
+  # Kept high on purpose: a tile can be cloudy while the lake itself is clear.
+  max_tile_cloud_pct: 95
+  # Skip an image if less than this share of the lake is clearly visible.
+  min_visible_pct: 70
+  # Scene Classification (SCL) classes treated as "not clearly visible":
+  # 0 no data, 1 saturated/defective, 3 cloud shadow, 8 cloud (medium),
+  # 9 cloud (high), 10 thin cirrus / haze, 11 snow (in Panvel = bright cloud).
+  scl_masked_classes: [0, 1, 3, 8, 9, 10, 11]
+  # Campaign period (processed first) and the longer-term baseline.
+  campaign_start: "2025-09-01"
+  baseline_start: "2019-01-01"
+
+detection:
+  # NDVI ("how green and leafy") ranges from -1 to 1.
+  # Open water is usually below 0.1; dense floating weed is usually above 0.4.
+  # A pixel counts as weed when NDVI is at least this value...
+  ndvi_weed: 0.20
+  # ...AND the water index is at most this value (leaves on top of the water
+  # push the water index down). Choose "ndwi" (10 m, sharper) or "mndwi"
+  # (uses a 20 m infrared band, better at ignoring muddy water).
+  water_index: "ndwi"
+  water_index_max_for_weed: 0.05
+  # The uncertainty range shown on the site: the same calculation repeated
+  # with a stricter and a looser NDVI threshold.
+  ndvi_weed_strict: 0.30
+  ndvi_weed_loose: 0.12
+
+output:
+  # Display images are drawn at this many screen pixels per 10 m satellite pixel.
+  display_scale: 4
+  # Extra margin (metres) around the lake in the pictures.
+  image_margin_m: 120
