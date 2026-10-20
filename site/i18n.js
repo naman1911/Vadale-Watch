@@ -30,15 +30,23 @@ window.I18N = {
     range_campaign: "Sep 2025 onwards",
     range_all: "All years",
     range_years: "Compare years",
-    chart_note: "Each dot is one clear satellite image. Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.",
+    chart_note: "Each dot is one clear satellite image; hollow grey dots are low-confidence dates (partly dry lake or haze). Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.",
+    chart_note_years: "Each dot is the median of that month's clear, reliable images. Seasons run June to May. Missing months had no clear images (usually monsoon clouds).",
     chart_y: "Weed cover (% of lake)",
     chart_gap: "no clear images",
     season: (y) => `Jun ${y} – May ${y + 1}`,
+    earlier_years: "Earlier years",
+    median_of: (n) => `median of ${n} image${n === 1 ? "" : "s"}`,
     tip_weed: "Weed cover",
     tip_range: "Range",
     tip_visible: "Lake visible",
     table_toggle: "Show all numbers as a table",
     th_date: "Date", th_weed: "Weed %", th_range: "Range", th_water: "Open water (ha)", th_visible: "Lake visible",
+    th_note: "Note",
+    low_conf: "Low confidence",
+    good_conf: "Clear estimate",
+    flag_lake_bed_exposed: "lake partly dry (exposed lake bed), weed % not meaningful",
+    flag_wide_range: "unreliable (haze or very thin weed)",
     csv: "Download the data (CSV)",
     compare_title: "Before / after",
     compare_overlay: "Show weed in green",
@@ -70,6 +78,7 @@ window.I18N = {
 <ul>
 <li>10 m pixels can't see small patches of weed or thin strips along the bank. Pixels touching the shore are left out because trees and walls would be mistaken for weed.</li>
 <li>Thin or scattered weed, algae, or very muddy water can be misread. The shaded band on the chart shows how much the answer changes if the rule is made a little stricter or looser.</li>
+<li>Some clear images still give unreliable numbers: when the lake is partly dry (in 2020 and 2021 the lake bed was exposed for months), or when thin haze remains. These are marked <b>low confidence</b>, drawn as hollow grey dots, and never used for the headline numbers.</li>
 <li>The thresholds are being checked against photos taken at the lake, and may be adjusted. When they change, the whole history is recalculated the same way, so dates stay comparable.</li>
 </ul>
 <h3>Open and free</h3>
@@ -105,15 +114,23 @@ window.I18N = {
     range_campaign: "सप्टें. २०२५ पासून",
     range_all: "सर्व वर्षे",
     range_years: "वर्षांची तुलना",
-    chart_note: "प्रत्येक ठिपका म्हणजे एक स्वच्छ उपग्रह प्रतिमा. छायांकित पट्टा = नियम थोडा कडक किंवा सैल केल्यास येणारी श्रेणी. रेषेतील खंड म्हणजे स्वच्छ प्रतिमा उपलब्ध नाहीत (बहुधा पावसाळ्यातील ढग); ती जागा आम्ही अंदाजाने भरत नाही.",
+    chart_note: "प्रत्येक ठिपका म्हणजे एक स्वच्छ उपग्रह प्रतिमा; पोकळ राखाडी ठिपके कमी विश्वासार्ह तारखा (अंशतः कोरडा तलाव किंवा धुके). छायांकित पट्टा = नियम थोडा कडक किंवा सैल केल्यास येणारी श्रेणी. रेषेतील खंड म्हणजे स्वच्छ प्रतिमा उपलब्ध नाहीत (बहुधा पावसाळ्यातील ढग); ती जागा आम्ही अंदाजाने भरत नाही.",
+    chart_note_years: "प्रत्येक ठिपका म्हणजे त्या महिन्यातील स्वच्छ, विश्वासार्ह प्रतिमांचा मध्यक. हंगाम जून ते मे. गहाळ महिन्यांत स्वच्छ प्रतिमा नव्हत्या (बहुधा पावसाळी ढग).",
     chart_y: "तणाचे आच्छादन (तलावाच्या %)",
     chart_gap: "स्वच्छ प्रतिमा नाहीत",
     season: (y) => `जून ${y} – मे ${y + 1}`,
+    earlier_years: "आधीची वर्षे",
+    median_of: (n) => `${n} प्रतिमांचा मध्यक`,
     tip_weed: "तणाचे आच्छादन",
     tip_range: "श्रेणी",
     tip_visible: "दिसणारा तलाव",
     table_toggle: "सर्व आकडे तक्त्यात पाहा",
     th_date: "तारीख", th_weed: "तण %", th_range: "श्रेणी", th_water: "मोकळे पाणी (हे.)", th_visible: "दिसणारा तलाव",
+    th_note: "टीप",
+    low_conf: "कमी विश्वासार्ह",
+    good_conf: "स्पष्ट अंदाज",
+    flag_lake_bed_exposed: "तलाव अंशतः कोरडा (तळ उघडा), तणाचा % अर्थपूर्ण नाही",
+    flag_wide_range: "अविश्वसनीय (धुके किंवा खूप विरळ तण)",
     csv: "माहिती डाउनलोड करा (CSV)",
     compare_title: "आधी / नंतर",
     compare_overlay: "तण हिरव्या रंगात दाखवा",
@@ -145,6 +162,7 @@ window.I18N = {
 <ul>
 <li>१० मीटरच्या पिक्सेलमध्ये तणाचे छोटे तुकडे किंवा काठावरील अरुंद पट्टे दिसत नाहीत. काठाला लागून असलेले पिक्सेल वगळले जातात, कारण झाडे व भिंती तण समजल्या जाऊ शकतात.</li>
 <li>विरळ तण, शेवाळ किंवा खूप गढूळ पाणी चुकीचे ओळखले जाऊ शकते. नियम थोडा कडक किंवा सैल केल्यास उत्तर किती बदलते हे आलेखावरील छायांकित पट्टा दाखवतो.</li>
+<li>काही स्वच्छ प्रतिमांमधूनही अविश्वसनीय आकडे येतात: तलाव अंशतः कोरडा असताना (२०२० व २०२१ मध्ये तलावाचा तळ महिनोन्‌महिने उघडा होता), किंवा हलके धुके असताना. अशा तारखा <b>कमी विश्वासार्ह</b> म्हणून पोकळ राखाडी ठिपक्यांनी दाखवल्या जातात आणि मुख्य आकड्यांसाठी वापरल्या जात नाहीत.</li>
 <li>हे नियम तलावावर घेतलेल्या फोटोंशी तपासले जात आहेत आणि बदलू शकतात. बदल झाल्यास संपूर्ण इतिहास त्याच पद्धतीने पुन्हा मोजला जातो, त्यामुळे तारखांची तुलना योग्य राहते.</li>
 </ul>
 <h3>खुले आणि मोफत</h3>

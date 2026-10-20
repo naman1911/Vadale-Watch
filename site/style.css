@@ -9,6 +9,7 @@
   --brand: #0e5f76;
   --brand-ink: #ffffff;
   --accent: #008300;       /* chart line */
+  --series-2: #2a78d6;     /* last season in 'compare years' */
   --accent-band: rgba(0, 131, 0, 0.14);
   --weed: #39ff14;
   --warn-bg: #fff6dc;
@@ -26,8 +27,9 @@
     --muted: #93a19e;
     --line: #2c3936;
     --brand: #1b7f9b;
-    --accent: #3fbf3f;
-    --accent-band: rgba(63, 191, 63, 0.18);
+    --accent: #2ea52e;
+    --series-2: #3987e5;
+    --accent-band: rgba(46, 165, 46, 0.2);
     --warn-bg: #3a3112;
     --warn-ink: #f3dc9b;
   }
@@ -35,7 +37,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #0f1716; --surface: #18211f; --ink: #eef3f2; --ink-2: #c0cbc9; --muted: #93a19e;
-  --line: #2c3936; --brand: #1b7f9b; --accent: #3fbf3f; --accent-band: rgba(63, 191, 63, 0.18);
+  --line: #2c3936; --brand: #1b7f9b; --accent: #2ea52e; --series-2: #3987e5; --accent-band: rgba(46, 165, 46, 0.2);
   --warn-bg: #3a3112; --warn-ink: #f3dc9b;
 }
 
@@ -102,7 +104,8 @@ summary { cursor: pointer; color: var(--brand); font-size: .9rem; }
 .table-wrap { overflow-x: auto; max-height: 360px; margin-top: 8px; }
 table { border-collapse: collapse; width: 100%; font-size: .85rem; font-variant-numeric: tabular-nums; }
 th, td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th:first-child, td:first-child { text-align: left; }
+th:first-child, td:first-child, th:last-child, td:last-child { text-align: left; }
+tr.flagged td { color: var(--muted); }
 thead th { position: sticky; top: 0; background: var(--surface); }
 
 .cmp-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 10px; font-size: .9rem; color: var(--ink-2); }

@@ -20,7 +20,9 @@
   const img = (d, kind) => `data/images/${d}_${kind === "rgb" ? "rgb.jpg" : "weed.png"}`;
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const entries = () => state.site?.entries ?? [];
-  const campaignEntries = () => entries().filter((e) => e.date >= state.site.campaign_start);
+  // Dates flagged as low confidence are shown faded, never used for headline numbers.
+  const good = () => entries().filter((e) => !e.flag);
+  const inCampaign = (list) => list.filter((e) => e.date >= state.site.campaign_start);
 
   // ---------- language -------------------------------------------------------
   function applyLang(lang) {
@@ -36,10 +38,10 @@
 
   // ---------- headline numbers ----------------------------------------------
   function renderStats() {
-    const all = entries();
+    const all = good();
     if (!all.length) { $("#s-cover").textContent = "–"; $("#s-cover-date").textContent = t("no_data"); return; }
     const last = all[all.length - 1];
-    const base = campaignEntries()[0];
+    const base = inCampaign(all)[0];
     $("#s-cover").innerHTML = `${fmt(last.weed_pct)}<span class="unit">%</span>`;
     $("#s-cover-range").textContent = t("range", fmt(last.weed_pct_low), fmt(last.weed_pct_high));
     $("#s-cover-date").textContent = t("image_of", fmtDate(last.date)) +
@@ -66,16 +68,16 @@
     [...entries()].reverse().forEach((e) => {
       const o = document.createElement("option");
       o.value = e.date;
-      o.textContent = `${fmtDate(e.date)} · ${fmt(e.weed_pct)}%`;
+      o.textContent = `${fmtDate(e.date)} · ${fmt(e.weed_pct)}%${e.flag ? " ⚠" : ""}`;
       sel.appendChild(o);
     });
     if (value) sel.value = value;
   }
   function renderSelects() {
-    const all = entries();
+    const all = good();
     if (!all.length) return;
     const last = all[all.length - 1].date;
-    const first = (campaignEntries()[0] || all[0]).date;
+    const first = (inCampaign(all)[0] || all[0]).date;
     fillSelect($("#map-date"), $("#map-date").value || last);
     fillSelect($("#cmp-a"), $("#cmp-a").value || first);
     fillSelect($("#cmp-b"), $("#cmp-b").value || last);
@@ -163,44 +165,66 @@
     const ink2 = css("--ink-2"), line = css("--line"), accent = css("--accent"), band = css("--accent-band");
     const font = { family: css("--font"), size: 12 };
     if (state.chart) state.chart.destroy();
-    const all = entries();
+    const note = $("#chart-note");
+    note.dataset.i18n = state.range === "years" ? "chart_note_years" : "chart_note";
+    note.textContent = t(note.dataset.i18n);
+    const all = good();
     let datasets = [], gaps = [], xOpts, legend = false;
 
     if (state.range === "years") {
-      // Seasons run June -> May so the dry season (Oct-May) is one continuous stretch.
+      // One point per month (median of that month's clear images). Seasons run
+      // June -> May so the dry season (Oct-May) is one continuous stretch.
       const seasonOf = (d) => { const y = +d.slice(0, 4), m = +d.slice(5, 7); return m >= 6 ? y : y - 1; };
-      const dayOfSeason = (e) => (ms(e.date) - Date.UTC(seasonOf(e.date), 5, 1)) / DAY;
+      const monthIdx = (d) => (+d.slice(5, 7) + 6) % 12;            // Jun = 0 ... May = 11
+      const median = (v) => { const a = [...v].sort((x, y) => x - y), h = a.length >> 1; return a.length % 2 ? a[h] : (a[h - 1] + a[h]) / 2; };
       const bySeason = {};
-      all.forEach((e) => (bySeason[seasonOf(e.date)] ||= []).push(e));
-      const current = all.length ? seasonOf(all[all.length - 1].date) : null;
-      Object.keys(bySeason).sort().forEach((y) => {
-        const isCur = +y === current;
-        const { pts } = withGaps(bySeason[y], dayOfSeason);
-        datasets.push({
-          label: t("season", +y), data: pts.main, spanGaps: false,
-          borderColor: isCur ? accent : "rgba(128,128,128,0.55)", backgroundColor: isCur ? accent : "rgba(128,128,128,0.55)",
-          borderWidth: isCur ? 2.5 : 1.5, pointRadius: isCur ? 3 : 2, order: isCur ? 0 : 1,
+      all.forEach((e) => (((bySeason[seasonOf(e.date)] ||= {})[monthIdx(e.date)] ||= []).push(e.weed_pct)));
+      const seasons = Object.keys(bySeason).map(Number).sort();
+      const cur = seasons[seasons.length - 1], prev = seasons[seasons.length - 2];
+      const blue = css("--series-2");
+      let greyLabelled = false;
+      seasons.forEach((y) => {
+        const role = y === cur ? "cur" : y === prev ? "prev" : "old";
+        const data = Array.from({ length: 12 }, (_, m) => {
+          const v = bySeason[y][m];
+          return { x: m + 0.5, y: v ? median(v) : null, m: { season: y, month: m, n: v ? v.length : 0 } };
         });
+        const color = role === "cur" ? accent : role === "prev" ? blue : "rgba(128,128,128,0.45)";
+        let label = t("season", y);
+        if (role === "old") { label = greyLabelled ? "" : t("earlier_years"); greyLabelled = true; }
+        datasets.push({ label, data, spanGaps: false, borderColor: color, backgroundColor: color,
+          borderWidth: role === "old" ? 1.25 : 2.5, pointRadius: role === "old" ? 0 : 3.5, pointHoverRadius: 5,
+          order: role === "cur" ? 0 : role === "prev" ? 1 : 2 });
       });
-      legend = datasets.length > 1;
+      legend = true;
+      const monthName = (m) => new Intl.DateTimeFormat(locale(), { month: "short", timeZone: "UTC" }).format(new Date(Date.UTC(2001, 5 + m, 15)));
+      state.monthName = monthName;
       xOpts = {
-        type: "linear", min: 0, max: 365,
-        afterBuildTicks: (ax) => { ax.ticks = Array.from({ length: 12 }, (_, i) => ({ value: (Date.UTC(2001, 5 + i, 1) - Date.UTC(2001, 5, 1)) / DAY })); },
-        ticks: { color: ink2, font, autoSkip: true, maxRotation: 0,
-          callback: (v) => new Intl.DateTimeFormat(locale(), { month: "short", timeZone: "UTC" }).format(new Date(Date.UTC(2001, 5, 1) + v * DAY)) },
+        type: "linear", min: 0, max: 12,
+        afterBuildTicks: (ax) => { ax.ticks = Array.from({ length: 12 }, (_, i) => ({ value: i + 0.5 })); },
+        ticks: { color: ink2, font, autoSkip: true, maxRotation: 0, callback: (v) => monthName(Math.floor(v)) },
         grid: { color: line },
       };
     } else {
-      const list = state.range === "campaign" ? campaignEntries() : all;
+      const pick = (l) => (state.range === "campaign" ? inCampaign(l) : l);
+      const list = pick(all), flagged = pick(entries()).filter((e) => e.flag);
       const r = withGaps(list, (e) => ms(e.date));
-      gaps = r.gaps;
+      // Grey "no clear images" bands only where there is no image at all.
+      gaps = withGaps(pick(entries()), (e) => ms(e.date)).gaps;
       datasets = [
         { label: "high", data: r.pts.hi, borderWidth: 0, pointRadius: 0, fill: "+1", backgroundColor: band, spanGaps: false },
         { label: "low", data: r.pts.lo, borderWidth: 0, pointRadius: 0, fill: false, spanGaps: false },
         { label: t("tip_weed"), data: r.pts.main, borderColor: accent, backgroundColor: accent, borderWidth: 2,
           pointRadius: list.length > 120 ? 1.5 : 3, pointHoverRadius: 6, spanGaps: false },
       ];
-      const xs = list.map((e) => ms(e.date));
+      if (flagged.length) {
+        datasets.push({ label: t("low_conf"), data: flagged.map((e) => ({ x: ms(e.date), y: e.weed_pct, e })),
+          showLine: false, pointRadius: 3.5, pointHoverRadius: 6, borderWidth: 1.5,
+          borderColor: "rgba(128,128,128,0.8)", backgroundColor: "transparent", pointStyle: "circle" });
+        datasets[2].label = t("good_conf");
+        legend = true;
+      }
+      const xs = pick(entries()).map((e) => ms(e.date));
       const pad = 3 * DAY;
       xOpts = {
         type: "linear",
@@ -227,15 +251,19 @@
         },
         plugins: {
           gaps: { list: gaps },
-          legend: { display: legend, labels: { color: ink2, font, boxWidth: 14, boxHeight: 2 } },
+          legend: { display: legend, labels: { color: ink2, font, boxWidth: 14, boxHeight: 2,
+            filter: (item) => item.text && item.text !== "high" && item.text !== "low" } },
           tooltip: {
-            filter: (item) => item.raw && item.raw.e && item.dataset.label !== "high" && item.dataset.label !== "low",
+            filter: (item) => item.raw && (item.raw.e || (item.raw.m && item.raw.y != null)) && item.dataset.label !== "high" && item.dataset.label !== "low",
             callbacks: {
-              title: (items) => items.length ? fmtDate(items[0].raw.e.date) : "",
+              title: (items) => !items.length ? "" : items[0].raw.e ? fmtDate(items[0].raw.e.date) : state.monthName(items[0].raw.m.month),
               label: (item) => {
+                if (item.raw.m) return `${t("season", item.raw.m.season)}: ${fmt(item.raw.y)}% (${t("median_of", item.raw.m.n)})`;
                 const e = item.raw.e;
-                return [`${t("tip_weed")}: ${fmt(e.weed_pct)}%`, `${t("tip_range")}: ${fmt(e.weed_pct_low)}–${fmt(e.weed_pct_high)}%`,
+                const lines = [`${t("tip_weed")}: ${fmt(e.weed_pct)}%`, `${t("tip_range")}: ${fmt(e.weed_pct_low)}–${fmt(e.weed_pct_high)}%`,
                         `${t("tip_visible")}: ${fmt(e.visible_pct, 0)}%`];
+                if (e.flag) lines.push(`⚠ ${t("flag_" + e.flag)}`);
+                return lines;
               },
             },
           },
@@ -249,7 +277,9 @@
     tb.innerHTML = "";
     [...entries()].reverse().forEach((e) => {
       const tr = document.createElement("tr");
-      [fmtDate(e.date), fmt(e.weed_pct), `${fmt(e.weed_pct_low)}–${fmt(e.weed_pct_high)}`, fmt(e.open_water_ha, 2), `${fmt(e.visible_pct, 0)}%`]
+      if (e.flag) tr.className = "flagged";
+      [fmtDate(e.date), fmt(e.weed_pct), `${fmt(e.weed_pct_low)}–${fmt(e.weed_pct_high)}`, fmt(e.open_water_ha, 2), `${fmt(e.visible_pct, 0)}%`,
+       e.flag ? `⚠ ${t("flag_" + e.flag)}` : ""]
         .forEach((v) => { const td = document.createElement("td"); td.textContent = v; tr.appendChild(td); });
       tb.appendChild(tr);
     });
@@ -290,12 +320,12 @@
   }
 
   async function makeCard() {
-    const all = entries();
+    const all = good();
     if (!all.length) return;
     const btn = $("#ig-btn");
     btn.disabled = true;
     try {
-      const last = all[all.length - 1], base = campaignEntries()[0];
+      const last = all[all.length - 1], base = inCampaign(all)[0];
       const F = state.lang === "mr" ? '"Noto Sans Devanagari", "Noto Sans", sans-serif' : '"Noto Sans", sans-serif';
       await Promise.all(["800 100px", "600 40px", "400 30px"].map((w) => document.fonts.load(`${w} ${F.split(",")[0]}`).catch(() => {})));
       const [rgb, weed] = await Promise.all([loadImg(img(last.date, "rgb")), loadImg(img(last.date, "weed"))]);

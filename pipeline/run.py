@@ -32,7 +32,7 @@ from .render import display_grid, true_colour, weed_overlay
 
 CACHE = DATA / "cache"
 HISTORY_COLS = ["date", "weed_pct", "open_water_ha", "visible_pct",
-                "weed_pct_low", "weed_pct_high", "weed_ha", "other_pct", "scene_id"]
+                "weed_pct_low", "weed_pct_high", "weed_ha", "other_pct", "flag", "scene_id"]
 SCENE_COLS = ["scene_id", "date", "tile_cloud_pct", "lake_visible_pct", "status"]
 BANDS = ["B02", "B03", "B04", "B08", "B11", "SCL"]
 
@@ -93,14 +93,24 @@ def quality_status(res: dict, cfg: dict) -> str | None:
     return None
 
 
-def history_row(date: str, scene_id: str, res: dict) -> dict:
+def low_confidence_flag(res: dict, cfg: dict) -> str:
+    """Empty if the estimate is trustworthy, otherwise the reason it is not."""
+    q = cfg["quality"]
+    if res["stats"]["other_pct"] > q["max_other_pct"]:
+        return "lake_bed_exposed"
+    if res["weed_pct_high"] - res["weed_pct_low"] > q["max_range_points"]:
+        return "wide_range"
+    return ""
+
+
+def history_row(date: str, scene_id: str, res: dict, cfg: dict) -> dict:
     s = res["stats"]
     r1 = lambda v: "" if v is None else f"{v:.1f}"
     r2 = lambda v: "" if v is None else f"{v:.2f}"
     return {"date": date, "weed_pct": r1(s["weed_pct"]), "open_water_ha": r2(s["open_water_ha"]),
             "visible_pct": r1(res["visible_pct"]), "weed_pct_low": r1(res["weed_pct_low"]),
             "weed_pct_high": r1(res["weed_pct_high"]), "weed_ha": r2(s["weed_ha"]),
-            "other_pct": r1(s["other_pct"]), "scene_id": scene_id}
+            "other_pct": r1(s["other_pct"]), "flag": low_confidence_flag(res, cfg), "scene_id": scene_id}
 
 
 def save_outputs(date: str, res: dict, epsg: int, transform, grid: dict):
@@ -154,7 +164,7 @@ def write_site_json(cfg: dict, lake, grid: dict, history: dict, scenes: dict):
     entries = []
     for d in sorted(history):
         r = history[d]
-        entries.append({k: (r[k] if k in ("date", "scene_id") else (float(r[k]) if r[k] != "" else None))
+        entries.append({k: (r[k] if k in ("date", "scene_id", "flag") else (float(r[k]) if r[k] != "" else None))
                         for k in HISTORY_COLS})
     info = {
         "generated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
@@ -201,7 +211,7 @@ def main(argv=None):
                     scenes[sid]["lake_visible_pct"] = f"{res['visible_pct']:.1f}"
                 print(f"{date}  removed: {bad}")
                 continue
-            history[date] = history_row(date, sid, res)
+            history[date] = history_row(date, sid, res, cfg)
             if sid in scenes:
                 scenes[sid]["lake_visible_pct"] = history[date]["visible_pct"]
             save_outputs(date, res, epsg, transform, grid)
@@ -248,7 +258,7 @@ def main(argv=None):
                 prev = history.get(date, {}).get("scene_id")
                 if prev in scenes and prev != it.id:
                     scenes[prev]["status"] = "duplicate_date"
-                history[date] = history_row(date, it.id, res)
+                history[date] = history_row(date, it.id, res, cfg)
                 save_outputs(date, res, epsg, arrs["transform"], grid)
                 save_cache(date, it.id, arrs, epsg, it.properties.get("s2:processing_baseline"), bounds)
             scenes[it.id] = {"scene_id": it.id, "date": date,

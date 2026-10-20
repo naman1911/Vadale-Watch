@@ -76,12 +76,12 @@
       </div>
     </div>
     <div class="chart-box"><canvas id="chart" aria-label="Line chart of weed cover percentage by date" role="img"></canvas></div>
-    <p class="small muted" data-i18n="chart_note">Each dot is one clear satellite image. Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.</p>
+    <p class="small muted" id="chart-note" data-i18n="chart_note">Each dot is one clear satellite image. Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.</p>
     <details>
       <summary data-i18n="table_toggle">Show all numbers as a table</summary>
       <div class="table-wrap"><table id="table"><thead><tr>
         <th data-i18n="th_date">Date</th><th data-i18n="th_weed">Weed %</th><th data-i18n="th_range">Range</th>
-        <th data-i18n="th_water">Open water (ha)</th><th data-i18n="th_visible">Lake visible</th></tr></thead><tbody></tbody></table></div>
+        <th data-i18n="th_water">Open water (ha)</th><th data-i18n="th_visible">Lake visible</th><th data-i18n="th_note">Note</th></tr></thead><tbody></tbody></table></div>
       <p class="small"><a href="data/history.csv" download data-i18n="csv">Download the data (CSV)</a></p>
     </details>
   </section>

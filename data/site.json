@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20T08:55Z",
+ "generated": "2026-10-20T08:59Z",
  "lake": {
   "name": "Vadale Lake (Vadale Talao), Old Panvel",
   "area_ha": 9.46
@@ -24,7 +24,7 @@
   "ndvi_weed_strict": 0.3,
   "ndvi_weed_loose": 0.12
  },
- "scenes_checked": 1563,
+ "scenes_checked": 1417,
  "last_scene_date": "2026-10-18",
  "next_passes": [
   "2026-10-22",
@@ -45,523 +45,6 @@
  ],
  "entries": [
   {
-   "date": "2019-01-03",
-   "weed_pct": 86.1,
-   "open_water_ha": 1.24,
-   "visible_pct": 100.0,
-   "weed_pct_low": 80.8,
-   "weed_pct_high": 89.7,
-   "weed_ha": 8.15,
-   "other_pct": 0.7,
-   "scene_id": "S2A_MSIL2A_20190103T054221_R005_T43QCB_20201007T222151"
-  },
-  {
-   "date": "2019-01-08",
-   "weed_pct": 88.3,
-   "open_water_ha": 1.08,
-   "visible_pct": 100.0,
-   "weed_pct_low": 83.6,
-   "weed_pct_high": 91.1,
-   "weed_ha": 8.35,
-   "other_pct": 0.2,
-   "scene_id": "S2B_MSIL2A_20190108T054219_R005_T43QCB_20201007T235230"
-  },
-  {
-   "date": "2019-01-13",
-   "weed_pct": 84.4,
-   "open_water_ha": 1.4,
-   "visible_pct": 100.0,
-   "weed_pct_low": 72.9,
-   "weed_pct_high": 89.7,
-   "weed_ha": 7.99,
-   "other_pct": 0.7,
-   "scene_id": "S2A_MSIL2A_20190113T054201_R005_T43QCB_20201008T010703"
-  },
-  {
-   "date": "2019-01-25",
-   "weed_pct": 90.5,
-   "open_water_ha": 0.89,
-   "visible_pct": 99.2,
-   "weed_pct_low": 85.4,
-   "weed_pct_high": 92.1,
-   "weed_ha": 8.56,
-   "other_pct": 0.1,
-   "scene_id": "S2B_MSIL2A_20190125T053109_R105_T43QCB_20201008T043423"
-  },
-  {
-   "date": "2019-01-28",
-   "weed_pct": 87.8,
-   "open_water_ha": 1.06,
-   "visible_pct": 100.0,
-   "weed_pct_low": 78.5,
-   "weed_pct_high": 91.1,
-   "weed_ha": 8.31,
-   "other_pct": 1.0,
-   "scene_id": "S2B_MSIL2A_20190128T054109_R005_T43QCB_20201008T052519"
-  },
-  {
-   "date": "2019-02-02",
-   "weed_pct": 86.7,
-   "open_water_ha": 1.14,
-   "visible_pct": 100.0,
-   "weed_pct_low": 76.5,
-   "weed_pct_high": 90.8,
-   "weed_ha": 8.2,
-   "other_pct": 1.2,
-   "scene_id": "S2A_MSIL2A_20190202T054041_R005_T43QCB_20201007T131717"
-  },
-  {
-   "date": "2019-02-07",
-   "weed_pct": 89.5,
-   "open_water_ha": 0.85,
-   "visible_pct": 100.0,
-   "weed_pct_low": 79.3,
-   "weed_pct_high": 92.5,
-   "weed_ha": 8.47,
-   "other_pct": 1.5,
-   "scene_id": "S2B_MSIL2A_20190207T054019_R005_T43QCB_20201007T144915"
-  },
-  {
-   "date": "2019-02-17",
-   "weed_pct": 89.8,
-   "open_water_ha": 0.91,
-   "visible_pct": 100.0,
-   "weed_pct_low": 82.6,
-   "weed_pct_high": 91.5,
-   "weed_ha": 8.49,
-   "other_pct": 0.6,
-   "scene_id": "S2B_MSIL2A_20190217T053909_R005_T43QCB_20201007T174818"
-  },
-  {
-   "date": "2019-02-22",
-   "weed_pct": 83.5,
-   "open_water_ha": 1.19,
-   "visible_pct": 100.0,
-   "weed_pct_low": 67.3,
-   "weed_pct_high": 90.6,
-   "weed_ha": 7.89,
-   "other_pct": 4.0,
-   "scene_id": "S2A_MSIL2A_20190222T053831_R005_T43QCB_20201007T192319"
-  },
-  {
-   "date": "2019-02-27",
-   "weed_pct": 89.9,
-   "open_water_ha": 0.78,
-   "visible_pct": 100.0,
-   "weed_pct_low": 79.6,
-   "weed_pct_high": 92.8,
-   "weed_ha": 8.5,
-   "other_pct": 1.8,
-   "scene_id": "S2B_MSIL2A_20190227T053759_R005_T43QCB_20201007T211639"
-  },
-  {
-   "date": "2019-03-04",
-   "weed_pct": 87.2,
-   "open_water_ha": 0.83,
-   "visible_pct": 100.0,
-   "weed_pct_low": 73.7,
-   "weed_pct_high": 91.8,
-   "weed_ha": 8.25,
-   "other_pct": 4.0,
-   "scene_id": "S2A_MSIL2A_20190304T053721_R005_T43QCB_20201030T124532"
-  },
-  {
-   "date": "2019-03-09",
-   "weed_pct": 88.7,
-   "open_water_ha": 0.29,
-   "visible_pct": 100.0,
-   "weed_pct_low": 78.5,
-   "weed_pct_high": 96.0,
-   "weed_ha": 8.39,
-   "other_pct": 8.3,
-   "scene_id": "S2B_MSIL2A_20190309T053649_R005_T43QCB_20221116T024142"
-  },
-  {
-   "date": "2019-03-14",
-   "weed_pct": 84.1,
-   "open_water_ha": 0.14,
-   "visible_pct": 100.0,
-   "weed_pct_low": 69.5,
-   "weed_pct_high": 95.0,
-   "weed_ha": 7.95,
-   "other_pct": 14.5,
-   "scene_id": "S2A_MSIL2A_20190314T053641_R005_T43QCB_20201007T062902"
-  },
-  {
-   "date": "2019-03-19",
-   "weed_pct": 84.5,
-   "open_water_ha": 0.1,
-   "visible_pct": 100.0,
-   "weed_pct_low": 67.9,
-   "weed_pct_high": 94.6,
-   "weed_ha": 8.0,
-   "other_pct": 14.4,
-   "scene_id": "S2B_MSIL2A_20190319T053639_R005_T43QCB_20201007T081911"
-  },
-  {
-   "date": "2019-03-24",
-   "weed_pct": 76.5,
-   "open_water_ha": 0.28,
-   "visible_pct": 100.0,
-   "weed_pct_low": 55.6,
-   "weed_pct_high": 90.1,
-   "weed_ha": 7.24,
-   "other_pct": 20.6,
-   "scene_id": "S2A_MSIL2A_20190324T053641_R005_T43QCB_20201007T095934"
-  },
-  {
-   "date": "2019-03-29",
-   "weed_pct": 68.9,
-   "open_water_ha": 0.3,
-   "visible_pct": 100.0,
-   "weed_pct_low": 46.7,
-   "weed_pct_high": 89.1,
-   "weed_ha": 6.51,
-   "other_pct": 28.0,
-   "scene_id": "S2B_MSIL2A_20190329T053649_R005_T43QCB_20201007T120444"
-  },
-  {
-   "date": "2019-04-03",
-   "weed_pct": 69.2,
-   "open_water_ha": 0.14,
-   "visible_pct": 100.0,
-   "weed_pct_low": 48.2,
-   "weed_pct_high": 89.8,
-   "weed_ha": 6.55,
-   "other_pct": 29.3,
-   "scene_id": "S2A_MSIL2A_20190403T053641_R005_T43QCB_20201006T213820"
-  },
-  {
-   "date": "2019-04-08",
-   "weed_pct": 66.8,
-   "open_water_ha": 0.18,
-   "visible_pct": 100.0,
-   "weed_pct_low": 44.4,
-   "weed_pct_high": 88.7,
-   "weed_ha": 6.32,
-   "other_pct": 31.3,
-   "scene_id": "S2B_MSIL2A_20190408T053649_R005_T43QCB_20201006T234423"
-  },
-  {
-   "date": "2019-04-13",
-   "weed_pct": 54.5,
-   "open_water_ha": 0.14,
-   "visible_pct": 100.0,
-   "weed_pct_low": 28.8,
-   "weed_pct_high": 84.7,
-   "weed_ha": 5.15,
-   "other_pct": 44.0,
-   "scene_id": "S2A_MSIL2A_20190413T053641_R005_T43QCB_20201007T013018"
-  },
-  {
-   "date": "2019-04-18",
-   "weed_pct": 60.1,
-   "open_water_ha": 0.02,
-   "visible_pct": 99.9,
-   "weed_pct_low": 36.0,
-   "weed_pct_high": 88.4,
-   "weed_ha": 5.68,
-   "other_pct": 39.7,
-   "scene_id": "S2B_MSIL2A_20190418T053649_R005_T43QCB_20201007T034020"
-  },
-  {
-   "date": "2019-04-23",
-   "weed_pct": 52.4,
-   "open_water_ha": 0.02,
-   "visible_pct": 99.9,
-   "weed_pct_low": 27.6,
-   "weed_pct_high": 86.4,
-   "weed_ha": 4.96,
-   "other_pct": 47.3,
-   "scene_id": "S2A_MSIL2A_20190423T053651_R005_T43QCB_20201105T154750"
-  },
-  {
-   "date": "2019-05-03",
-   "weed_pct": 43.3,
-   "open_water_ha": 0.12,
-   "visible_pct": 99.9,
-   "weed_pct_low": 18.6,
-   "weed_pct_high": 80.2,
-   "weed_ha": 4.1,
-   "other_pct": 55.5,
-   "scene_id": "S2A_MSIL2A_20190503T053651_R005_T43QBB_20201006T092609"
-  },
-  {
-   "date": "2019-05-05",
-   "weed_pct": 39.6,
-   "open_water_ha": 0.11,
-   "visible_pct": 97.2,
-   "weed_pct_low": 16.8,
-   "weed_pct_high": 78.1,
-   "weed_ha": 3.75,
-   "other_pct": 59.3,
-   "scene_id": "S2B_MSIL2A_20190505T052659_R105_T43QCB_20201106T000423"
-  },
-  {
-   "date": "2019-05-08",
-   "weed_pct": 30.8,
-   "open_water_ha": 0.52,
-   "visible_pct": 98.6,
-   "weed_pct_low": 9.8,
-   "weed_pct_high": 66.1,
-   "weed_ha": 2.91,
-   "other_pct": 63.7,
-   "scene_id": "S2B_MSIL2A_20190508T053649_R005_T43QBB_20201006T113825"
-  },
-  {
-   "date": "2019-05-13",
-   "weed_pct": 41.7,
-   "open_water_ha": 0.1,
-   "visible_pct": 99.9,
-   "weed_pct_low": 18.0,
-   "weed_pct_high": 78.3,
-   "weed_ha": 3.95,
-   "other_pct": 57.2,
-   "scene_id": "S2A_MSIL2A_20190513T053651_R005_T43QBB_20201006T133209"
-  },
-  {
-   "date": "2019-05-15",
-   "weed_pct": 41.4,
-   "open_water_ha": 0.06,
-   "visible_pct": 98.7,
-   "weed_pct_low": 15.2,
-   "weed_pct_high": 79.9,
-   "weed_ha": 3.92,
-   "other_pct": 58.0,
-   "scene_id": "S2B_MSIL2A_20190515T052659_R105_T43QCB_20201006T143337"
-  },
-  {
-   "date": "2019-05-18",
-   "weed_pct": 31.0,
-   "open_water_ha": 0.21,
-   "visible_pct": 99.9,
-   "weed_pct_low": 7.3,
-   "weed_pct_high": 72.7,
-   "weed_ha": 2.93,
-   "other_pct": 66.8,
-   "scene_id": "S2B_MSIL2A_20190518T053649_R005_T43QCB_20201006T154701"
-  },
-  {
-   "date": "2019-05-23",
-   "weed_pct": 29.9,
-   "open_water_ha": 0.24,
-   "visible_pct": 99.7,
-   "weed_pct_low": 6.7,
-   "weed_pct_high": 66.3,
-   "weed_ha": 2.83,
-   "other_pct": 67.5,
-   "scene_id": "S2A_MSIL2A_20190523T053651_R005_T43QCB_20201006T171755"
-  },
-  {
-   "date": "2019-05-28",
-   "weed_pct": 29.3,
-   "open_water_ha": 0.14,
-   "visible_pct": 99.9,
-   "weed_pct_low": 6.2,
-   "weed_pct_high": 67.2,
-   "weed_ha": 2.77,
-   "other_pct": 69.2,
-   "scene_id": "S2B_MSIL2A_20190528T053649_R005_T43QCB_20201006T192744"
-  },
-  {
-   "date": "2019-06-02",
-   "weed_pct": 25.1,
-   "open_water_ha": 0.32,
-   "visible_pct": 99.7,
-   "weed_pct_low": 7.3,
-   "weed_pct_high": 65.6,
-   "weed_ha": 2.37,
-   "other_pct": 71.5,
-   "scene_id": "S2A_MSIL2A_20190602T053641_R005_T43QBB_20201005T210314"
-  },
-  {
-   "date": "2019-09-30",
-   "weed_pct": 89.6,
-   "open_water_ha": 0.97,
-   "visible_pct": 71.4,
-   "weed_pct_low": 81.8,
-   "weed_pct_high": 93.3,
-   "weed_ha": 8.47,
-   "other_pct": 0.2,
-   "scene_id": "S2A_MSIL2A_20190930T053641_R005_T43QBB_20201004T184100"
-  },
-  {
-   "date": "2019-10-05",
-   "weed_pct": 67.4,
-   "open_water_ha": 2.96,
-   "visible_pct": 100.0,
-   "weed_pct_low": 57.2,
-   "weed_pct_high": 76.2,
-   "weed_ha": 6.37,
-   "other_pct": 1.3,
-   "scene_id": "S2B_MSIL2A_20191005T053659_R005_T43QCB_20201003T225606"
-  },
-  {
-   "date": "2019-10-07",
-   "weed_pct": 85.8,
-   "open_water_ha": 1.24,
-   "visible_pct": 70.8,
-   "weed_pct_low": 74.7,
-   "weed_pct_high": 92.6,
-   "weed_ha": 8.12,
-   "other_pct": 1.1,
-   "scene_id": "S2A_MSIL2A_20191007T052711_R105_T43QCB_20201003T233041"
-  },
-  {
-   "date": "2019-10-10",
-   "weed_pct": 65.5,
-   "open_water_ha": 3.22,
-   "visible_pct": 100.0,
-   "weed_pct_low": 52.2,
-   "weed_pct_high": 78.0,
-   "weed_ha": 6.19,
-   "other_pct": 0.5,
-   "scene_id": "S2A_MSIL2A_20191010T053731_R005_T43QCB_20201004T003629"
-  },
-  {
-   "date": "2019-10-15",
-   "weed_pct": 72.0,
-   "open_water_ha": 2.58,
-   "visible_pct": 100.0,
-   "weed_pct_low": 58.5,
-   "weed_pct_high": 88.9,
-   "weed_ha": 6.81,
-   "other_pct": 0.7,
-   "scene_id": "S2B_MSIL2A_20191015T053809_R005_T43QCB_20201004T023827"
-  },
-  {
-   "date": "2019-10-17",
-   "weed_pct": 69.3,
-   "open_water_ha": 2.9,
-   "visible_pct": 100.0,
-   "weed_pct_low": 62.4,
-   "weed_pct_high": 74.0,
-   "weed_ha": 6.56,
-   "other_pct": 0.0,
-   "scene_id": "S2A_MSIL2A_20191017T052821_R105_T43QCB_20201004T031209"
-  },
-  {
-   "date": "2019-10-30",
-   "weed_pct": 94.7,
-   "open_water_ha": 0.4,
-   "visible_pct": 71.2,
-   "weed_pct_low": 90.4,
-   "weed_pct_high": 97.7,
-   "weed_ha": 8.95,
-   "other_pct": 1.1,
-   "scene_id": "S2A_MSIL2A_20191030T053941_R005_T43QCB_20201004T073356"
-  },
-  {
-   "date": "2019-11-06",
-   "weed_pct": 84.7,
-   "open_water_ha": 1.38,
-   "visible_pct": 89.1,
-   "weed_pct_low": 76.3,
-   "weed_pct_high": 91.5,
-   "weed_ha": 8.01,
-   "other_pct": 0.7,
-   "scene_id": "S2A_MSIL2A_20191106T053021_R105_T43QCB_20201003T133623"
-  },
-  {
-   "date": "2019-11-09",
-   "weed_pct": 85.2,
-   "open_water_ha": 1.14,
-   "visible_pct": 94.6,
-   "weed_pct_low": 74.3,
-   "weed_pct_high": 91.9,
-   "weed_ha": 8.05,
-   "other_pct": 2.8,
-   "scene_id": "S2A_MSIL2A_20191109T054041_R005_T43QBB_20201003T143753"
-  },
-  {
-   "date": "2019-11-14",
-   "weed_pct": 74.7,
-   "open_water_ha": 2.17,
-   "visible_pct": 100.0,
-   "weed_pct_low": 64.2,
-   "weed_pct_high": 81.8,
-   "weed_ha": 7.06,
-   "other_pct": 2.3,
-   "scene_id": "S2B_MSIL2A_20191114T054059_R005_T43QCB_20201003T162812"
-  },
-  {
-   "date": "2019-11-16",
-   "weed_pct": 72.0,
-   "open_water_ha": 2.54,
-   "visible_pct": 99.9,
-   "weed_pct_low": 61.3,
-   "weed_pct_high": 80.2,
-   "weed_ha": 6.81,
-   "other_pct": 1.1,
-   "scene_id": "S2A_MSIL2A_20191116T053111_R105_T43QCB_20201003T165831"
-  },
-  {
-   "date": "2019-11-19",
-   "weed_pct": 73.4,
-   "open_water_ha": 2.21,
-   "visible_pct": 100.0,
-   "weed_pct_low": 62.0,
-   "weed_pct_high": 80.3,
-   "weed_ha": 6.94,
-   "other_pct": 3.3,
-   "scene_id": "S2A_MSIL2A_20191119T054121_R005_T43QCB_20201003T175533"
-  },
-  {
-   "date": "2019-11-24",
-   "weed_pct": 70.2,
-   "open_water_ha": 2.54,
-   "visible_pct": 100.0,
-   "weed_pct_low": 59.0,
-   "weed_pct_high": 77.0,
-   "weed_ha": 6.64,
-   "other_pct": 2.9,
-   "scene_id": "S2B_MSIL2A_20191124T054139_R005_T43QCB_20201003T193417"
-  },
-  {
-   "date": "2019-12-04",
-   "weed_pct": 53.9,
-   "open_water_ha": 3.32,
-   "visible_pct": 98.2,
-   "weed_pct_low": 33.0,
-   "weed_pct_high": 74.4,
-   "weed_ha": 5.1,
-   "other_pct": 10.9,
-   "scene_id": "S2B_MSIL2A_20191204T054209_R005_T43QBB_20201003T004038"
-  },
-  {
-   "date": "2019-12-09",
-   "weed_pct": 63.4,
-   "open_water_ha": 2.35,
-   "visible_pct": 100.0,
-   "weed_pct_low": 48.4,
-   "weed_pct_high": 76.6,
-   "weed_ha": 5.99,
-   "other_pct": 11.8,
-   "scene_id": "S2A_MSIL2A_20191209T054221_R005_T43QCB_20201003T023507"
-  },
-  {
-   "date": "2019-12-14",
-   "weed_pct": 66.2,
-   "open_water_ha": 2.26,
-   "visible_pct": 99.8,
-   "weed_pct_low": 49.6,
-   "weed_pct_high": 79.0,
-   "weed_ha": 6.26,
-   "other_pct": 10.0,
-   "scene_id": "S2B_MSIL2A_20191214T054229_R005_T43QBB_20201009T172904"
-  },
-  {
-   "date": "2019-12-19",
-   "weed_pct": 57.4,
-   "open_water_ha": 2.72,
-   "visible_pct": 100.0,
-   "weed_pct_low": 36.7,
-   "weed_pct_high": 75.2,
-   "weed_ha": 5.43,
-   "other_pct": 13.9,
-   "scene_id": "S2A_MSIL2A_20191219T054231_R005_T43QCB_20201003T064956"
-  },
-  {
    "date": "2020-01-18",
    "weed_pct": 50.1,
    "open_water_ha": 2.38,
@@ -570,6 +53,7 @@
    "weed_pct_high": 75.1,
    "weed_ha": 4.74,
    "other_pct": 24.7,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200118T054151_R005_T43QCB_20201002T200851"
   },
   {
@@ -581,6 +65,7 @@
    "weed_pct_high": 74.1,
    "weed_ha": 4.73,
    "other_pct": 24.3,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200123T054129_R005_T43QBB_20201002T074222"
   },
   {
@@ -592,6 +77,7 @@
    "weed_pct_high": 73.5,
    "weed_ha": 4.49,
    "other_pct": 25.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200128T054101_R005_T43QBB_20201002T131726"
   },
   {
@@ -603,6 +89,7 @@
    "weed_pct_high": 76.2,
    "weed_ha": 4.4,
    "other_pct": 30.2,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200202T054039_R005_T43QCB_20201029T213313"
   },
   {
@@ -614,6 +101,7 @@
    "weed_pct_high": 78.0,
    "weed_ha": 4.46,
    "other_pct": 31.5,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200207T054011_R005_T43QCB_20201001T043852"
   },
   {
@@ -625,6 +113,7 @@
    "weed_pct_high": 67.0,
    "weed_ha": 3.26,
    "other_pct": 42.1,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200217T053911_R005_T43QBB_20200929T135844"
   },
   {
@@ -636,6 +125,7 @@
    "weed_pct_high": 64.7,
    "weed_ha": 3.06,
    "other_pct": 41.5,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200222T053839_R005_T43QCB_20200927T194853"
   },
   {
@@ -647,6 +137,7 @@
    "weed_pct_high": 82.2,
    "weed_ha": 4.74,
    "other_pct": 41.0,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200227T053801_R005_T43QCB_20200928T162850"
   },
   {
@@ -658,6 +149,7 @@
    "weed_pct_high": 73.8,
    "weed_ha": 4.03,
    "other_pct": 45.6,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200303T053729_R005_T43QCB_20200926T051052"
   },
   {
@@ -669,6 +161,7 @@
    "weed_pct_high": 76.6,
    "weed_ha": 4.05,
    "other_pct": 48.5,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200308T053651_R005_T43QCB_20200930T085146"
   },
   {
@@ -680,6 +173,7 @@
    "weed_pct_high": 81.0,
    "weed_ha": 4.77,
    "other_pct": 43.5,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200313T053639_R005_T43QBB_20201009T040730"
   },
   {
@@ -691,6 +185,7 @@
    "weed_pct_high": 70.3,
    "weed_ha": 3.6,
    "other_pct": 50.0,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200318T053641_R005_T43QCB_20201011T044853"
   },
   {
@@ -702,6 +197,7 @@
    "weed_pct_high": 72.5,
    "weed_ha": 4.08,
    "other_pct": 46.4,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200323T053639_R005_T43QCB_20201015T115843"
   },
   {
@@ -713,6 +209,7 @@
    "weed_pct_high": 82.1,
    "weed_ha": 5.52,
    "other_pct": 33.7,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200402T053639_R005_T43QCB_20200924T173802"
   },
   {
@@ -724,6 +221,7 @@
    "weed_pct_high": 86.7,
    "weed_ha": 5.91,
    "other_pct": 32.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200412T053639_R005_T43QCB_20200923T055008"
   },
   {
@@ -735,6 +233,7 @@
    "weed_pct_high": 87.3,
    "weed_ha": 6.11,
    "other_pct": 32.7,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200417T053641_R005_T43QCB_20200923T204022"
   },
   {
@@ -746,6 +245,7 @@
    "weed_pct_high": 87.9,
    "weed_ha": 6.17,
    "other_pct": 33.0,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200422T053639_R005_T43QBB_20200921T161917"
   },
   {
@@ -757,6 +257,7 @@
    "weed_pct_high": 85.6,
    "weed_ha": 6.06,
    "other_pct": 34.2,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200424T052651_R105_T43QCB_20200921T211057"
   },
   {
@@ -768,6 +269,7 @@
    "weed_pct_high": 88.0,
    "weed_ha": 5.88,
    "other_pct": 35.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200427T053641_R005_T43QBB_20200922T064623"
   },
   {
@@ -779,6 +281,7 @@
    "weed_pct_high": 86.0,
    "weed_ha": 5.71,
    "other_pct": 37.1,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200502T053639_R005_T43QCB_20200920T053439"
   },
   {
@@ -790,6 +293,7 @@
    "weed_pct_high": 88.6,
    "weed_ha": 6.26,
    "other_pct": 32.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200504T052651_R105_T43QCB_20200920T103354"
   },
   {
@@ -801,6 +305,7 @@
    "weed_pct_high": 90.7,
    "weed_ha": 6.19,
    "other_pct": 33.7,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200507T053651_R005_T43QBB_20200920T202303"
   },
   {
@@ -812,6 +317,7 @@
    "weed_pct_high": 90.5,
    "weed_ha": 6.39,
    "other_pct": 31.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200512T053639_R005_T43QBB_20200917T223716"
   },
   {
@@ -823,6 +329,7 @@
    "weed_pct_high": 86.1,
    "weed_ha": 6.13,
    "other_pct": 34.6,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200514T052651_R105_T43QBB_20200918T032030"
   },
   {
@@ -834,6 +341,7 @@
    "weed_pct_high": 92.3,
    "weed_ha": 6.32,
    "other_pct": 33.1,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20200522T053639_R005_T43QBB_20200910T142618"
   },
   {
@@ -845,6 +353,7 @@
    "weed_pct_high": 91.9,
    "weed_ha": 6.08,
    "other_pct": 35.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20200524T052651_R105_T43QBB_20200910T183819"
   },
   {
@@ -856,6 +365,7 @@
    "weed_pct_high": 100.0,
    "weed_ha": 9.38,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20200621T053649_R005_T43QCB_20200823T141141"
   },
   {
@@ -867,6 +377,7 @@
    "weed_pct_high": 99.5,
    "weed_ha": 9.07,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20200904T053651_R005_T43QBB_20201027T152613"
   },
   {
@@ -878,6 +389,7 @@
    "weed_pct_high": 100.0,
    "weed_ha": 9.42,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201009T053739_R005_T43QBB_20201011T143946"
   },
   {
@@ -889,6 +401,7 @@
    "weed_pct_high": 99.6,
    "weed_ha": 9.39,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201016T052819_R105_T43QCB_20201027T132543"
   },
   {
@@ -900,6 +413,7 @@
    "weed_pct_high": 99.5,
    "weed_ha": 9.19,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201029T053939_R005_T43QBB_20201101T125219"
   },
   {
@@ -911,6 +425,7 @@
    "weed_pct_high": 99.6,
    "weed_ha": 9.31,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201031T052951_R105_T43QCB_20201109T221534"
   },
   {
@@ -922,6 +437,7 @@
    "weed_pct_high": 98.4,
    "weed_ha": 9.09,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201103T054011_R005_T43QCB_20201104T194012"
   },
   {
@@ -933,6 +449,7 @@
    "weed_pct_high": 98.5,
    "weed_ha": 9.02,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201108T054039_R005_T43QCB_20201110T023624"
   },
   {
@@ -944,6 +461,7 @@
    "weed_pct_high": 98.8,
    "weed_ha": 9.11,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201110T053041_R105_T43QCB_20201112T082258"
   },
   {
@@ -955,6 +473,7 @@
    "weed_pct_high": 99.0,
    "weed_ha": 9.22,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201113T054101_R005_T43QCB_20201115T071128"
   },
   {
@@ -966,6 +485,7 @@
    "weed_pct_high": 98.2,
    "weed_ha": 8.82,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201120T053131_R105_T43QCB_20201122T142832"
   },
   {
@@ -977,6 +497,7 @@
    "weed_pct_high": 98.4,
    "weed_ha": 8.99,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201123T054141_R005_T43QCB_20210513T170224"
   },
   {
@@ -988,6 +509,7 @@
    "weed_pct_high": 98.2,
    "weed_ha": 8.87,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201128T054159_R005_T43QCB_20201219T220009"
   },
   {
@@ -999,6 +521,7 @@
    "weed_pct_high": 98.1,
    "weed_ha": 8.82,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201130T053201_R105_T43QCB_20201130T232021"
   },
   {
@@ -1010,6 +533,7 @@
    "weed_pct_high": 98.1,
    "weed_ha": 9.03,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201203T054211_R005_T43QCB_20201204T005821"
   },
   {
@@ -1021,6 +545,7 @@
    "weed_pct_high": 98.9,
    "weed_ha": 9.18,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201208T054219_R005_T43QCB_20201208T234150"
   },
   {
@@ -1032,6 +557,7 @@
    "weed_pct_high": 99.1,
    "weed_ha": 9.11,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201218T054239_R005_T43QCB_20201220T124736"
   },
   {
@@ -1043,6 +569,7 @@
    "weed_pct_high": 97.9,
    "weed_ha": 8.87,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20201223T054241_R005_T43QCB_20201223T212046"
   },
   {
@@ -1054,6 +581,7 @@
    "weed_pct_high": 99.3,
    "weed_ha": 9.11,
    "other_pct": 1.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20201228T054239_R005_T43QBB_20210514T013332"
   },
   {
@@ -1065,6 +593,7 @@
    "weed_pct_high": 87.0,
    "weed_ha": 5.07,
    "other_pct": 16.1,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210104T053219_R105_T43QCB_20210605T171552"
   },
   {
@@ -1076,6 +605,7 @@
    "weed_pct_high": 94.5,
    "weed_ha": 7.18,
    "other_pct": 12.1,
+   "flag": "wide_range",
    "scene_id": "S2B_MSIL2A_20210107T054219_R005_T43QBB_20210107T122311"
   },
   {
@@ -1087,6 +617,7 @@
    "weed_pct_high": 94.9,
    "weed_ha": 8.03,
    "other_pct": 1.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210112T054211_R005_T43QBB_20210112T184628"
   },
   {
@@ -1098,6 +629,7 @@
    "weed_pct_high": 94.7,
    "weed_ha": 8.08,
    "other_pct": 0.3,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210119T053141_R105_T43QBB_20210119T170437"
   },
   {
@@ -1109,6 +641,7 @@
    "weed_pct_high": 94.0,
    "weed_ha": 7.96,
    "other_pct": 2.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210122T054131_R005_T43QCB_20210131T152627"
   },
   {
@@ -1120,6 +653,7 @@
    "weed_pct_high": 95.5,
    "weed_ha": 8.51,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20210124T053109_R105_T43QCB_20210124T153723"
   },
   {
@@ -1131,6 +665,7 @@
    "weed_pct_high": 92.3,
    "weed_ha": 7.55,
    "other_pct": 3.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20210127T054109_R005_T43QBB_20210127T161858"
   },
   {
@@ -1142,6 +677,7 @@
    "weed_pct_high": 94.5,
    "weed_ha": 8.28,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210129T053101_R105_T43QCB_20210129T180740"
   },
   {
@@ -1153,6 +689,7 @@
    "weed_pct_high": 96.8,
    "weed_ha": 8.66,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20210203T053029_R105_T43QCB_20210203T184950"
   },
   {
@@ -1164,6 +701,7 @@
    "weed_pct_high": 94.0,
    "weed_ha": 8.17,
    "other_pct": 2.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20210206T054019_R005_T43QBB_20210206T160941"
   },
   {
@@ -1175,6 +713,7 @@
    "weed_pct_high": 98.7,
    "weed_ha": 9.08,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210208T053001_R105_T43QBB_20210208T212817"
   },
   {
@@ -1186,6 +725,7 @@
    "weed_pct_high": 91.9,
    "weed_ha": 7.47,
    "other_pct": 5.9,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20210211T053941_R005_T43QBB_20210214T194501"
   },
   {
@@ -1197,6 +737,7 @@
    "weed_pct_high": 89.4,
    "weed_ha": 7.04,
    "other_pct": 7.4,
+   "flag": "wide_range",
    "scene_id": "S2B_MSIL2A_20210216T053909_R005_T43QBB_20210419T222736"
   },
   {
@@ -1208,6 +749,7 @@
    "weed_pct_high": 94.4,
    "weed_ha": 8.23,
    "other_pct": 3.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210221T053841_R005_T43QCB_20210222T163108"
   },
   {
@@ -1219,6 +761,7 @@
    "weed_pct_high": 94.4,
    "weed_ha": 7.9,
    "other_pct": 5.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20210226T053759_R005_T43QCB_20210226T161948"
   },
   {
@@ -1230,6 +773,7 @@
    "weed_pct_high": 94.8,
    "weed_ha": 8.24,
    "other_pct": 5.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210228T052751_R105_T43QCB_20210228T141704"
   },
   {
@@ -1241,6 +785,7 @@
    "weed_pct_high": 93.8,
    "weed_ha": 7.51,
    "other_pct": 10.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210303T053731_R005_T43QCB_20210303T200812"
   },
   {
@@ -1252,6 +797,7 @@
    "weed_pct_high": 94.3,
    "weed_ha": 7.76,
    "other_pct": 7.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20210305T052709_R105_T43QCB_20210306T083011"
   },
   {
@@ -1263,6 +809,7 @@
    "weed_pct_high": 93.9,
    "weed_ha": 7.27,
    "other_pct": 15.2,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210308T053649_R005_T43QCB_20210308T233254"
   },
   {
@@ -1274,6 +821,7 @@
    "weed_pct_high": 89.9,
    "weed_ha": 6.6,
    "other_pct": 16.6,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210310T052651_R105_T43QCB_20210310T153201"
   },
   {
@@ -1285,6 +833,7 @@
    "weed_pct_high": 92.1,
    "weed_ha": 6.83,
    "other_pct": 20.4,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210313T053641_R005_T43QCB_20210314T000655"
   },
   {
@@ -1296,6 +845,7 @@
    "weed_pct_high": 91.8,
    "weed_ha": 6.56,
    "other_pct": 25.2,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210323T053641_R005_T43QCB_20210323T161534"
   },
   {
@@ -1307,6 +857,7 @@
    "weed_pct_high": 95.7,
    "weed_ha": 6.67,
    "other_pct": 29.4,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210402T053641_R005_T43QCB_20210402T221453"
   },
   {
@@ -1318,6 +869,7 @@
    "weed_pct_high": 95.6,
    "weed_ha": 6.52,
    "other_pct": 30.8,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210407T053639_R005_T43QCB_20210407T145330"
   },
   {
@@ -1329,6 +881,7 @@
    "weed_pct_high": 95.1,
    "weed_ha": 6.29,
    "other_pct": 33.0,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210417T053639_R005_T43QBB_20210417T194538"
   },
   {
@@ -1340,6 +893,7 @@
    "weed_pct_high": 93.6,
    "weed_ha": 6.25,
    "other_pct": 33.4,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210422T053641_R005_T43QBB_20210422T203707"
   },
   {
@@ -1351,6 +905,7 @@
    "weed_pct_high": 86.4,
    "weed_ha": 3.78,
    "other_pct": 58.7,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210507T053639_R005_T43QBB_20210508T194544"
   },
   {
@@ -1362,6 +917,7 @@
    "weed_pct_high": 80.5,
    "weed_ha": 3.78,
    "other_pct": 59.6,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210512T053641_R005_T43QBB_20210513T032253"
   },
   {
@@ -1373,6 +929,7 @@
    "weed_pct_high": 74.6,
    "weed_ha": 1.95,
    "other_pct": 47.5,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2A_MSIL2A_20210522T053641_R005_T43QBB_20210522T191200"
   },
   {
@@ -1384,6 +941,7 @@
    "weed_pct_high": 79.3,
    "weed_ha": 5.75,
    "other_pct": 29.4,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210603T052649_R105_T43QCB_20210603T210737"
   },
   {
@@ -1395,6 +953,7 @@
    "weed_pct_high": 77.7,
    "weed_ha": 5.57,
    "other_pct": 27.1,
+   "flag": "lake_bed_exposed",
    "scene_id": "S2B_MSIL2A_20210606T053639_R005_T43QCB_20210609T153016"
   },
   {
@@ -1406,6 +965,7 @@
    "weed_pct_high": 99.7,
    "weed_ha": 6.83,
    "other_pct": 13.8,
+   "flag": "wide_range",
    "scene_id": "S2B_MSIL2A_20210703T052649_R105_T43QCB_20210704T063258"
   },
   {
@@ -1417,6 +977,7 @@
    "weed_pct_high": 67.1,
    "weed_ha": 5.44,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20210909T053641_R005_T43QCB_20210912T162848"
   },
   {
@@ -1428,6 +989,7 @@
    "weed_pct_high": 92.0,
    "weed_ha": 7.1,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211004T053659_R005_T43QBB_20211004T134800"
   },
   {
@@ -1439,6 +1001,7 @@
    "weed_pct_high": 84.2,
    "weed_ha": 6.51,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211014T053809_R005_T43QCB_20211014T150716"
   },
   {
@@ -1450,6 +1013,7 @@
    "weed_pct_high": 81.3,
    "weed_ha": 6.31,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20211016T052821_R105_T43QCB_20211016T180229"
   },
   {
@@ -1461,6 +1025,7 @@
    "weed_pct_high": 92.0,
    "weed_ha": 7.45,
    "other_pct": 0.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211021T052849_R105_T43QBB_20211022T195604"
   },
   {
@@ -1472,6 +1037,7 @@
    "weed_pct_high": 94.6,
    "weed_ha": 8.52,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20211026T052921_R105_T43QCB_20211026T151412"
   },
   {
@@ -1483,6 +1049,7 @@
    "weed_pct_high": 89.8,
    "weed_ha": 7.74,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20211029T053941_R005_T43QBB_20230128T032442"
   },
   {
@@ -1494,6 +1061,7 @@
    "weed_pct_high": 87.3,
    "weed_ha": 7.34,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211031T052949_R105_T43QBB_20211031T160733"
   },
   {
@@ -1505,6 +1073,7 @@
    "weed_pct_high": 81.3,
    "weed_ha": 6.9,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211103T054009_R005_T43QCB_20211104T142831"
   },
   {
@@ -1516,6 +1085,7 @@
    "weed_pct_high": 81.1,
    "weed_ha": 7.01,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20211108T054041_R005_T43QBB_20211109T070230"
   },
   {
@@ -1527,6 +1097,7 @@
    "weed_pct_high": 97.2,
    "weed_ha": 8.85,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211110T053039_R105_T43QCB_20211110T135223"
   },
   {
@@ -1538,6 +1109,7 @@
    "weed_pct_high": 84.5,
    "weed_ha": 6.98,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211123T054139_R005_T43QCB_20211123T162502"
   },
   {
@@ -1549,6 +1121,7 @@
    "weed_pct_high": 81.6,
    "weed_ha": 6.63,
    "other_pct": 0.3,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20211128T054201_R005_T43QCB_20211129T030900"
   },
   {
@@ -1560,6 +1133,7 @@
    "weed_pct_high": 70.3,
    "weed_ha": 5.03,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20211223T054239_R005_T43QCB_20230128T122823"
   },
   {
@@ -1571,6 +1145,7 @@
    "weed_pct_high": 76.0,
    "weed_ha": 6.05,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20211228T054241_R005_T43QCB_20230126T214756"
   },
   {
@@ -1582,6 +1157,7 @@
    "weed_pct_high": 75.5,
    "weed_ha": 5.29,
    "other_pct": 0.5,
+   "flag": "wide_range",
    "scene_id": "S2B_MSIL2A_20220112T054209_R005_T43QCB_20220113T002724"
   },
   {
@@ -1593,6 +1169,7 @@
    "weed_pct_high": 85.8,
    "weed_ha": 6.21,
    "other_pct": 2.4,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220127T054111_R005_T43QCB_20220212T094901"
   },
   {
@@ -1604,6 +1181,7 @@
    "weed_pct_high": 79.0,
    "weed_ha": 6.09,
    "other_pct": 1.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220201T054039_R005_T43QCB_20220217T020937"
   },
   {
@@ -1615,6 +1193,7 @@
    "weed_pct_high": 79.0,
    "weed_ha": 5.73,
    "other_pct": 2.3,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220206T054021_R005_T43QCB_20220219T114600"
   },
   {
@@ -1626,6 +1205,7 @@
    "weed_pct_high": 85.0,
    "weed_ha": 6.93,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220211T053939_R005_T43QCB_20220221T183551"
   },
   {
@@ -1637,6 +1217,7 @@
    "weed_pct_high": 83.7,
    "weed_ha": 6.66,
    "other_pct": 1.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20220216T053921_R005_T43QCB_20220223T235526"
   },
   {
@@ -1648,6 +1229,7 @@
    "weed_pct_high": 81.0,
    "weed_ha": 6.29,
    "other_pct": 1.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220221T053839_R005_T43QCB_20220228T023020"
   },
   {
@@ -1659,6 +1241,7 @@
    "weed_pct_high": 78.2,
    "weed_ha": 6.79,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20220223T052831_R105_T43QCB_20220228T213821"
   },
   {
@@ -1670,6 +1253,7 @@
    "weed_pct_high": 73.6,
    "weed_ha": 5.11,
    "other_pct": 1.5,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220226T053811_R005_T43QCB_20240531T093801"
   },
   {
@@ -1681,6 +1265,7 @@
    "weed_pct_high": 86.0,
    "weed_ha": 7.03,
    "other_pct": 2.7,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220303T053729_R005_T43QCB_20220304T132140"
   },
   {
@@ -1692,6 +1277,7 @@
    "weed_pct_high": 80.0,
    "weed_ha": 6.5,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20220305T052721_R105_T43QCB_20220305T192607"
   },
   {
@@ -1703,6 +1289,7 @@
    "weed_pct_high": 71.8,
    "weed_ha": 4.92,
    "other_pct": 1.2,
+   "flag": "wide_range",
    "scene_id": "S2B_MSIL2A_20220313T053639_R005_T43QCB_20240601T121833"
   },
   {
@@ -1714,6 +1301,7 @@
    "weed_pct_high": 77.9,
    "weed_ha": 6.06,
    "other_pct": 1.5,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220315T052651_R105_T43QCB_20220315T180657"
   },
   {
@@ -1725,6 +1313,7 @@
    "weed_pct_high": 76.5,
    "weed_ha": 5.38,
    "other_pct": 2.7,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220318T053651_R005_T43QCB_20240525T233331"
   },
   {
@@ -1736,6 +1325,7 @@
    "weed_pct_high": 91.5,
    "weed_ha": 8.03,
    "other_pct": 2.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220323T053639_R005_T43QCB_20240531T111838"
   },
   {
@@ -1747,6 +1337,7 @@
    "weed_pct_high": 79.7,
    "weed_ha": 5.66,
    "other_pct": 2.1,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220328T053641_R005_T43QCB_20240603T174053"
   },
   {
@@ -1758,6 +1349,7 @@
    "weed_pct_high": 94.6,
    "weed_ha": 8.04,
    "other_pct": 4.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220402T053639_R005_T43QCB_20220402T160303"
   },
   {
@@ -1769,6 +1361,7 @@
    "weed_pct_high": 80.2,
    "weed_ha": 5.7,
    "other_pct": 3.2,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220407T053641_R005_T43QBB_20220407T175714"
   },
   {
@@ -1780,6 +1373,7 @@
    "weed_pct_high": 91.4,
    "weed_ha": 7.87,
    "other_pct": 2.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220412T053639_R005_T43QCB_20240603T003332"
   },
   {
@@ -1791,6 +1385,7 @@
    "weed_pct_high": 94.6,
    "weed_ha": 7.79,
    "other_pct": 5.9,
+   "flag": "wide_range",
    "scene_id": "S2A_MSIL2A_20220417T053651_R005_T43QCB_20220417T161639"
   },
   {
@@ -1802,6 +1397,7 @@
    "weed_pct_high": 94.5,
    "weed_ha": 8.02,
    "other_pct": 5.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20220427T053651_R005_T43QCB_20240605T201558"
   },
   {
@@ -1813,6 +1409,7 @@
    "weed_pct_high": 95.1,
    "weed_ha": 8.29,
    "other_pct": 3.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20220502T053639_R005_T43QBB_20220502T203703"
   },
   {
@@ -1824,6 +1421,7 @@
    "weed_pct_high": 96.9,
    "weed_ha": 8.59,
    "other_pct": 5.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20220507T053651_R005_T43QCB_20240615T012206"
   },
   {
@@ -1835,6 +1433,7 @@
    "weed_pct_high": 95.3,
    "weed_ha": 8.61,
    "other_pct": 4.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20220527T053651_R005_T43QBB_20220528T034346"
   },
   {
@@ -1846,6 +1445,7 @@
    "weed_pct_high": 51.3,
    "weed_ha": 3.87,
    "other_pct": 1.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221024T053911_R005_T43QCB_20221024T204038"
   },
   {
@@ -1857,6 +1457,7 @@
    "weed_pct_high": 54.1,
    "weed_ha": 4.13,
    "other_pct": 1.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221029T053939_R005_T43QCB_20221029T141622"
   },
   {
@@ -1868,6 +1469,7 @@
    "weed_pct_high": 42.5,
    "weed_ha": 3.44,
    "other_pct": 1.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221031T052951_R105_T43QCB_20221031T161124"
   },
   {
@@ -1879,6 +1481,7 @@
    "weed_pct_high": 49.5,
    "weed_ha": 3.61,
    "other_pct": 1.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221103T054011_R005_T43QCB_20221103T221730"
   },
   {
@@ -1890,6 +1493,7 @@
    "weed_pct_high": 45.9,
    "weed_ha": 3.11,
    "other_pct": 1.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221108T054029_R005_T43QCB_20221108T131017"
   },
   {
@@ -1901,6 +1505,7 @@
    "weed_pct_high": 43.1,
    "weed_ha": 3.56,
    "other_pct": 1.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221110T053041_R105_T43QCB_20221110T161339"
   },
   {
@@ -1912,6 +1517,7 @@
    "weed_pct_high": 40.8,
    "weed_ha": 3.06,
    "other_pct": 1.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221113T054101_R005_T43QCB_20240722T230813"
   },
   {
@@ -1923,6 +1529,7 @@
    "weed_pct_high": 27.6,
    "weed_ha": 1.83,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221115T053059_R105_T43QCB_20221115T203356"
   },
   {
@@ -1934,6 +1541,7 @@
    "weed_pct_high": 33.7,
    "weed_ha": 2.2,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221118T054109_R005_T43QCB_20221118T172536"
   },
   {
@@ -1945,6 +1553,7 @@
    "weed_pct_high": 29.8,
    "weed_ha": 2.09,
    "other_pct": 1.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221120T053121_R105_T43QCB_20221120T164046"
   },
   {
@@ -1956,6 +1565,7 @@
    "weed_pct_high": 22.5,
    "weed_ha": 1.6,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221123T054141_R005_T43QCB_20221123T160244"
   },
   {
@@ -1967,6 +1577,7 @@
    "weed_pct_high": 29.4,
    "weed_ha": 2.03,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221128T054159_R005_T43QCB_20221129T181328"
   },
   {
@@ -1978,6 +1589,7 @@
    "weed_pct_high": 21.4,
    "weed_ha": 1.54,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221203T054211_R005_T43QCB_20221204T045946"
   },
   {
@@ -1989,6 +1601,7 @@
    "weed_pct_high": 41.7,
    "weed_ha": 3.06,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221210T053221_R105_T43QCB_20221210T220912"
   },
   {
@@ -2000,6 +1613,7 @@
    "weed_pct_high": 26.2,
    "weed_ha": 1.91,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221218T054239_R005_T43QCB_20221218T213521"
   },
   {
@@ -2011,6 +1625,7 @@
    "weed_pct_high": 30.2,
    "weed_ha": 1.98,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221223T054241_R005_T43QCB_20221224T113608"
   },
   {
@@ -2022,6 +1637,7 @@
    "weed_pct_high": 33.1,
    "weed_ha": 2.17,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20221228T054239_R005_T43QCB_20221229T143748"
   },
   {
@@ -2033,6 +1649,7 @@
    "weed_pct_high": 39.6,
    "weed_ha": 3.4,
    "other_pct": 0.3,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20221230T053231_R105_T43QCB_20221231T054703"
   },
   {
@@ -2044,6 +1661,7 @@
    "weed_pct_high": 38.3,
    "weed_ha": 2.6,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230102T054231_R005_T43QCB_20230102T145437"
   },
   {
@@ -2055,6 +1673,7 @@
    "weed_pct_high": 42.6,
    "weed_ha": 3.08,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230109T053221_R105_T43QCB_20230109T183438"
   },
   {
@@ -2066,6 +1685,7 @@
    "weed_pct_high": 38.1,
    "weed_ha": 2.61,
    "other_pct": 1.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230112T054211_R005_T43QCB_20240811T004347"
   },
   {
@@ -2077,6 +1697,7 @@
    "weed_pct_high": 27.1,
    "weed_ha": 1.78,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230117T054149_R005_T43QCB_20240809T013713"
   },
   {
@@ -2088,6 +1709,7 @@
    "weed_pct_high": 31.6,
    "weed_ha": 2.09,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230122T054131_R005_T43QCB_20240812T185248"
   },
   {
@@ -2099,6 +1721,7 @@
    "weed_pct_high": 21.2,
    "weed_ha": 1.35,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230127T054109_R005_T43QCB_20240807T145117"
   },
   {
@@ -2110,6 +1733,7 @@
    "weed_pct_high": 23.1,
    "weed_ha": 1.33,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230201T054041_R005_T43QBB_20240730T230424"
   },
   {
@@ -2121,6 +1745,7 @@
    "weed_pct_high": 27.5,
    "weed_ha": 1.59,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230206T054019_R005_T43QCB_20240815T180241"
   },
   {
@@ -2132,6 +1757,7 @@
    "weed_pct_high": 32.3,
    "weed_ha": 1.98,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230208T053001_R105_T43QCB_20230209T024407"
   },
   {
@@ -2143,6 +1769,7 @@
    "weed_pct_high": 45.0,
    "weed_ha": 3.3,
    "other_pct": 1.8,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230211T053951_R005_T43QCB_20230211T163305"
   },
   {
@@ -2154,6 +1781,7 @@
    "weed_pct_high": 46.0,
    "weed_ha": 3.14,
    "other_pct": 2.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230216T053919_R005_T43QCB_20230217T034058"
   },
   {
@@ -2165,6 +1793,7 @@
    "weed_pct_high": 27.7,
    "weed_ha": 1.25,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230221T053841_R005_T43QCB_20240814T120357"
   },
   {
@@ -2176,6 +1805,7 @@
    "weed_pct_high": 36.4,
    "weed_ha": 2.21,
    "other_pct": 1.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230226T053809_R005_T43QCB_20240730T172348"
   },
   {
@@ -2187,6 +1817,7 @@
    "weed_pct_high": 45.4,
    "weed_ha": 4.15,
    "other_pct": 1.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230303T053731_R005_T43QBB_20240818T145301"
   },
   {
@@ -2198,6 +1829,7 @@
    "weed_pct_high": 38.6,
    "weed_ha": 2.83,
    "other_pct": 1.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230308T053659_R005_T43QCB_20240805T111708"
   },
   {
@@ -2209,6 +1841,7 @@
    "weed_pct_high": 28.8,
    "weed_ha": 1.4,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230313T053641_R005_T43QCB_20240804T151830"
   },
   {
@@ -2220,6 +1853,7 @@
    "weed_pct_high": 37.0,
    "weed_ha": 2.03,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230318T053649_R005_T43QCB_20240824T005859"
   },
   {
@@ -2231,6 +1865,7 @@
    "weed_pct_high": 53.0,
    "weed_ha": 4.26,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230320T052641_R105_T43QCB_20230320T123155"
   },
   {
@@ -2242,6 +1877,7 @@
    "weed_pct_high": 57.9,
    "weed_ha": 4.72,
    "other_pct": 1.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230328T053649_R005_T43QCB_20240829T064510"
   },
   {
@@ -2253,6 +1889,7 @@
    "weed_pct_high": 59.1,
    "weed_ha": 4.83,
    "other_pct": 1.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230402T053641_R005_T43QBB_20240809T065101"
   },
   {
@@ -2264,6 +1901,7 @@
    "weed_pct_high": 62.8,
    "weed_ha": 5.48,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230404T052649_R105_T43QCB_20240825T171646"
   },
   {
@@ -2275,6 +1913,7 @@
    "weed_pct_high": 57.8,
    "weed_ha": 5.17,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230409T052651_R105_T43QCB_20240824T233200"
   },
   {
@@ -2286,6 +1925,7 @@
    "weed_pct_high": 68.5,
    "weed_ha": 5.61,
    "other_pct": 4.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230412T053641_R005_T43QBB_20230412T140825"
   },
   {
@@ -2297,6 +1937,7 @@
    "weed_pct_high": 70.8,
    "weed_ha": 5.92,
    "other_pct": 1.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230417T053649_R005_T43QBB_20240808T090733"
   },
   {
@@ -2308,6 +1949,7 @@
    "weed_pct_high": 59.1,
    "weed_ha": 5.33,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230419T052641_R105_T43QCB_20240831T013808"
   },
   {
@@ -2319,6 +1961,7 @@
    "weed_pct_high": 62.0,
    "weed_ha": 5.08,
    "other_pct": 2.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230422T053641_R005_T43QBB_20230422T141943"
   },
   {
@@ -2330,6 +1973,7 @@
    "weed_pct_high": 67.3,
    "weed_ha": 5.81,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230424T052649_R105_T43QBB_20240831T130916"
   },
   {
@@ -2341,6 +1985,7 @@
    "weed_pct_high": 67.5,
    "weed_ha": 6.24,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230429T052651_R105_T43QCB_20240901T153210"
   },
   {
@@ -2352,6 +1997,7 @@
    "weed_pct_high": 64.3,
    "weed_ha": 5.5,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230502T053641_R005_T43QCB_20240901T182257"
   },
   {
@@ -2363,6 +2009,7 @@
    "weed_pct_high": 69.8,
    "weed_ha": 6.54,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230504T052649_R105_T43QCB_20240907T235754"
   },
   {
@@ -2374,6 +2021,7 @@
    "weed_pct_high": 72.3,
    "weed_ha": 6.32,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230519T052651_R105_T43QCB_20230519T113112"
   },
   {
@@ -2385,6 +2033,7 @@
    "weed_pct_high": 61.7,
    "weed_ha": 4.89,
    "other_pct": 2.3,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230522T053641_R005_T43QCB_20230522T110035"
   },
   {
@@ -2396,6 +2045,7 @@
    "weed_pct_high": 81.3,
    "weed_ha": 7.51,
    "other_pct": 10.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230529T052651_R105_T43QBB_20230529T111947"
   },
   {
@@ -2407,6 +2057,7 @@
    "weed_pct_high": 60.9,
    "weed_ha": 5.19,
    "other_pct": 3.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230601T053651_R005_T43QCB_20241002T035324"
   },
   {
@@ -2418,6 +2069,7 @@
    "weed_pct_high": 59.4,
    "weed_ha": 5.22,
    "other_pct": 2.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230606T053649_R005_T43QBB_20230606T095302"
   },
   {
@@ -2429,6 +2081,7 @@
    "weed_pct_high": 40.3,
    "weed_ha": 2.92,
    "other_pct": 0.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20230901T052649_R105_T43QBB_20241104T164026"
   },
   {
@@ -2440,6 +2093,7 @@
    "weed_pct_high": 60.5,
    "weed_ha": 5.07,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20230906T052651_R105_T43QCB_20230906T133202"
   },
   {
@@ -2451,6 +2105,7 @@
    "weed_pct_high": 67.5,
    "weed_ha": 5.56,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231009T053731_R005_T43QCB_20231009T102837"
   },
   {
@@ -2462,6 +2117,7 @@
    "weed_pct_high": 65.7,
    "weed_ha": 5.81,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231014T053759_R005_T43QCB_20241016T132726"
   },
   {
@@ -2473,6 +2129,7 @@
    "weed_pct_high": 65.8,
    "weed_ha": 5.55,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231019T053831_R005_T43QCB_20241120T025210"
   },
   {
@@ -2484,6 +2141,7 @@
    "weed_pct_high": 72.0,
    "weed_ha": 6.12,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231024T053909_R005_T43QCB_20240829T230919"
   },
   {
@@ -2495,6 +2153,7 @@
    "weed_pct_high": 64.0,
    "weed_ha": 5.65,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231026T052911_R105_T43QCB_20231026T101521"
   },
   {
@@ -2506,6 +2165,7 @@
    "weed_pct_high": 69.8,
    "weed_ha": 6.16,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231029T053941_R005_T43QCB_20241028T123234"
   },
   {
@@ -2517,6 +2177,7 @@
    "weed_pct_high": 60.1,
    "weed_ha": 5.58,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231031T052949_R105_T43QCB_20231031T092626"
   },
   {
@@ -2528,6 +2189,7 @@
    "weed_pct_high": 70.0,
    "weed_ha": 6.1,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231103T054009_R005_T43QCB_20241110T022025"
   },
   {
@@ -2539,6 +2201,7 @@
    "weed_pct_high": 79.4,
    "weed_ha": 7.32,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231110T053039_R105_T43QCB_20241103T164632"
   },
   {
@@ -2550,6 +2213,7 @@
    "weed_pct_high": 71.7,
    "weed_ha": 6.26,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231113T054059_R005_T43QCB_20241022T125839"
   },
   {
@@ -2561,6 +2225,7 @@
    "weed_pct_high": 68.2,
    "weed_ha": 5.9,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231115T053101_R105_T43QCB_20231115T102336"
   },
   {
@@ -2572,6 +2237,7 @@
    "weed_pct_high": 70.0,
    "weed_ha": 6.11,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231118T054111_R005_T43QCB_20241109T070427"
   },
   {
@@ -2583,6 +2249,7 @@
    "weed_pct_high": 70.1,
    "weed_ha": 6.1,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231203T054209_R005_T43QCB_20241114T052352"
   },
   {
@@ -2594,6 +2261,7 @@
    "weed_pct_high": 73.6,
    "weed_ha": 6.44,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231208T054221_R005_T43QCB_20231208T101210"
   },
   {
@@ -2605,6 +2273,7 @@
    "weed_pct_high": 72.6,
    "weed_ha": 6.42,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231213T054229_R005_T43QCB_20240902T211759"
   },
   {
@@ -2616,6 +2285,7 @@
    "weed_pct_high": 66.9,
    "weed_ha": 6.22,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20231225T053231_R105_T43QCB_20231225T094251"
   },
   {
@@ -2627,6 +2297,7 @@
    "weed_pct_high": 69.5,
    "weed_ha": 6.2,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20231230T053229_R105_T43QCB_20231230T083330"
   },
   {
@@ -2638,6 +2309,7 @@
    "weed_pct_high": 68.1,
    "weed_ha": 5.95,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240102T054229_R005_T43QCB_20240102T090757"
   },
   {
@@ -2649,6 +2321,7 @@
    "weed_pct_high": 61.7,
    "weed_ha": 5.36,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240104T053221_R105_T43QCB_20240104T094124"
   },
   {
@@ -2660,6 +2333,7 @@
    "weed_pct_high": 65.2,
    "weed_ha": 5.6,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240107T054221_R005_T43QCB_20240107T101907"
   },
   {
@@ -2671,6 +2345,7 @@
    "weed_pct_high": 74.6,
    "weed_ha": 6.44,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240112T054209_R005_T43QCB_20240116T170634"
   },
   {
@@ -2682,6 +2357,7 @@
    "weed_pct_high": 68.5,
    "weed_ha": 6.02,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240117T054151_R005_T43QCB_20240117T101912"
   },
   {
@@ -2693,6 +2369,7 @@
    "weed_pct_high": 72.0,
    "weed_ha": 6.24,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240122T054139_R005_T43QCB_20240122T151949"
   },
   {
@@ -2704,6 +2381,7 @@
    "weed_pct_high": 68.1,
    "weed_ha": 5.9,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240127T054101_R005_T43QCB_20240127T091303"
   },
   {
@@ -2715,6 +2393,7 @@
    "weed_pct_high": 71.5,
    "weed_ha": 6.21,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240201T054049_R005_T43QCB_20240201T092554"
   },
   {
@@ -2726,6 +2405,7 @@
    "weed_pct_high": 70.9,
    "weed_ha": 6.11,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240206T054021_R005_T43QCB_20240206T091946"
   },
   {
@@ -2737,6 +2417,7 @@
    "weed_pct_high": 74.9,
    "weed_ha": 6.65,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240211T053949_R005_T43QCB_20240211T093722"
   },
   {
@@ -2748,6 +2429,7 @@
    "weed_pct_high": 65.0,
    "weed_ha": 4.97,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240216T053921_R005_T43QCB_20240216T101314"
   },
   {
@@ -2759,6 +2441,7 @@
    "weed_pct_high": 70.7,
    "weed_ha": 6.58,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240218T052909_R105_T43QCB_20240218T091816"
   },
   {
@@ -2770,6 +2453,7 @@
    "weed_pct_high": 76.3,
    "weed_ha": 6.64,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240221T053849_R005_T43QCB_20240221T093959"
   },
   {
@@ -2781,6 +2465,7 @@
    "weed_pct_high": 74.5,
    "weed_ha": 6.43,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240302T053729_R005_T43QCB_20240302T090928"
   },
   {
@@ -2792,6 +2477,7 @@
    "weed_pct_high": 80.0,
    "weed_ha": 7.24,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240304T052721_R105_T43QCB_20240304T111927"
   },
   {
@@ -2803,6 +2489,7 @@
    "weed_pct_high": 75.5,
    "weed_ha": 6.52,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240307T053701_R005_T43QCB_20240307T101820"
   },
   {
@@ -2814,6 +2501,7 @@
    "weed_pct_high": 76.5,
    "weed_ha": 6.62,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240312T053639_R005_T43QCB_20240312T092028"
   },
   {
@@ -2825,6 +2513,7 @@
    "weed_pct_high": 82.6,
    "weed_ha": 7.06,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240314T052641_R105_T43QCB_20240314T102014"
   },
   {
@@ -2836,6 +2525,7 @@
    "weed_pct_high": 76.9,
    "weed_ha": 6.7,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240317T053641_R005_T43QCB_20240319T132031"
   },
   {
@@ -2847,6 +2537,7 @@
    "weed_pct_high": 77.7,
    "weed_ha": 6.75,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240322T053639_R005_T43QCB_20240322T101604"
   },
   {
@@ -2858,6 +2549,7 @@
    "weed_pct_high": 77.1,
    "weed_ha": 6.67,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240327T053641_R005_T43QCB_20240330T002330"
   },
   {
@@ -2869,6 +2561,7 @@
    "weed_pct_high": 79.8,
    "weed_ha": 6.59,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240401T053639_R005_T43QCB_20240401T093923"
   },
   {
@@ -2880,6 +2573,7 @@
    "weed_pct_high": 82.6,
    "weed_ha": 7.31,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240411T053639_R005_T43QCB_20240411T093601"
   },
   {
@@ -2891,6 +2585,7 @@
    "weed_pct_high": 88.7,
    "weed_ha": 8.16,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240413T052651_R105_T43QCB_20240413T112557"
   },
   {
@@ -2902,6 +2597,7 @@
    "weed_pct_high": 80.0,
    "weed_ha": 6.81,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240416T053641_R005_T43QCB_20240416T111544"
   },
   {
@@ -2913,6 +2609,7 @@
    "weed_pct_high": 88.2,
    "weed_ha": 8.04,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240423T052651_R105_T43QCB_20240423T120909"
   },
   {
@@ -2924,6 +2621,7 @@
    "weed_pct_high": 86.9,
    "weed_ha": 7.6,
    "other_pct": 2.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240426T053641_R005_T43QCB_20240426T111606"
   },
   {
@@ -2935,6 +2633,7 @@
    "weed_pct_high": 83.1,
    "weed_ha": 7.85,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240428T052649_R105_T43QCB_20240428T093623"
   },
   {
@@ -2946,6 +2645,7 @@
    "weed_pct_high": 94.9,
    "weed_ha": 8.52,
    "other_pct": 1.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240501T053639_R005_T43QBB_20240501T091510"
   },
   {
@@ -2957,6 +2657,7 @@
    "weed_pct_high": 93.9,
    "weed_ha": 8.46,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240503T052651_R105_T43QBB_20240503T101552"
   },
   {
@@ -2968,6 +2669,7 @@
    "weed_pct_high": 93.0,
    "weed_ha": 8.47,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240506T053641_R005_T43QBB_20240506T111532"
   },
   {
@@ -2979,6 +2681,7 @@
    "weed_pct_high": 91.9,
    "weed_ha": 8.36,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240508T052649_R105_T43QCB_20240508T092049"
   },
   {
@@ -2990,6 +2693,7 @@
    "weed_pct_high": 90.8,
    "weed_ha": 8.1,
    "other_pct": 1.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240511T053639_R005_T43QBB_20240511T090431"
   },
   {
@@ -3001,6 +2705,7 @@
    "weed_pct_high": 90.5,
    "weed_ha": 8.29,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240513T052651_R105_T43QCB_20240513T111917"
   },
   {
@@ -3012,6 +2717,7 @@
    "weed_pct_high": 91.8,
    "weed_ha": 8.41,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240516T053641_R005_T43QBB_20240516T121601"
   },
   {
@@ -3023,6 +2729,7 @@
    "weed_pct_high": 96.6,
    "weed_ha": 8.67,
    "other_pct": 2.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240521T053639_R005_T43QCB_20240521T091830"
   },
   {
@@ -3034,6 +2741,7 @@
    "weed_pct_high": 95.9,
    "weed_ha": 8.82,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240602T052651_R105_T43QCB_20240602T120812"
   },
   {
@@ -3045,6 +2753,7 @@
    "weed_pct_high": 98.2,
    "weed_ha": 9.04,
    "other_pct": 3.7,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240607T052649_R105_T43QCB_20240607T093645"
   },
   {
@@ -3056,6 +2765,7 @@
    "weed_pct_high": 95.6,
    "weed_ha": 8.9,
    "other_pct": 0.8,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240612T052651_R105_T43QCB_20240612T122129"
   },
   {
@@ -3067,6 +2777,7 @@
    "weed_pct_high": 100.0,
    "weed_ha": 9.24,
    "other_pct": 2.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20240617T052649_R105_T43QCB_20240617T091027"
   },
   {
@@ -3078,6 +2789,7 @@
    "weed_pct_high": 84.2,
    "weed_ha": 7.49,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20240930T052651_R105_T43QCB_20240930T091547"
   },
   {
@@ -3089,6 +2801,7 @@
    "weed_pct_high": 85.6,
    "weed_ha": 7.7,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241013T053801_R005_T43QCB_20241013T100347"
   },
   {
@@ -3100,6 +2813,7 @@
    "weed_pct_high": 71.8,
    "weed_ha": 5.61,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241023T053901_R005_T43QCB_20241023T082649"
   },
   {
@@ -3111,6 +2825,7 @@
    "weed_pct_high": 63.5,
    "weed_ha": 4.94,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241025T052819_R105_T43QBB_20241025T075111"
   },
   {
@@ -3122,6 +2837,7 @@
    "weed_pct_high": 50.1,
    "weed_ha": 3.81,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241028T053839_R005_T43QCB_20241028T075310"
   },
   {
@@ -3133,6 +2849,7 @@
    "weed_pct_high": 33.1,
    "weed_ha": 2.4,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241030T052941_R105_T43QCB_20241030T093050"
   },
   {
@@ -3144,6 +2861,7 @@
    "weed_pct_high": 39.2,
    "weed_ha": 3.14,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241102T054001_R005_T43QCB_20241102T121459"
   },
   {
@@ -3155,6 +2873,7 @@
    "weed_pct_high": 33.1,
    "weed_ha": 2.55,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241107T053929_R005_T43QCB_20241107T074716"
   },
   {
@@ -3166,6 +2885,7 @@
    "weed_pct_high": 30.2,
    "weed_ha": 2.29,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241112T054051_R005_T43QCB_20241112T080853"
   },
   {
@@ -3177,6 +2897,7 @@
    "weed_pct_high": 27.1,
    "weed_ha": 2.01,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241117T054019_R005_T43QCB_20241117T075534"
   },
   {
@@ -3188,6 +2909,7 @@
    "weed_pct_high": 27.9,
    "weed_ha": 2.34,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241119T053111_R105_T43QCB_20241119T084151"
   },
   {
@@ -3199,6 +2921,7 @@
    "weed_pct_high": 28.8,
    "weed_ha": 2.31,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241122T054141_R005_T43QCB_20241122T085102"
   },
   {
@@ -3210,6 +2933,7 @@
    "weed_pct_high": 27.0,
    "weed_ha": 2.07,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241202T054211_R005_T43QCB_20241202T081102"
   },
   {
@@ -3221,6 +2945,7 @@
    "weed_pct_high": 38.3,
    "weed_ha": 2.84,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241207T054129_R005_T43QCB_20241207T074448"
   },
   {
@@ -3232,6 +2957,7 @@
    "weed_pct_high": 32.4,
    "weed_ha": 2.65,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241212T054231_R005_T43QCB_20241212T093149"
   },
   {
@@ -3243,6 +2969,7 @@
    "weed_pct_high": 32.5,
    "weed_ha": 2.71,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241214T053139_R105_T43QCB_20241214T073556"
   },
   {
@@ -3254,6 +2981,7 @@
    "weed_pct_high": 35.3,
    "weed_ha": 2.74,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241217T054139_R005_T43QCB_20241217T074201"
   },
   {
@@ -3265,6 +2993,7 @@
    "weed_pct_high": 39.8,
    "weed_ha": 3.0,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20241227T054149_R005_T43QCB_20241227T074107"
   },
   {
@@ -3276,6 +3005,7 @@
    "weed_pct_high": 29.4,
    "weed_ha": 2.37,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20241229T053231_R105_T43QCB_20241229T095250"
   },
   {
@@ -3287,6 +3017,7 @@
    "weed_pct_high": 35.3,
    "weed_ha": 2.51,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20250101T054231_R005_T43QCB_20250101T085751"
   },
   {
@@ -3298,6 +3029,7 @@
    "weed_pct_high": 38.1,
    "weed_ha": 3.15,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250106T054129_R005_T43QCB_20250106T080057"
   },
   {
@@ -3309,6 +3041,7 @@
    "weed_pct_high": 40.6,
    "weed_ha": 3.3,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250116T054059_R005_T43QCB_20250116T074800"
   },
   {
@@ -3320,6 +3053,7 @@
    "weed_pct_high": 51.5,
    "weed_ha": 3.7,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20250121T054141_R005_T43QCB_20250121T083648"
   },
   {
@@ -3331,6 +3065,7 @@
    "weed_pct_high": 69.2,
    "weed_ha": 5.67,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250126T054019_R005_T43QCB_20250126T075322"
   },
   {
@@ -3342,6 +3077,7 @@
    "weed_pct_high": 73.0,
    "weed_ha": 5.22,
    "other_pct": 0.0,
+   "flag": "wide_range",
    "scene_id": "S2C_MSIL2A_20250131T054121_R005_T43QCB_20250131T124701"
   },
   {
@@ -3353,6 +3089,7 @@
    "weed_pct_high": 47.6,
    "weed_ha": 4.06,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250205T053929_R005_T43QCB_20250205T074058"
   },
   {
@@ -3364,6 +3101,7 @@
    "weed_pct_high": 60.9,
    "weed_ha": 5.05,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250207T053031_R105_T43QBB_20250207T084610"
   },
   {
@@ -3375,6 +3113,7 @@
    "weed_pct_high": 56.9,
    "weed_ha": 4.05,
    "other_pct": 0.5,
+   "flag": "wide_range",
    "scene_id": "S2C_MSIL2A_20250210T054021_R005_T43QCB_20250210T090411"
   },
   {
@@ -3386,6 +3125,7 @@
    "weed_pct_high": 82.2,
    "weed_ha": 6.59,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250215T053829_R005_T43QCB_20250215T074546"
   },
   {
@@ -3397,6 +3137,7 @@
    "weed_pct_high": 76.8,
    "weed_ha": 6.47,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250220T054811_R005_T43QCB_20250220T160800"
   },
   {
@@ -3408,6 +3149,7 @@
    "weed_pct_high": 89.5,
    "weed_ha": 8.27,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250222T052739_R105_T43QCB_20250222T073727"
   },
   {
@@ -3419,6 +3161,7 @@
    "weed_pct_high": 86.5,
    "weed_ha": 8.08,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250227T052821_R105_T43QCB_20250227T105512"
   },
   {
@@ -3430,6 +3173,7 @@
    "weed_pct_high": 69.3,
    "weed_ha": 5.84,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250302T053801_R005_T43QCB_20250302T110312"
   },
   {
@@ -3441,6 +3185,7 @@
    "weed_pct_high": 73.4,
    "weed_ha": 6.49,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250304T052649_R105_T43QCB_20250304T073919"
   },
   {
@@ -3452,6 +3197,7 @@
    "weed_pct_high": 74.1,
    "weed_ha": 6.37,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250307T053649_R005_T43QCB_20250307T082113"
   },
   {
@@ -3463,6 +3209,7 @@
    "weed_pct_high": 71.7,
    "weed_ha": 6.28,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250309T052711_R105_T43QCB_20250309T105213"
   },
   {
@@ -3474,6 +3221,7 @@
    "weed_pct_high": 71.8,
    "weed_ha": 6.2,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250312T053701_R005_T43QCB_20250312T104508"
   },
   {
@@ -3485,6 +3233,7 @@
    "weed_pct_high": 70.9,
    "weed_ha": 6.26,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20250314T054241_R005_T43QCB_20250314T103620"
   },
   {
@@ -3496,6 +3245,7 @@
    "weed_pct_high": 71.5,
    "weed_ha": 6.32,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250317T053649_R005_T43QCB_20250317T075158"
   },
   {
@@ -3507,6 +3257,7 @@
    "weed_pct_high": 75.1,
    "weed_ha": 7.0,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250319T052711_R105_T43QCB_20250319T104817"
   },
   {
@@ -3518,6 +3269,7 @@
    "weed_pct_high": 72.5,
    "weed_ha": 6.31,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250322T053701_R005_T43QCB_20250322T101913"
   },
   {
@@ -3529,6 +3281,7 @@
    "weed_pct_high": 72.3,
    "weed_ha": 6.66,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250324T052649_R105_T43QCB_20250324T074123"
   },
   {
@@ -3540,6 +3293,7 @@
    "weed_pct_high": 71.3,
    "weed_ha": 6.52,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250329T052841_R105_T43QCB_20250329T103210"
   },
   {
@@ -3551,6 +3305,7 @@
    "weed_pct_high": 76.5,
    "weed_ha": 7.04,
    "other_pct": 2.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20250403T054241_R005_T43QBB_20250403T112515"
   },
   {
@@ -3562,6 +3317,7 @@
    "weed_pct_high": 96.4,
    "weed_ha": 8.57,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250406T053639_R005_T43QCB_20250406T074638"
   },
   {
@@ -3573,6 +3329,7 @@
    "weed_pct_high": 99.4,
    "weed_ha": 9.17,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250408T052711_R105_T43QCB_20250408T105617"
   },
   {
@@ -3584,6 +3341,7 @@
    "weed_pct_high": 92.1,
    "weed_ha": 8.26,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250411T053701_R005_T43QCB_20250411T110214"
   },
   {
@@ -3595,6 +3353,7 @@
    "weed_pct_high": 98.5,
    "weed_ha": 8.92,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250413T052649_R105_T43QBB_20250413T075318"
   },
   {
@@ -3606,6 +3365,7 @@
    "weed_pct_high": 95.9,
    "weed_ha": 8.47,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250416T053649_R005_T43QCB_20250416T074229"
   },
   {
@@ -3617,6 +3377,7 @@
    "weed_pct_high": 97.3,
    "weed_ha": 8.65,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250418T052711_R105_T43QCB_20250418T103813"
   },
   {
@@ -3628,6 +3389,7 @@
    "weed_pct_high": 99.1,
    "weed_ha": 9.17,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20250420T053241_R105_T43QCB_20250420T120316"
   },
   {
@@ -3639,6 +3401,7 @@
    "weed_pct_high": 98.1,
    "weed_ha": 8.65,
    "other_pct": 1.7,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250421T053701_R005_T43QCB_20250421T103117"
   },
   {
@@ -3650,6 +3413,7 @@
    "weed_pct_high": 95.3,
    "weed_ha": 8.18,
    "other_pct": 4.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20250423T054251_R005_T43QBB_20250423T110616"
   },
   {
@@ -3661,6 +3425,7 @@
    "weed_pct_high": 95.4,
    "weed_ha": 8.61,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250426T053639_R005_T43QCB_20250426T073708"
   },
   {
@@ -3672,6 +3437,7 @@
    "weed_pct_high": 99.9,
    "weed_ha": 9.03,
    "other_pct": 1.5,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250428T052711_R105_T43QBB_20250428T103005"
   },
   {
@@ -3683,6 +3449,7 @@
    "weed_pct_high": 97.3,
    "weed_ha": 8.7,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250501T053701_R005_T43QCB_20250501T102217"
   },
   {
@@ -3694,6 +3461,7 @@
    "weed_pct_high": 99.3,
    "weed_ha": 9.18,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250503T052649_R105_T43QCB_20250503T075546"
   },
   {
@@ -3705,6 +3473,7 @@
    "weed_pct_high": 96.4,
    "weed_ha": 8.54,
    "other_pct": 1.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20250506T053649_R005_T43QBB_20250506T073702"
   },
   {
@@ -3716,6 +3485,7 @@
    "weed_pct_high": 94.8,
    "weed_ha": 8.71,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20250511T053701_R005_T43QCB_20250511T081611"
   },
   {
@@ -3727,6 +3497,7 @@
    "weed_pct_high": 69.6,
    "weed_ha": 5.25,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251008T053741_R005_T43QCB_20251008T102514"
   },
   {
@@ -3738,6 +3509,7 @@
    "weed_pct_high": 63.0,
    "weed_ha": 5.27,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251013T053659_R005_T43QCB_20251013T090851"
   },
   {
@@ -3749,6 +3521,7 @@
    "weed_pct_high": 62.2,
    "weed_ha": 5.43,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251018T053841_R005_T43QCB_20251018T095113"
   },
   {
@@ -3760,6 +3533,7 @@
    "weed_pct_high": 61.8,
    "weed_ha": 5.51,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20251020T054251_R005_T43QCB_20251020T084814"
   },
   {
@@ -3771,6 +3545,7 @@
    "weed_pct_high": 74.5,
    "weed_ha": 6.72,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251023T053809_R005_T43QCB_20251023T075858"
   },
   {
@@ -3782,6 +3557,7 @@
    "weed_pct_high": 63.5,
    "weed_ha": 5.25,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251107T054041_R005_T43QBB_20251107T082511"
   },
   {
@@ -3793,6 +3569,7 @@
    "weed_pct_high": 69.5,
    "weed_ha": 5.81,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20251109T054251_R005_T43QCB_20251109T090809"
   },
   {
@@ -3804,6 +3581,7 @@
    "weed_pct_high": 62.2,
    "weed_ha": 5.47,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251112T053959_R005_T43QCB_20251112T074332"
   },
   {
@@ -3815,6 +3593,7 @@
    "weed_pct_high": 64.0,
    "weed_ha": 5.79,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251114T053111_R105_T43QCB_20251114T084109"
   },
   {
@@ -3826,6 +3605,7 @@
    "weed_pct_high": 69.5,
    "weed_ha": 6.13,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251117T054131_R005_T43QCB_20251117T080410"
   },
   {
@@ -3837,6 +3617,7 @@
    "weed_pct_high": 73.2,
    "weed_ha": 6.62,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251122T054039_R005_T43QCB_20251122T073551"
   },
   {
@@ -3848,6 +3629,7 @@
    "weed_pct_high": 76.4,
    "weed_ha": 6.87,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251124T053151_R105_T43QCB_20251124T090509"
   },
   {
@@ -3859,6 +3641,7 @@
    "weed_pct_high": 81.5,
    "weed_ha": 7.33,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251127T054211_R005_T43QCB_20251127T104409"
   },
   {
@@ -3870,6 +3653,7 @@
    "weed_pct_high": 86.3,
    "weed_ha": 7.81,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251202T054109_R005_T43QCB_20251202T073232"
   },
   {
@@ -3881,6 +3665,7 @@
    "weed_pct_high": 80.9,
    "weed_ha": 7.49,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251204T053221_R105_T43QCB_20251204T091915"
   },
   {
@@ -3892,6 +3677,7 @@
    "weed_pct_high": 84.3,
    "weed_ha": 7.8,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251207T054231_R005_T43QCB_20251207T092711"
   },
   {
@@ -3903,6 +3689,7 @@
    "weed_pct_high": 98.9,
    "weed_ha": 9.27,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251212T054139_R005_T43QCB_20251212T073145"
   },
   {
@@ -3914,6 +3701,7 @@
    "weed_pct_high": 96.7,
    "weed_ha": 9.06,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251214T053241_R105_T43QCB_20251214T090710"
   },
   {
@@ -3925,6 +3713,7 @@
    "weed_pct_high": 98.5,
    "weed_ha": 9.24,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251217T054241_R005_T43QCB_20251217T091609"
   },
   {
@@ -3936,6 +3725,7 @@
    "weed_pct_high": 98.8,
    "weed_ha": 9.29,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20251219T054301_R005_T43QCB_20251219T083315"
   },
   {
@@ -3947,6 +3737,7 @@
    "weed_pct_high": 98.8,
    "weed_ha": 9.27,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251222T054149_R005_T43QCB_20251222T075720"
   },
   {
@@ -3958,6 +3749,7 @@
    "weed_pct_high": 99.0,
    "weed_ha": 9.31,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251224T053241_R105_T43QCB_20251224T091910"
   },
   {
@@ -3969,6 +3761,7 @@
    "weed_pct_high": 98.2,
    "weed_ha": 9.18,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20251227T054241_R005_T43QCB_20251227T092116"
   },
   {
@@ -3980,6 +3773,7 @@
    "weed_pct_high": 98.1,
    "weed_ha": 9.24,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20251229T053139_R105_T43QCB_20251229T075410"
   },
   {
@@ -3991,6 +3785,7 @@
    "weed_pct_high": 98.9,
    "weed_ha": 9.29,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260101T054139_R005_T43QCB_20260101T074000"
   },
   {
@@ -4002,6 +3797,7 @@
    "weed_pct_high": 98.9,
    "weed_ha": 9.26,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260103T053231_R105_T43QBB_20260103T092216"
   },
   {
@@ -4013,6 +3809,7 @@
    "weed_pct_high": 98.8,
    "weed_ha": 9.24,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260106T054231_R005_T43QCB_20260106T091412"
   },
   {
@@ -4024,6 +3821,7 @@
    "weed_pct_high": 96.4,
    "weed_ha": 9.04,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260108T054251_R005_T43QCB_20260108T091312"
   },
   {
@@ -4035,6 +3833,7 @@
    "weed_pct_high": 98.3,
    "weed_ha": 9.16,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260111T054109_R005_T43QCB_20260111T074202"
   },
   {
@@ -4046,6 +3845,7 @@
    "weed_pct_high": 93.8,
    "weed_ha": 8.79,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260116T054201_R005_T43QCB_20260116T091409"
   },
   {
@@ -4057,6 +3857,7 @@
    "weed_pct_high": 89.7,
    "weed_ha": 8.26,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260121T054039_R005_T43QCB_20260121T091302"
   },
   {
@@ -4068,6 +3869,7 @@
    "weed_pct_high": 99.5,
    "weed_ha": 9.34,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260131T053949_R005_T43QBB_20260131T091452"
   },
   {
@@ -4079,6 +3881,7 @@
    "weed_pct_high": 87.6,
    "weed_ha": 7.72,
    "other_pct": 2.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260205T054021_R005_T43QBB_20260205T082412"
   },
   {
@@ -4090,6 +3893,7 @@
    "weed_pct_high": 84.7,
    "weed_ha": 7.89,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260210T053849_R005_T43QCB_20260210T091916"
   },
   {
@@ -4101,6 +3905,7 @@
    "weed_pct_high": 84.1,
    "weed_ha": 7.79,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260212T052941_R105_T43QCB_20260212T100910"
   },
   {
@@ -4112,6 +3917,7 @@
    "weed_pct_high": 73.1,
    "weed_ha": 6.74,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260215T053921_R005_T43QCB_20260215T085810"
   },
   {
@@ -4123,6 +3929,7 @@
    "weed_pct_high": 66.5,
    "weed_ha": 6.1,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260220T053749_R005_T43QCB_20260220T092634"
   },
   {
@@ -4134,6 +3941,7 @@
    "weed_pct_high": 67.4,
    "weed_ha": 6.12,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260222T052831_R105_T43QCB_20260222T102511"
   },
   {
@@ -4145,6 +3953,7 @@
    "weed_pct_high": 68.4,
    "weed_ha": 6.17,
    "other_pct": 0.7,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260225T053811_R005_T43QCB_20260225T103810"
   },
   {
@@ -4156,6 +3965,7 @@
    "weed_pct_high": 68.2,
    "weed_ha": 6.26,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260227T052659_R105_T43QCB_20260227T091501"
   },
   {
@@ -4167,6 +3977,7 @@
    "weed_pct_high": 68.0,
    "weed_ha": 6.24,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260302T053639_R005_T43QCB_20260302T093017"
   },
   {
@@ -4178,6 +3989,7 @@
    "weed_pct_high": 69.7,
    "weed_ha": 6.44,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260304T052721_R105_T43QCB_20260304T102911"
   },
   {
@@ -4189,6 +4001,7 @@
    "weed_pct_high": 66.9,
    "weed_ha": 6.21,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260307T053701_R005_T43QCB_20260307T103208"
   },
   {
@@ -4200,6 +4013,7 @@
    "weed_pct_high": 69.0,
    "weed_ha": 6.35,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260309T052639_R105_T43QCB_20260309T092006"
   },
   {
@@ -4211,6 +4025,7 @@
    "weed_pct_high": 64.5,
    "weed_ha": 5.91,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260312T053639_R005_T43QCB_20260312T092622"
   },
   {
@@ -4222,6 +4037,7 @@
    "weed_pct_high": 65.2,
    "weed_ha": 6.04,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260314T052651_R105_T43QCB_20260314T105213"
   },
   {
@@ -4233,6 +4049,7 @@
    "weed_pct_high": 66.9,
    "weed_ha": 6.1,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260316T053251_R105_T43QCB_20260316T103911"
   },
   {
@@ -4244,6 +4061,7 @@
    "weed_pct_high": 66.4,
    "weed_ha": 6.06,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260317T053641_R005_T43QCB_20260317T103610"
   },
   {
@@ -4255,6 +4073,7 @@
    "weed_pct_high": 64.7,
    "weed_ha": 6.01,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260319T054251_R005_T43QCB_20260319T103809"
   },
   {
@@ -4266,6 +4085,7 @@
    "weed_pct_high": 66.4,
    "weed_ha": 6.04,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260322T053639_R005_T43QCB_20260322T092138"
   },
   {
@@ -4277,6 +4097,7 @@
    "weed_pct_high": 67.8,
    "weed_ha": 6.31,
    "other_pct": 0.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260403T052651_R105_T43QCB_20260403T104411"
   },
   {
@@ -4288,6 +4109,7 @@
    "weed_pct_high": 63.6,
    "weed_ha": 5.89,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260406T053641_R005_T43QBB_20260406T102316"
   },
   {
@@ -4299,6 +4121,7 @@
    "weed_pct_high": 71.9,
    "weed_ha": 6.56,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260408T052649_R105_T43QBB_20260408T091157"
   },
   {
@@ -4310,6 +4133,7 @@
    "weed_pct_high": 69.2,
    "weed_ha": 6.34,
    "other_pct": 0.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260411T053639_R005_T43QCB_20260411T092003"
   },
   {
@@ -4321,6 +4145,7 @@
    "weed_pct_high": 69.8,
    "weed_ha": 6.36,
    "other_pct": 1.7,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260416T053641_R005_T43QBB_20260416T100912"
   },
   {
@@ -4332,6 +4157,7 @@
    "weed_pct_high": 70.7,
    "weed_ha": 6.57,
    "other_pct": 0.5,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260423T053021_R105_T43QCB_20260423T103511"
   },
   {
@@ -4343,6 +4169,7 @@
    "weed_pct_high": 68.7,
    "weed_ha": 6.33,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260425T053241_R105_T43QCB_20260425T103313"
   },
   {
@@ -4354,6 +4181,7 @@
    "weed_pct_high": 70.1,
    "weed_ha": 6.42,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260426T053641_R005_T43QCB_20260426T101812"
   },
   {
@@ -4365,6 +4193,7 @@
    "weed_pct_high": 78.5,
    "weed_ha": 7.22,
    "other_pct": 2.2,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260428T054251_R005_T43QBB_20260428T103009"
   },
   {
@@ -4376,6 +4205,7 @@
    "weed_pct_high": 82.7,
    "weed_ha": 7.68,
    "other_pct": 0.9,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260501T053639_R005_T43QBB_20260501T091554"
   },
   {
@@ -4387,6 +4217,7 @@
    "weed_pct_high": 76.9,
    "weed_ha": 6.57,
    "other_pct": 4.1,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260506T053641_R005_T43QCB_20260506T102010"
   },
   {
@@ -4398,6 +4229,7 @@
    "weed_pct_high": 91.8,
    "weed_ha": 8.19,
    "other_pct": 4.3,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260511T053639_R005_T43QBB_20260511T091918"
   },
   {
@@ -4409,6 +4241,7 @@
    "weed_pct_high": 84.5,
    "weed_ha": 7.54,
    "other_pct": 4.3,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260518T054251_R005_T43QCB_20260518T102824"
   },
   {
@@ -4420,6 +4253,7 @@
    "weed_pct_high": 83.0,
    "weed_ha": 7.28,
    "other_pct": 2.6,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20260521T053639_R005_T43QCB_20260521T091732"
   },
   {
@@ -4431,6 +4265,7 @@
    "weed_pct_high": 96.5,
    "weed_ha": 8.91,
    "other_pct": 1.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260526T053641_R005_T43QCB_20260526T102117"
   },
   {
@@ -4442,6 +4277,7 @@
    "weed_pct_high": 88.2,
    "weed_ha": 7.75,
    "other_pct": 5.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20260607T054251_R005_T43QCB_20260607T102857"
   },
   {
@@ -4453,6 +4289,7 @@
    "weed_pct_high": 94.6,
    "weed_ha": 8.55,
    "other_pct": 3.2,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20260615T053641_R005_T43QBB_20260615T102024"
   },
   {
@@ -4464,6 +4301,7 @@
    "weed_pct_high": 96.4,
    "weed_ha": 8.84,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20261002T053241_R105_T43QCB_20261002T101803"
   },
   {
@@ -4475,6 +4313,7 @@
    "weed_pct_high": 99.4,
    "weed_ha": 8.93,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20261003T053651_R005_T43QCB_20261003T101308"
   },
   {
@@ -4486,6 +4325,7 @@
    "weed_pct_high": 93.3,
    "weed_ha": 8.62,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20261005T052659_R105_T43QCB_20261005T091454"
   },
   {
@@ -4497,6 +4337,7 @@
    "weed_pct_high": 99.5,
    "weed_ha": 9.34,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20261008T053719_R005_T43QCB_20261008T092627"
   },
   {
@@ -4508,6 +4349,7 @@
    "weed_pct_high": 97.8,
    "weed_ha": 9.17,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20261010T052731_R105_T43QCB_20261010T102100"
   },
   {
@@ -4519,6 +4361,7 @@
    "weed_pct_high": 99.0,
    "weed_ha": 9.27,
    "other_pct": 0.4,
+   "flag": "",
    "scene_id": "S2C_MSIL2A_20261013T053801_R005_T43QCB_20261013T095507"
   },
   {
@@ -4530,6 +4373,7 @@
    "weed_pct_high": 93.9,
    "weed_ha": 8.77,
    "other_pct": 0.1,
+   "flag": "",
    "scene_id": "S2A_MSIL2A_20261015T054241_R005_T43QCB_20261015T103113"
   },
   {
@@ -4541,6 +4385,7 @@
    "weed_pct_high": 98.5,
    "weed_ha": 9.19,
    "other_pct": 0.0,
+   "flag": "",
    "scene_id": "S2B_MSIL2A_20261018T053829_R005_T43QBB_20261018T092130"
   }
  ]

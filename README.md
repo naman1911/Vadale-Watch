@@ -35,6 +35,17 @@ It is available in English and Marathi.
 | Result | Weed % = weed pixels ÷ visible lake pixels. Open water (ha) = water share × 9.46 ha. | |
 | Uncertainty | The same calculation is repeated with NDVI thresholds 0.30 (strict) and 0.12 (loose). The website shows this as a range and a shaded band. | Shows how sensitive the answer is to the rule. |
 
+**Haze.** The SCL cloud map misses thick haze and smog, which is common over Panvel in winter.
+So a lake pixel brighter than 0.12 in blue light also counts as hidden, and an image is skipped
+if the visible lake's median blue is above 0.10 (clean water and weed are both dark in blue).
+
+**Low-confidence dates.** Some clear images still give unreliable numbers. These are kept in
+`history.csv` with a `flag`, drawn as hollow grey dots, and never used for the headline numbers:
+- `lake_bed_exposed`: more than 15% of the lake is bare mud or dry bed (the lake was partly dry
+  for months in 2020 and 2021), so "weed cover" is not meaningful;
+- `wide_range`: the strict and loose estimates differ by more than 35 points (thin haze, or
+  very sparse/dying weed).
+
 Reflectance is corrected for ESA's +1000 offset in images processed after January 2022
 (processing baseline 04.00), so old and new images are comparable.
 
@@ -58,7 +69,8 @@ site/                       the website (plain HTML/JS, Leaflet, Chart.js)
 
 `history.csv` columns: `date`, `weed_pct` (headline estimate), `open_water_ha`,
 `visible_pct` (share of the lake not hidden by cloud), `weed_pct_low` / `weed_pct_high`
-(strict/loose range), `weed_ha`, `other_pct` (mud/mixed), `scene_id` (the Sentinel-2 image used).
+(strict/loose range), `weed_ha`, `other_pct` (mud/mixed), `flag` (empty, or why the date is low confidence),
+`scene_id` (the Sentinel-2 image used).
 
 ## Running and adjusting it
 

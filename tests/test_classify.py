@@ -89,3 +89,11 @@ def test_haze_is_rejected():
     # moderate haze: passes the pixel test but the lake median is too bright
     mod = {**arrs, "B02": arrs["B02"] + 600}
     assert quality_status(analyse(mod, epsg, pb, tr, LAKE, CFG), CFG) == "hazy"
+
+
+def test_low_confidence_flag():
+    from pipeline.run import low_confidence_flag
+    res = lambda other, lo, hi: {"stats": {"other_pct": other}, "weed_pct_low": lo, "weed_pct_high": hi}
+    assert low_confidence_flag(res(1, 60, 70), CFG) == ""
+    assert low_confidence_flag(res(40, 60, 70), CFG) == "lake_bed_exposed"
+    assert low_confidence_flag(res(1, 20, 80), CFG) == "wide_range"

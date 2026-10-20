@@ -62,6 +62,17 @@ detection:
   ndvi_weed_strict: 0.30
   ndvi_weed_loose: 0.12
 
+quality:
+  # A clear image can still give an unreliable number. Such dates are kept but
+  # marked "low confidence": shown faded on the chart and never used for the
+  # headline numbers or the Instagram card.
+  # - when more than this % of the visible lake is exposed mud / dry lake bed
+  #   (the lake was partly dry, so "weed cover" is not meaningful):
+  max_other_pct: 15
+  # - when the strict and loose estimates differ by more than this many
+  #   percentage points (usually thin haze or very sparse, dying weed):
+  max_range_points: 35
+
 output:
   # Display images are drawn at this many screen pixels per 10 m satellite pixel.
   display_scale: 4
