@@ -1,0 +1,260 @@
+[
+ {
+  "osm_id": "way/560229735",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.0,
+  "distance_m": 403,
+  "tags": {
+   "natural": "water"
+  }
+ },
+ {
+  "osm_id": "way/560229734",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.01,
+  "distance_m": 408,
+  "tags": {
+   "natural": "water"
+  }
+ },
+ {
+  "osm_id": "way/54228760",
+  "name": "Ballaleshwar Lake",
+  "all_names": "Ballaleshwar Lake",
+  "name_match": false,
+  "area_ha": 9.46,
+  "distance_m": 453,
+  "tags": {
+   "name": "Ballaleshwar Lake",
+   "natural": "water",
+   "water": "lake"
+  }
+ },
+ {
+  "osm_id": "way/54227837",
+  "name": "Krishna Lake",
+  "all_names": "Krishna Lake",
+  "name_match": false,
+  "area_ha": 0.7,
+  "distance_m": 1000,
+  "tags": {
+   "name": "Krishna Lake",
+   "natural": "water",
+   "water": "lake"
+  }
+ },
+ {
+  "osm_id": "way/54227836",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.86,
+  "distance_m": 1017,
+  "tags": {
+   "natural": "water",
+   "source": "Yahoo"
+  }
+ },
+ {
+  "osm_id": "way/554783245",
+  "name": "Istreal Talav",
+  "all_names": "Istreal Talav",
+  "name_match": false,
+  "area_ha": 1.14,
+  "distance_m": 1193,
+  "tags": {
+   "intermittent": "no",
+   "name": "Istreal Talav",
+   "natural": "water",
+   "water": "lake"
+  }
+ },
+ {
+  "osm_id": "way/353767650",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.04,
+  "distance_m": 1270,
+  "tags": {
+   "natural": "water",
+   "water": "reservoir"
+  }
+ },
+ {
+  "osm_id": "way/563323605",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.42,
+  "distance_m": 1340,
+  "tags": {
+   "landuse": "basin",
+   "natural": "water",
+   "water": "pond"
+  }
+ },
+ {
+  "osm_id": "way/45095891",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 19.64,
+  "distance_m": 1504,
+  "tags": {
+   "natural": "water",
+   "source": "Yahoo",
+   "water": "river"
+  }
+ },
+ {
+  "osm_id": "way/54226701",
+  "name": "Adai lake",
+  "all_names": "Adai lake",
+  "name_match": false,
+  "area_ha": 1.06,
+  "distance_m": 1518,
+  "tags": {
+   "name": "Adai lake",
+   "natural": "water",
+   "source": "Yahoo",
+   "water": "lake"
+  }
+ },
+ {
+  "osm_id": "way/1302829768",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 8.78,
+  "distance_m": 1794,
+  "tags": {
+   "natural": "water",
+   "source": "Yahoo",
+   "water": "river"
+  }
+ },
+ {
+  "osm_id": "way/608390642",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.56,
+  "distance_m": 1990,
+  "tags": {
+   "natural": "water"
+  }
+ },
+ {
+  "osm_id": "way/461278314",
+  "name": "Khandeshwar lake",
+  "all_names": "Khandeshwar lake",
+  "name_match": false,
+  "area_ha": 1.63,
+  "distance_m": 2042,
+  "tags": {
+   "name": "Khandeshwar lake",
+   "natural": "water",
+   "water": "lake"
+  }
+ },
+ {
+  "osm_id": "way/951303236",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 5.26,
+  "distance_m": 2179,
+  "tags": {
+   "natural": "water",
+   "water": "pond"
+  }
+ },
+ {
+  "osm_id": "way/221348371",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 9.4,
+  "distance_m": 2289,
+  "tags": {
+   "natural": "water",
+   "water": "river"
+  }
+ },
+ {
+  "osm_id": "way/992787398",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 5.18,
+  "distance_m": 2495,
+  "tags": {
+   "natural": "water",
+   "water": "canal"
+  }
+ },
+ {
+  "osm_id": "way/1047449728",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.49,
+  "distance_m": 2522,
+  "tags": {
+   "natural": "water",
+   "water": "pond"
+  }
+ },
+ {
+  "osm_id": "way/55600198",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.66,
+  "distance_m": 2562,
+  "tags": {
+   "area": "yes",
+   "natural": "water",
+   "source": "Yahoo"
+  }
+ },
+ {
+  "osm_id": "way/1382738370",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 2.52,
+  "distance_m": 2877,
+  "tags": {
+   "natural": "water"
+  }
+ },
+ {
+  "osm_id": "way/1413809337",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 0.16,
+  "distance_m": 2932,
+  "tags": {
+   "natural": "water"
+  }
+ },
+ {
+  "osm_id": "way/53373911",
+  "name": "",
+  "all_names": "",
+  "name_match": false,
+  "area_ha": 25.75,
+  "distance_m": 3926,
+  "tags": {
+   "natural": "water",
+   "water": "river"
+  }
+ }
+]
