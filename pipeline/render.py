@@ -39,6 +39,13 @@ def display_grid(lake_lonlat, margin_m: float, scale: int) -> dict:
     }
 
 
+def refine(grid: dict, k: int) -> dict:
+    """The same area as `grid` with k times as many pixels each way."""
+    t = grid["transform"]
+    return {**grid, "transform": Affine(t.a / k, 0, t.c, 0, t.e / k, t.f),
+            "width": grid["width"] * k, "height": grid["height"] * k}
+
+
 def _warp(arr: np.ndarray, src_transform, epsg: int, grid: dict, nodata) -> np.ndarray:
     dst = np.full((grid["height"], grid["width"]), nodata, dtype=arr.dtype)
     reproject(arr, dst, src_transform=src_transform, src_crs=f"EPSG:{epsg}",
@@ -75,8 +82,11 @@ def weed_overlay(cls: np.ndarray, src_transform, epsg: int, grid: dict) -> Image
     ys = src_transform.f + rows * src_transform.e
     mx, my = Transformer.from_crs(epsg, 3857, always_xy=True).transform(xs, ys)
     g = grid["transform"]
-    ss = 4   # draw at 4x and scale down, so the slightly tilted grid lines are smooth
-    px, py = (mx - g.c) / g.a * ss, (my - g.f) / g.e * ss
+    px, py = (mx - g.c) / g.a, (my - g.f) / g.e
+    square = np.hypot(px[0, 1] - px[0, 0], py[0, 1] - py[0, 0])   # one 10 m pixel, in image pixels
+    ss = 4 if square < 16 else 2   # draw larger and scale down, so the tilted grid lines are smooth
+    line = max(1, round(square * ss / 24))   # grid line ~1/12 of a square (neighbours share it)
+    px, py = px * ss, py * ss
 
     size = (grid["width"], grid["height"])
     big = (size[0] * ss, size[1] * ss)
@@ -92,11 +102,12 @@ def weed_overlay(cls: np.ndarray, src_transform, epsg: int, grid: dict) -> Image
             draw_hidden.polygon(poly, fill=255)
         polys.append(poly)
     for poly in polys:
-        draw.polygon(poly, outline=GRID_LINE, width=ss // 2)   # neighbours share a line: ~1 px total
+        draw.polygon(poly, outline=GRID_LINE, width=line)
     img = img.resize(size, Image.BOX)
     # Hidden by cloud/haze: white diagonal stripes on the grey squares.
     yy, xx = np.indices((size[1], size[0]))
-    stripes = (((xx + yy) // 3) % 2 == 0) & (np.array(hidden.resize(size, Image.BOX)) > 160)
+    sw = max(2, round(square / 4))
+    stripes = (((xx + yy) // sw) % 2 == 0) & (np.array(hidden.resize(size, Image.BOX)) > 160)
     rgba = np.array(img)
     rgba[stripes] = (255, 255, 255, 220)
     return Image.fromarray(rgba, "RGBA")

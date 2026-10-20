@@ -97,3 +97,13 @@ def test_low_confidence_flag():
     assert low_confidence_flag(res(1, 60, 70), CFG) == ""
     assert low_confidence_flag(res(40, 60, 70), CFG) == "lake_bed_exposed"
     assert low_confidence_flag(res(1, 20, 80), CFG) == "wide_range"
+
+
+def test_refined_grid_covers_same_area():
+    from pipeline.render import refine
+    g = display_grid(LAKE, 120, 6)
+    f = refine(g, 2)
+    t, u = g["transform"], f["transform"]
+    assert (f["width"], f["height"]) == (g["width"] * 2, g["height"] * 2)
+    assert abs((t.c + t.a * g["width"]) - (u.c + u.a * f["width"])) < 1e-6
+    assert abs((t.f + t.e * g["height"]) - (u.f + u.e * f["height"])) < 1e-6

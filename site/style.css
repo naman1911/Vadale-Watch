@@ -132,7 +132,7 @@ thead th { position: sticky; top: 0; background: var(--surface); }
 .leaflet-control-attribution { font-size: 10px; background: rgba(0,0,0,.45) !important; color: #ddd; }
 .leaflet-control-attribution a { color: #fff; }
 .hero .leaflet-bottom { bottom: 22px; }   /* keep credits above the overlapping panel */
-.weed-layer { filter: drop-shadow(0 0 8px rgba(0,0,0,.55)); }
+.weed-layer { filter: drop-shadow(0 0 8px rgba(0,0,0,.55)); }   /* smooth scaling suits the anti-aliased grid */
 .photo-layer { image-rendering: pixelated; }
 .lake-glow { filter: drop-shadow(0 0 4px #ffd400); }
 .lake-line { stroke-dasharray: 10 8; animation: march 1.6s linear infinite; }

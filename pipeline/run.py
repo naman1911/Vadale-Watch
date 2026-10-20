@@ -28,13 +28,14 @@ from rasterio.features import geometry_mask
 
 from . import classify as C
 from .common import DATA, HISTORY_FILE, IMAGES, SCENES_FILE, load_config, load_lake
-from .render import display_grid, true_colour, weed_overlay
+from .render import display_grid, refine, true_colour, weed_overlay
 
 CACHE = DATA / "cache"
 HISTORY_COLS = ["date", "weed_pct", "open_water_ha", "visible_pct",
                 "weed_pct_low", "weed_pct_high", "weed_ha", "other_pct", "flag", "scene_id"]
 SCENE_COLS = ["scene_id", "date", "tile_cloud_pct", "lake_visible_pct", "status"]
 BANDS = ["B02", "B03", "B04", "B08", "B11", "SCL"]
+OVERLAY_DETAIL = 4   # weed map pixels per photo pixel
 
 
 def lake_area_ha(lake) -> float:
@@ -116,7 +117,10 @@ def history_row(date: str, scene_id: str, res: dict, cfg: dict) -> dict:
 def save_outputs(date: str, res: dict, epsg: int, transform, grid: dict):
     IMAGES.mkdir(parents=True, exist_ok=True)
     true_colour(res["refl"], transform, epsg, grid).save(IMAGES / f"{date}_rgb.jpg", quality=90)
-    weed_overlay(res["cls"], transform, epsg, grid).save(IMAGES / f"{date}_weed.png", optimize=True)
+    # The weed map is drawn at extra detail so its squares and grid lines stay
+    # sharp when a phone stretches it; it covers exactly the same area.
+    fine = refine(grid, OVERLAY_DETAIL)
+    weed_overlay(res["cls"], transform, epsg, fine).save(IMAGES / f"{date}_weed.png", optimize=True)
 
 
 def save_cache(date: str, scene_id: str, arrs: dict, epsg: int, baseline, bounds):
