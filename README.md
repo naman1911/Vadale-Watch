@@ -67,7 +67,7 @@ Everything runs on GitHub for free. Nothing needs installing.
 - **Automatic:** the *Update lake data & website* workflow runs on the 1st, 6th, 11th, 16th, 21st, 26th and 31st of each month.
 - **By hand:** *Actions → Update lake data & website → Run workflow*.
   - Leave the boxes empty to fetch new images.
-  - Give a start and end date to process an older period (for example `2019-01-01` to `2025-08-31`).
+  - Give a start and end date to process an older period (for example `2020-01-01` to `2025-08-31`; nothing before `baseline_start` in `config.yaml` is kept).
   - Tick **reclassify** after editing thresholds in `config.yaml`. This recalculates the
     whole history from the saved pixels in a minute, with no downloading.
 - **Website setup (one time):** *Settings → Pages → Source: GitHub Actions*.

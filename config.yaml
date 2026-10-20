@@ -41,7 +41,8 @@ satellite:
   haze_blue_median_max: 0.10
   # Campaign period (processed first) and the longer-term baseline.
   campaign_start: "2025-09-01"
-  baseline_start: "2019-01-01"
+  # Nothing older than this is processed or kept.
+  baseline_start: "2020-01-01"
 
 detection:
   # NDVI ("how green and leafy") ranges from -1 to 1.

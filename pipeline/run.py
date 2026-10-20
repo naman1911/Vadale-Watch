@@ -184,8 +184,9 @@ def main(argv=None):
     lake = load_lake()
     out = cfg["output"]
     grid = display_grid(lake, out["image_margin_m"], out["display_scale"])
-    history = read_csv(HISTORY_FILE, "date")
-    scenes = read_csv(SCENES_FILE, "scene_id")
+    first = cfg["satellite"]["baseline_start"]
+    history = {d: r for d, r in read_csv(HISTORY_FILE, "date").items() if d >= first}
+    scenes = {k: r for k, r in read_csv(SCENES_FILE, "scene_id").items() if r["date"] >= first}
 
     if a.reclassify:
         # Only images that passed before can be re-checked (others were never saved).
@@ -209,6 +210,7 @@ def main(argv=None):
         from .sentinel import analysis_bounds, item_epsg, lake_in_crs, read_window, search
         today = dt.date.today().isoformat()
         start = a.start or (max((s["date"] for s in scenes.values()), default=cfg["satellite"]["campaign_start"]))
+        start = max(start, first)
         end = a.end or today
         print(f"Searching Sentinel-2 images {start} .. {end}")
         items = search(cfg, lake, start, end)
@@ -221,6 +223,8 @@ def main(argv=None):
             if it.id in scenes and not a.force:
                 continue
             date = it.datetime.date().isoformat()
+            if date < first:
+                continue
             tile_cloud = it.properties.get("eo:cloud_cover")
             try:
                 epsg = item_epsg(it)

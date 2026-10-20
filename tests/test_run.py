@@ -59,3 +59,29 @@ def test_main_end_to_end(tmp_path, monkeypatch):
     run.main(["--start", "2025-09-01", "--end", "2025-09-30", "--force"])
     assert list(csv.DictReader(open(tmp_path / "history.csv"))) == []
     assert not any((tmp_path / "images").iterdir())
+
+
+def test_baseline_start_drops_older(tmp_path, monkeypatch):
+    for name, val in {"DATA": tmp_path, "HISTORY_FILE": tmp_path / "history.csv",
+                      "SCENES_FILE": tmp_path / "scenes.csv", "IMAGES": tmp_path / "images",
+                      "CACHE": tmp_path / "cache"}.items():
+        monkeypatch.setattr(run, name, val)
+    monkeypatch.setattr(run, "load_lake", lambda: LAKE)
+    items = [fake_item("OLD", "2019-12-30", 0.2), fake_item("NEW", "2020-01-04", 0.3)]
+    seen = {}
+    monkeypatch.setattr(sentinel, "search", lambda cfg, lake, start, end: seen.setdefault("start", start) and items)
+
+    def fake_read(item, bounds):
+        arrs, _, _, tr = synthetic_scene(*item._scene)
+        return {**arrs, "transform": tr}
+    monkeypatch.setattr(sentinel, "read_window", fake_read)
+    run.main(["--start", "2019-01-01", "--end", "2020-02-01"])
+    assert seen["start"] == "2020-01-01"
+    hist = [r["date"] for r in csv.DictReader(open(tmp_path / "history.csv"))]
+    assert hist == ["2020-01-04"]
+    # an older row left over from a previous run is removed on the next run
+    with open(tmp_path / "history.csv", "a") as f:
+        f.write("2019-06-01,50,1,100,40,60,1,0,X\n")
+    run.main(["--reclassify"])
+    hist = [r["date"] for r in csv.DictReader(open(tmp_path / "history.csv"))]
+    assert hist == ["2020-01-04"]
