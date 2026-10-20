@@ -17,7 +17,10 @@
     new Intl.DateTimeFormat(locale(), { ...opts, timeZone: "UTC" }).format(new Date(ms(d)));
   const fmt = (v, n = 1) => (v == null ? "–" : new Intl.NumberFormat(locale(),
     { minimumFractionDigits: n, maximumFractionDigits: n, useGrouping: false }).format(v));
-  const img = (d, kind) => `data/images/${d}_${kind === "rgb" ? "rgb.jpg" : "weed.png"}`;
+  // Pictures carry the data version (data/site.json is always fetched fresh), so a
+  // phone never shows an old cached picture after the images are redrawn.
+  const img = (d, kind) => `data/images/${d}_${kind === "rgb" ? "rgb.jpg" : "weed.png"}` +
+    `?v=${encodeURIComponent(state.site?.generated || "")}`;
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const entries = () => state.site?.entries ?? [];
   // Dates flagged as low confidence are shown faded, never used for headline numbers.
