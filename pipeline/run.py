@@ -28,6 +28,7 @@ from rasterio.features import geometry_mask
 
 from . import classify as C
 from .common import DATA, HISTORY_FILE, IMAGES, SCENES_FILE, load_config, load_lake
+from .preview import make_preview
 from .render import display_grid, refine, true_colour, weed_overlay
 
 CACHE = DATA / "cache"
@@ -282,6 +283,7 @@ def main(argv=None):
     write_csv(HISTORY_FILE, [history[d] for d in sorted(history)], HISTORY_COLS)
     write_csv(SCENES_FILE, sorted(scenes.values(), key=lambda r: (r["date"], r["scene_id"])), SCENE_COLS)
     write_site_json(cfg, lake, grid, history, scenes)
+    make_preview(history, lake, grid, IMAGES, DATA / "og.jpg")
     print(f"History now has {len(history)} clear dates.")
 
 

@@ -58,6 +58,8 @@ pipeline/sentinel.py        finds images and reads just the pixels around the la
 pipeline/classify.py        NDVI / NDWI / MNDWI and the water-vs-weed rule
 pipeline/render.py          true-colour and weed-overlay pictures
 pipeline/run.py             runs everything; writes the files below
+pipeline/preview.py         draws the link-preview card (data/og.jpg) shown when the link is shared
+pipeline/publish.py         assembles the website and fills in the link-preview text
 data/lake.geojson           the fixed lake outline
 data/history.csv            one row per clear date: date, weed_pct, open_water_ha, visible_pct, …
 data/scenes.csv             every image checked, including the cloudy ones that were skipped
