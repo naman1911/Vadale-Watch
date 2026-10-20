@@ -75,3 +75,17 @@ def test_images_share_grid():
     assert (ov[..., 1] == 255).sum() > 0 and (ov[..., 0] == 200).sum() > 0  # weed + cloud drawn
     (s, w), (n, e) = grid["bounds"]
     assert s < 18.9920 and n > 18.9956 and w < 73.1100 and e > 73.1128
+
+
+def test_haze_is_rejected():
+    from pipeline.run import quality_status
+    arrs, epsg, pb, tr = synthetic_scene(0.8)
+    clear = analyse(arrs, epsg, pb, tr, LAKE, CFG)
+    assert quality_status(clear, CFG) is None
+    # thick haze: everything bright in blue, washed-out NIR
+    hazy = {**arrs, "B02": arrs["B02"] + 1300, "B04": arrs["B04"] + 1000, "B08": arrs["B04"] + 1100}
+    res = analyse(hazy, epsg, pb, tr, LAKE, CFG)
+    assert quality_status(res, CFG) == "too_cloudy" and res["visible_pct"] == 0
+    # moderate haze: passes the pixel test but the lake median is too bright
+    mod = {**arrs, "B02": arrs["B02"] + 600}
+    assert quality_status(analyse(mod, epsg, pb, tr, LAKE, CFG), CFG) == "hazy"

@@ -66,10 +66,12 @@ def analyse(arrs: dict, epsg: int, baseline, transform, lake, cfg: dict) -> dict
     core = geometry_mask([core_geom], shape, transform, invert=True) if not core_geom.is_empty else inside
     if core.sum() == 0:
         core = inside
-    valid = ~np.isin(arrs["SCL"], cfg["satellite"]["scl_masked_classes"]) & (arrs["B04"] > 0)
-    visible_pct = 100 * (valid & inside).sum() / max(inside.sum(), 1)
-
+    sat = cfg["satellite"]
     refl = {b: C.to_reflectance(arrs[b], baseline) for b in BANDS if b != "SCL"}
+    valid = (~np.isin(arrs["SCL"], sat["scl_masked_classes"]) & (arrs["B04"] > 0)
+             & (refl["B02"] <= sat["haze_blue_pixel_max"]))
+    visible_pct = 100 * (valid & inside).sum() / max(inside.sum(), 1)
+    haze_blue = float(np.median(refl["B02"][valid & inside])) if (valid & inside).any() else None
     idx = C.indices(refl)
     det = cfg["detection"]
     area = lake_area_ha(lake)
@@ -77,8 +79,18 @@ def analyse(arrs: dict, epsg: int, baseline, transform, lake, cfg: dict) -> dict
     main = C.summarise(cls, area)
     low = C.summarise(C.classify(idx, valid, core, det, det["ndvi_weed_strict"]), area)
     high = C.summarise(C.classify(idx, valid, core, det, det["ndvi_weed_loose"]), area)
-    return {"visible_pct": visible_pct, "cls": cls, "refl": refl, "stats": main,
+    return {"visible_pct": visible_pct, "haze_blue": haze_blue, "cls": cls, "refl": refl, "stats": main,
             "weed_pct_low": low["weed_pct"], "weed_pct_high": high["weed_pct"]}
+
+
+def quality_status(res: dict, cfg: dict) -> str | None:
+    """Why an image can't be used, or None if it is fine."""
+    sat = cfg["satellite"]
+    if res["visible_pct"] < sat["min_visible_pct"]:
+        return "too_cloudy"
+    if res["haze_blue"] is None or res["haze_blue"] > sat["haze_blue_median_max"]:
+        return "hazy"
+    return None
 
 
 def history_row(date: str, scene_id: str, res: dict) -> dict:
@@ -149,10 +161,21 @@ def main(argv=None):
     scenes = read_csv(SCENES_FILE, "scene_id")
 
     if a.reclassify:
+        # Only images that passed before can be re-checked (others were never saved).
         for date in sorted(history):
             arrs, epsg, baseline, transform, sid = load_cache(date)
             res = analyse(arrs, epsg, baseline, transform, lake, cfg)
+            bad = quality_status(res, cfg)
+            if bad:
+                del history[date]
+                if sid in scenes:
+                    scenes[sid]["status"] = bad
+                    scenes[sid]["lake_visible_pct"] = f"{res['visible_pct']:.1f}"
+                print(f"{date}  removed: {bad}")
+                continue
             history[date] = history_row(date, sid, res)
+            if sid in scenes:
+                scenes[sid]["lake_visible_pct"] = history[date]["visible_pct"]
             save_outputs(date, res, epsg, transform, grid)
             print(f"{date}  weed {history[date]['weed_pct']:>5}%")
     else:
@@ -181,8 +204,9 @@ def main(argv=None):
                 print(f"{date} {it.id}: ERROR {e}", file=sys.stderr)
                 continue
             vis = res["visible_pct"]
-            if vis < cfg["satellite"]["min_visible_pct"]:
-                status = "too_cloudy"
+            bad = quality_status(res, cfg)
+            if bad:
+                status = bad
             elif vis <= best.get(date, -1):
                 status = "duplicate_date"  # same day seen in an overlapping tile
             else:
@@ -201,6 +225,12 @@ def main(argv=None):
             print(f"{date} {it.id[:38]:<38} visible {vis:5.1f}%  {status:<14} {extra}")
         if failures:
             print(f"{failures} images failed to download and will be retried next run", file=sys.stderr)
+
+    # Remove pictures and saved pixels of dates that are no longer used.
+    for folder in (IMAGES, CACHE):
+        for f in folder.glob("*") if folder.exists() else []:
+            if f.name[:10] not in history:
+                f.unlink()
 
     write_csv(HISTORY_FILE, [history[d] for d in sorted(history)], HISTORY_COLS)
     write_csv(SCENES_FILE, sorted(scenes.values(), key=lambda r: (r["date"], r["scene_id"])), SCENE_COLS)

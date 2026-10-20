@@ -49,3 +49,5 @@ def test_main_end_to_end(tmp_path, monkeypatch):
     run.main(["--reclassify"])
     hist2 = list(csv.DictReader(open(tmp_path / "history.csv")))
     assert hist2 == hist
+    assert sorted(p.name for p in (tmp_path / "images").iterdir()) == [
+        "2025-09-08_rgb.jpg", "2025-09-08_weed.png", "2025-09-13_rgb.jpg", "2025-09-13_weed.png"]
