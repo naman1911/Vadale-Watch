@@ -4,7 +4,7 @@
   const GAP_DAYS = 25;          // longer than this between clear images = shown as a gap
   const DAY = 86400000;
   const $ = (s) => document.querySelector(s);
-  const state = { lang: "en", range: "campaign", site: null, lake: null, map: null, chart: null, cmpMode: "weed" };
+  const state = { lang: "en", range: "campaign", site: null, lake: null, map: null, cmpMode: "weed" };
 
   // ---------- helpers --------------------------------------------------------
   const t = (k, ...a) => {
@@ -36,7 +36,7 @@
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
     document.title = t("title");
-    if (state.site) { renderStats(); renderSelects(); renderChart(); renderTable(); renderCompare(); }
+    if (state.site) { renderStats(); renderSelects(); renderViz(); renderTable(); renderCompare(); }
     if (state.map) buildStrip(hero.list[hero.idx]?.date);
   }
 
@@ -222,156 +222,110 @@
     document.querySelectorAll("[data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
   }
 
-  // ---------- chart ----------------------------------------------------------
-  // Draws a light band over long periods without clear images, so gaps read as gaps.
-  const gapPlugin = {
-    id: "gaps",
-    beforeDatasetsDraw(chart) {
-      const gaps = chart.options.plugins.gaps?.list || [];
-      const { ctx, chartArea: a, scales: { x } } = chart;
-      ctx.save();
-      gaps.forEach(([g0, g1]) => {
-        const x0 = Math.max(x.getPixelForValue(g0), a.left), x1 = Math.min(x.getPixelForValue(g1), a.right);
-        if (x1 - x0 < 2) return;
-        ctx.fillStyle = "rgba(128,128,128,0.10)";
-        ctx.fillRect(x0, a.top, x1 - x0, a.bottom - a.top);
-        if (x1 - x0 > 54) {
-          ctx.fillStyle = css("--muted");
-          ctx.font = `11px ${css("--font")}`;
-          ctx.textAlign = "center";
-          ctx.fillText(t("chart_gap"), (x0 + x1) / 2, a.bottom - 8);
-        }
-      });
-      ctx.restore();
-    },
+  // ---------- monthly views ---------------------------------------------------
+  // Single images wobble by +-5-10 points (haze, light), so the charts show one
+  // value per month: the median of that month's clear, reliable images.
+  const median = (v) => { const a = [...v].sort((x, y) => x - y), h = a.length >> 1; return a.length % 2 ? a[h] : (a[h - 1] + a[h]) / 2; };
+  const monthName = (key, opts = { month: "short" }) => fmtDate(`${key}-15`, opts);
+  const monthYear = (key) => monthName(key, { month: "short", year: "numeric" });
+
+  function monthly() {
+    const out = {};
+    entries().forEach((e) => {
+      const m = (out[e.date.slice(0, 7)] ||= { key: e.date.slice(0, 7), vals: [], flagged: 0 });
+      if (e.flag) m.flagged++; else m.vals.push(e.weed_pct);
+    });
+    Object.values(out).forEach((m) => {
+      if (!m.vals.length) return;
+      m.weed = median(m.vals);
+      m.lo = Math.min(...m.vals);
+      m.hi = Math.max(...m.vals);
+    });
+    return out;
+  }
+  const monthKeys = (from, to) => {
+    const keys = [];
+    let [y, m] = from.split("-").map(Number);
+    const [ty, tm] = to.split("-").map(Number);
+    while (y < ty || (y === ty && m <= tm)) { keys.push(`${y}-${String(m).padStart(2, "0")}`); m++; if (m > 12) { m = 1; y++; } }
+    return keys;
   };
 
-  // Insert null points between images further apart than GAP_DAYS -> broken line.
-  function withGaps(list, xOf) {
-    const pts = { main: [], lo: [], hi: [] }, gaps = [];
-    list.forEach((e, i) => {
-      if (i > 0 && ms(e.date) - ms(list[i - 1].date) > GAP_DAYS * DAY) {
-        const mid = (xOf(list[i - 1]) + xOf(e)) / 2;
-        ["main", "lo", "hi"].forEach((k) => pts[k].push({ x: mid, y: null }));
-        gaps.push([xOf(list[i - 1]), xOf(e)]);
-      }
-      const x = xOf(e);
-      pts.main.push({ x, y: e.weed_pct, e });
-      pts.lo.push({ x, y: e.weed_pct_low, e });
-      pts.hi.push({ x, y: e.weed_pct_high, e });
-    });
-    return { pts, gaps };
+  function detailText(key, m) {
+    if (!m) return t("detail_none", monthYear(key));
+    if (!m.vals.length) return t("detail_flag", monthYear(key));
+    return t("detail", monthYear(key), fmt(m.weed, 0), m.vals.length, fmt(m.lo, 0), fmt(m.hi, 0));
+  }
+  function showDetail(key, m) {
+    $("#viz-detail").textContent = detailText(key, m);
+    document.querySelectorAll("#viz [data-key]").forEach((el) => el.classList.toggle("sel", el.dataset.key === key));
   }
 
-  function renderChart() {
-    const ink2 = css("--ink-2"), line = css("--line"), accent = css("--accent"), band = css("--accent-band");
-    const font = { family: css("--font"), size: 12 };
-    if (state.chart) state.chart.destroy();
+  function renderViz() {
     const note = $("#chart-note");
     note.dataset.i18n = state.range === "years" ? "chart_note_years" : "chart_note";
     note.textContent = t(note.dataset.i18n);
-    const all = good();
-    let datasets = [], gaps = [], xOpts, legend = false;
+    const all = entries();
+    if (!all.length) { $("#viz").innerHTML = ""; $("#takeaway").textContent = t("no_data"); return; }
+    if (state.range === "years") renderHeat(); else renderBars();
+  }
 
-    if (state.range === "years") {
-      // One point per month (median of that month's clear images). Seasons run
-      // June -> May so the dry season (Oct-May) is one continuous stretch.
-      const seasonOf = (d) => { const y = +d.slice(0, 4), m = +d.slice(5, 7); return m >= 6 ? y : y - 1; };
-      const monthIdx = (d) => (+d.slice(5, 7) + 6) % 12;            // Jun = 0 ... May = 11
-      const median = (v) => { const a = [...v].sort((x, y) => x - y), h = a.length >> 1; return a.length % 2 ? a[h] : (a[h - 1] + a[h]) / 2; };
-      const bySeason = {};
-      all.forEach((e) => (((bySeason[seasonOf(e.date)] ||= {})[monthIdx(e.date)] ||= []).push(e.weed_pct)));
-      const seasons = Object.keys(bySeason).map(Number).sort();
-      const cur = seasons[seasons.length - 1], prev = seasons[seasons.length - 2];
-      const blue = css("--series-2");
-      let greyLabelled = false;
-      seasons.forEach((y) => {
-        const role = y === cur ? "cur" : y === prev ? "prev" : "old";
-        const data = Array.from({ length: 12 }, (_, m) => {
-          const v = bySeason[y][m];
-          return { x: m + 0.5, y: v ? median(v) : null, m: { season: y, month: m, n: v ? v.length : 0 } };
-        });
-        const color = role === "cur" ? accent : role === "prev" ? blue : "rgba(128,128,128,0.45)";
-        let label = t("season", y);
-        if (role === "old") { label = greyLabelled ? "" : t("earlier_years"); greyLabelled = true; }
-        datasets.push({ label, data, spanGaps: false, borderColor: color, backgroundColor: color,
-          borderWidth: role === "old" ? 1.25 : 2.5, pointRadius: role === "old" ? 0 : 3.5, pointHoverRadius: 5,
-          order: role === "cur" ? 0 : role === "prev" ? 1 : 2 });
-      });
-      legend = true;
-      const monthName = (m) => new Intl.DateTimeFormat(locale(), { month: "short", timeZone: "UTC" }).format(new Date(Date.UTC(2001, 5 + m, 15)));
-      state.monthName = monthName;
-      xOpts = {
-        type: "linear", min: 0, max: 12,
-        afterBuildTicks: (ax) => { ax.ticks = Array.from({ length: 12 }, (_, i) => ({ value: i + 0.5 })); },
-        ticks: { color: ink2, font, autoSkip: true, maxRotation: 0, callback: (v) => monthName(Math.floor(v)) },
-        grid: { color: line },
-      };
-    } else {
-      const pick = (l) => (state.range === "campaign" ? inCampaign(l) : l);
-      const list = pick(all), flagged = pick(entries()).filter((e) => e.flag);
-      const r = withGaps(list, (e) => ms(e.date));
-      // Grey "no clear images" bands only where there is no image at all.
-      gaps = withGaps(pick(entries()), (e) => ms(e.date)).gaps;
-      datasets = [
-        { label: "high", data: r.pts.hi, borderWidth: 0, pointRadius: 0, fill: "+1", backgroundColor: band, spanGaps: false },
-        { label: "low", data: r.pts.lo, borderWidth: 0, pointRadius: 0, fill: false, spanGaps: false },
-        { label: t("tip_weed"), data: r.pts.main, borderColor: accent, backgroundColor: accent, borderWidth: 2,
-          pointRadius: list.length > 120 ? 1.5 : 3, pointHoverRadius: 6, spanGaps: false },
-      ];
-      if (flagged.length) {
-        datasets.push({ label: t("low_conf"), data: flagged.map((e) => ({ x: ms(e.date), y: e.weed_pct, e })),
-          showLine: false, pointRadius: 3.5, pointHoverRadius: 6, borderWidth: 1.5,
-          borderColor: "rgba(128,128,128,0.8)", backgroundColor: "transparent", pointStyle: "circle" });
-        datasets[2].label = t("good_conf");
-        legend = true;
+  // "Since Sep 2025": one bar per month, filled like the lake (weed green, water blue).
+  function renderBars() {
+    const mon = monthly(), last = entries().at(-1).date.slice(0, 7);
+    const keys = monthKeys(state.site.campaign_start.slice(0, 7), last);
+    const withData = keys.filter((k) => mon[k]?.vals.length);
+    const a = withData[0], b = withData.at(-1);
+    $("#takeaway").innerHTML = a && b && a !== b
+      ? t("takeaway", fmt(mon[a].weed, 0), monthYear(a), fmt(mon[b].weed, 0), monthYear(b), mon[b].weed >= mon[a].weed)
+      : "";
+    $("#viz").className = "viz bars";
+    $("#viz").innerHTML = keys.map((k, i) => {
+      const m = mon[k], showYear = i === 0 || k.endsWith("-01");
+      const lbl = `<span class="lbl">${monthName(k)}${showYear ? `<small>${k.slice(0, 4)}</small>` : ""}</span>`;
+      if (!m || !m.vals.length) {
+        return `<button type="button" class="mbar empty" data-key="${k}"><span class="pct">${m ? "?" : "☁"}</span><span class="col"></span>${lbl}</button>`;
       }
-      const xs = pick(entries()).map((e) => ms(e.date));
-      const pad = 3 * DAY;
-      xOpts = {
-        type: "linear",
-        min: state.range === "campaign" ? Math.min(ms(state.site.campaign_start), ...xs) - pad : Math.min(...xs) - pad,
-        max: Math.max(...xs, Date.now() - DAY) + pad,
-        ticks: { color: ink2, font, maxRotation: 0, autoSkip: true, maxTicksLimit: 7,
-          callback: (v) => new Intl.DateTimeFormat(locale(), { month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(v)) },
-        grid: { color: line },
-      };
-    }
+      const w = Math.round(m.weed);
+      return `<button type="button" class="mbar" data-key="${k}" aria-label="${detailText(k, m)}"><span class="pct">${fmt(w, 0)}%</span>` +
+        `<span class="col"><i class="water" style="height:${100 - w}%"></i><i class="weed" style="height:${w}%"></i></span>${lbl}</button>`;
+    }).join("");
+    showDetail(b || keys.at(-1), mon[b || keys.at(-1)]);
+  }
 
-    state.chart = new Chart($("#chart"), {
-      type: "line",
-      data: { datasets },
-      plugins: [gapPlugin],
-      options: {
-        responsive: true, maintainAspectRatio: false, animation: false,
-        parsing: false, normalized: true,
-        interaction: { mode: "nearest", intersect: false, axis: "x" },
-        scales: {
-          x: xOpts,
-          y: { min: 0, suggestedMax: 60, ticks: { color: ink2, font, callback: (v) => fmt(v, 0) + "%" }, grid: { color: line },
-               title: { display: true, text: t("chart_y"), color: ink2, font } },
-        },
-        plugins: {
-          gaps: { list: gaps },
-          legend: { display: legend, labels: { color: ink2, font, boxWidth: 14, boxHeight: 2,
-            filter: (item) => item.text && item.text !== "high" && item.text !== "low" } },
-          tooltip: {
-            filter: (item) => item.raw && (item.raw.e || (item.raw.m && item.raw.y != null)) && item.dataset.label !== "high" && item.dataset.label !== "low",
-            callbacks: {
-              title: (items) => !items.length ? "" : items[0].raw.e ? fmtDate(items[0].raw.e.date) : state.monthName(items[0].raw.m.month),
-              label: (item) => {
-                if (item.raw.m) return `${t("season", item.raw.m.season)}: ${fmt(item.raw.y)}% (${t("median_of", item.raw.m.n)})`;
-                const e = item.raw.e;
-                const lines = [`${t("tip_weed")}: ${fmt(e.weed_pct)}%`, `${t("tip_range")}: ${fmt(e.weed_pct_low)}–${fmt(e.weed_pct_high)}%`,
-                        `${t("tip_visible")}: ${fmt(e.visible_pct, 0)}%`];
-                if (e.flag) lines.push(`⚠ ${t("flag_" + e.flag)}`);
-                return lines;
-              },
-            },
-          },
-        },
-      },
-    });
+  // "Year by year": calendar heatmap, one row per year, darker green = more weed.
+  function renderHeat() {
+    const mon = monthly(), ents = entries();
+    const y0 = +ents[0].date.slice(0, 4), y1 = +ents.at(-1).date.slice(0, 4), lastKey = ents.at(-1).date.slice(0, 7);
+    const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
+    const shade = (v) => {   // light -> deep green
+      const c0 = [232, 245, 226], c1 = [10, 110, 30], f = Math.min(1, Math.max(0, v / 100));
+      return `rgb(${c0.map((c, i) => Math.round(c + (c1[i] - c) * f)).join(",")})`;
+    };
+    let html = `<div class="hm-row hm-head"><span></span>${months.map((m, i) => `<span>${t("months_short")[i]}</span>`).join("")}</div>`;
+    for (let y = y1; y >= y0; y--) {
+      html += `<div class="hm-row"><span class="yr">${fmt(y, 0)}</span>`;
+      months.forEach((mm) => {
+        const k = `${y}-${mm}`, m = mon[k];
+        if (k > lastKey) { html += `<span class="cell future"></span>`; return; }
+        if (!m) { html += `<button type="button" class="cell none" data-key="${k}" aria-label="${detailText(k)}">☁</button>`; return; }
+        if (!m.vals.length) { html += `<button type="button" class="cell flag" data-key="${k}" aria-label="${detailText(k, m)}">?</button>`; return; }
+        html += `<button type="button" class="cell" data-key="${k}" style="background:${shade(m.weed)};color:${m.weed > 55 ? "#fff" : "#123"}" aria-label="${detailText(k, m)}">${fmt(m.weed, 0)}</button>`;
+      });
+      html += `</div>`;
+    }
+    html += `<div class="hm-legend"><span>0%</span><i></i><span>100% ${t("key_weed").toLowerCase()}</span></div>`;
+    $("#viz").className = "viz heat";
+    $("#viz").innerHTML = html;
+    // Takeaway: how the latest month compares with the same month in earlier years.
+    const lk = Object.keys(mon).filter((k) => mon[k].vals.length).sort().at(-1);
+    const same = Object.keys(mon).filter((k) => k.slice(5) === lk.slice(5) && k !== lk && mon[k].vals.length).map((k) => mon[k].weed);
+    const v = mon[lk].weed, mName = monthName(lk, { month: "long" });
+    $("#takeaway").innerHTML = !same.length ? "" :
+      v >= Math.max(...same) ? t("takeaway_worst", mName, fmt(v, 0), fmt(y0, 0)) :
+      v <= Math.min(...same) ? t("takeaway_best", mName, fmt(v, 0), fmt(y0, 0)) :
+      t("takeaway_range", monthYear(lk), fmt(v, 0), mName, fmt(Math.min(...same), 0), fmt(Math.max(...same), 0));
+    showDetail(lk, mon[lk]);
   }
 
   function renderTable() {
@@ -535,7 +489,7 @@
     document.querySelectorAll("[data-range]").forEach((b) => b.addEventListener("click", () => {
       state.range = b.dataset.range;
       document.querySelectorAll("[data-range]").forEach((x) => x.setAttribute("aria-pressed", x === b));
-      renderChart();
+      renderViz();
     }));
     ["#cmp-a", "#cmp-b"].forEach((s) => $(s).addEventListener("change", renderCompare));
     document.querySelectorAll("[data-cmp]").forEach((b) => b.addEventListener("click", () => {
@@ -551,7 +505,10 @@
       ev.preventDefault();
       $("#story").scrollIntoView({ behavior: "smooth" });
     });
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", renderChart);
+    $("#viz").addEventListener("click", (ev) => {
+      const el = ev.target.closest("[data-key]");
+      if (el) showDetail(el.dataset.key, monthly()[el.dataset.key]);
+    });
     applyLang(lang);
     initMap();
     initHeroControls();

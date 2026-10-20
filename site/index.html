@@ -100,14 +100,15 @@
   <section class="card">
     <div class="card-head">
       <h2 data-i18n="chart_title">Weed cover over time</h2>
-      <div class="seg" role="group" aria-label="Time range">
-        <button type="button" data-range="campaign" aria-pressed="true" data-i18n="range_campaign">Sep 2025 onwards</button>
-        <button type="button" data-range="all" aria-pressed="false" data-i18n="range_all">All years</button>
-        <button type="button" data-range="years" aria-pressed="false" data-i18n="range_years">Compare years</button>
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" data-range="campaign" aria-pressed="true" data-i18n="range_campaign">Since Sep 2025</button>
+        <button type="button" data-range="years" aria-pressed="false" data-i18n="range_years">Year by year</button>
       </div>
     </div>
-    <div class="chart-box"><canvas id="chart" aria-label="Line chart of weed cover percentage by date" role="img"></canvas></div>
-    <p class="small muted" id="chart-note" data-i18n="chart_note">Each dot is one clear satellite image. Shaded band = range if the detection threshold were a little stricter or looser. Breaks in the line mean no clear images (usually monsoon clouds); we never fill those gaps with guesses.</p>
+    <p class="takeaway" id="takeaway"></p>
+    <div class="viz" id="viz"></div>
+    <p class="viz-detail" id="viz-detail" aria-live="polite"></p>
+    <p class="small muted" id="chart-note" data-i18n="chart_note"></p>
     <details>
       <summary data-i18n="table_toggle">Show all numbers as a table</summary>
       <div class="table-wrap"><table id="table"><thead><tr>
@@ -158,7 +159,6 @@
 </footer>
 
 <script src="vendor/leaflet/leaflet.js"></script>
-<script src="vendor/chart.umd.js"></script>
 <script src="i18n.js?v=dev"></script>
 <script src="app.js?v=dev"></script>
 </body>

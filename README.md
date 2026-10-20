@@ -19,7 +19,7 @@ Every 5 days a GitHub Actions job:
 5. commits the results and republishes the website.
 
 The website shows the current weed cover, the change since September 2025, a map,
-a trend chart, a before/after slider and a button that makes a 1080×1080 Instagram card.
+monthly charts (this season month by month, and a year-by-year calendar), a before/after slider and a button that makes a 1080×1080 Instagram card.
 It is available in English and Marathi.
 
 ## The method in plain words
@@ -63,7 +63,7 @@ data/history.csv            one row per clear date: date, weed_pct, open_water_h
 data/scenes.csv             every image checked, including the cloudy ones that were skipped
 data/images/                YYYY-MM-DD_rgb.jpg (true colour) and YYYY-MM-DD_weed.png (overlay)
 data/cache/                 raw lake pixels per date, so thresholds can be re-applied offline
-site/                       the website (plain HTML/JS, Leaflet, Chart.js)
+site/                       the website (plain HTML/JS, Leaflet)
 .github/workflows/          automation (update.yml) and boundary download (boundary.yml)
 ```
 
@@ -126,4 +126,4 @@ Lakes smaller than about 3 hectares have too few 10 m pixels for reliable number
   [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a).
 - Lake outline © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ODbL).
 - Website basemap: Esri World Imagery (© Esri, Maxar, Earthstar Geographics).
-- Leaflet (BSD-2) and Chart.js (MIT) are included in `site/vendor/`.
+- Leaflet (BSD-2) is included in `site/vendor/`.
