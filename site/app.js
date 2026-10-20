@@ -54,7 +54,9 @@
     $("#s-water").innerHTML = `${fmt(last.open_water_ha, 1)}<span class="unit"> ha</span>`;
     $("#s-water-detail").textContent = t("water_of", fmt(state.site.lake.area_ha, 1));
     const checked = state.site.generated.slice(0, 10);
-    $("#s-checked").textContent = t("checked", fmtDate(checked), state.site.scenes_checked);
+    const next = (state.site.next_passes || []).slice(0, 4).map((d) => fmtDate(d, { day: "numeric", month: "short" }));
+    $("#s-checked").textContent = t("checked", fmtDate(checked), state.site.scenes_checked) +
+      (next.length ? " " + t("next_passes", next.join(", ")) : "");
   }
 
   // ---------- date pickers ---------------------------------------------------

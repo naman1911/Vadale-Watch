@@ -124,6 +124,32 @@ def load_cache(date: str):
             from_origin(bounds[0], bounds[3], 10, 10), str(z["scene_id"]))
 
 
+def next_passes(scenes: dict, days: int = 30) -> list[str]:
+    """Predict upcoming Sentinel-2 passes over the lake.
+
+    Each satellite (S2A/S2B/S2C) repeats the same orbit every 10 days, so the
+    next passes are the last seen date of each satellite+orbit plus 10, 20, ...
+    """
+    last: dict[tuple, dt.date] = {}
+    for sid, r in scenes.items():
+        parts = sid.split("_")
+        if len(parts) < 4:
+            continue
+        key = (parts[0], parts[3])
+        d = dt.date.fromisoformat(r["date"])
+        last[key] = max(last.get(key, d), d)
+    today = dt.date.today()
+    out = set()
+    for d in last.values():
+        if (today - d).days > 60:  # satellite no longer active
+            continue
+        while d <= today + dt.timedelta(days=days):
+            if d > today:
+                out.add(d.isoformat())
+            d += dt.timedelta(days=10)
+    return sorted(out)
+
+
 def write_site_json(cfg: dict, lake, grid: dict, history: dict, scenes: dict):
     entries = []
     for d in sorted(history):
@@ -139,6 +165,7 @@ def write_site_json(cfg: dict, lake, grid: dict, history: dict, scenes: dict):
         "detection": cfg["detection"],
         "scenes_checked": len(scenes),
         "last_scene_date": max((s["date"] for s in scenes.values()), default=None),
+        "next_passes": next_passes(scenes),
         "entries": entries,
     }
     with open(DATA / "site.json", "w", encoding="utf-8") as f:
