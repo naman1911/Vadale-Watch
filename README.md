@@ -105,7 +105,8 @@ Lakes smaller than about 3 hectares have too few 10 m pixels for reliable number
 - **Haze.** The cloud mask is good but not perfect. Odd one-off spikes or dips usually mean
   haze or cloud edges were missed; check that date's true-colour picture.
 - **Thresholds.** Starting values come from published studies of floating vegetation
-  (water hyacinth, *Salvinia*). They should be checked against photos from the lake.
+  (water hyacinth, *Salvinia*). They should be checked against photos from the lake;
+  see [docs/ground-truth.md](docs/ground-truth.md).
 
 ## Data credits
 
