@@ -4,8 +4,8 @@
 lake:
   name: "Vadale Lake (Vadale Talao), Old Panvel"
   # Rough centre of the lake, used to search OpenStreetMap.
-  center_lat: 18.9935
-  center_lon: 73.1160
+  center_lat: 18.99394
+  center_lon: 73.11169
   search_radius_m: 3000
   # Names to look for in OpenStreetMap (case-insensitive, regular expressions).
   # (In OpenStreetMap the lake is mapped as "Ballaleshwar Lake".)
@@ -14,7 +14,7 @@ lake:
   min_area_ha: 2
   # Once the correct outline is confirmed, its OpenStreetMap ID is pinned here
   # (e.g. "way/123456" or "relation/123456") so it never changes by accident.
-  osm_id: null
+  osm_id: "way/54228760"   # confirmed by @savevadalelake, Oct 2026
   # Shoreline pixels mix land plants with the lake edge and look like weed.
   # Pixels whose centre is closer than this to the shore are left out of the
   # calculation (the percentage is then applied to the whole lake area).

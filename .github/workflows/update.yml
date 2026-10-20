@@ -1,0 +1,98 @@
+# Checks for new Sentinel-2 images every 5 days, updates the numbers and
+# pictures, commits them, and redeploys the website. Free on public repos.
+#
+# Run it by hand: Actions tab -> "Update lake data & website" -> Run workflow.
+# Leave the boxes empty to just fetch new images, or give a date range to
+# (re)process older ones, e.g. start 2019-01-01, end 2025-08-31.
+name: Update lake data & website
+
+on:
+  schedule:
+    # 02:17 UTC (07:47 in India) on day 1, 6, 11, 16, 21, 26 and 31 of each month.
+    - cron: "17 2 */5 * *"
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Start date YYYY-MM-DD (empty = continue from last image checked)"
+        required: false
+      end:
+        description: "End date YYYY-MM-DD (empty = today)"
+        required: false
+      reclassify:
+        description: "Only re-apply config.yaml thresholds to saved data (no download)"
+        type: boolean
+        default: false
+  push:
+    paths:
+      - "site/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  process:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt pytest
+      - name: Self-test
+        run: python -m pytest -q tests
+      - name: Process satellite images
+        env:
+          START: ${{ inputs.start }}
+          END: ${{ inputs.end }}
+          RECLASSIFY: ${{ inputs.reclassify }}
+        run: |
+          args=()
+          if [ "$RECLASSIFY" = "true" ]; then args+=(--reclassify); fi
+          if [ -n "$START" ]; then args+=(--start "$START"); fi
+          if [ -n "$END" ]; then args+=(--end "$END"); fi
+          python -m pipeline.run "${args[@]}"
+      - name: Commit results
+        run: |
+          git config user.name "vadale-watch-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet && { echo "No changes"; exit 0; }
+          git commit -m "Satellite update $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((2 ** i))
+          done
+          exit 1
+
+  deploy:
+    needs: process
+    # Runs after processing, and also when only the website files changed.
+    if: always() && (needs.process.result == 'success' || needs.process.result == 'skipped') && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}   # includes the commit made by "process"
+      - name: Assemble site
+        run: |
+          mkdir -p _site/data
+          cp -r site/* _site/
+          cp -r data/images data/site.json data/history.csv data/lake.geojson _site/data/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
