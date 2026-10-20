@@ -72,7 +72,7 @@ def test_images_share_grid():
     rgb = true_colour(res["refl"], tr, epsg, grid)
     ov = np.array(weed_overlay(res["cls"], tr, epsg, grid))
     assert rgb.size == (grid["width"], grid["height"])
-    assert (ov[..., 1] == 255).sum() > 0 and (ov[..., 0] == 200).sum() > 0  # weed + cloud drawn
+    assert (ov[..., 1] == 255).sum() > 0 and (ov[..., 0] == 255).sum() > 0  # weed + cloud drawn
     (s, w), (n, e) = grid["bounds"]
     assert s < 18.9920 and n > 18.9956 and w < 73.1100 and e > 73.1128
 

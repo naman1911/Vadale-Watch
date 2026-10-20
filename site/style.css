@@ -89,7 +89,7 @@ select { font: inherit; font-size: .9rem; padding: 5px 8px; border-radius: 8px; 
 .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: .85rem; color: var(--ink-2); margin: 10px 0 0; }
 .key { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: -4px; }
 .key-weed { background: var(--weed); }
-.key-cloud { background: #c8c8c8; }
+.key-cloud { background: repeating-linear-gradient(135deg, #fff 0 3px, #5a5a5a 3px 6px); }
 .key-line { border: 3px solid #ffd400; border-radius: 3px; }
 
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }

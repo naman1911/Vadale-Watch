@@ -42,7 +42,8 @@
     const base = campaignEntries()[0];
     $("#s-cover").innerHTML = `${fmt(last.weed_pct)}<span class="unit">%</span>`;
     $("#s-cover-range").textContent = t("range", fmt(last.weed_pct_low), fmt(last.weed_pct_high));
-    $("#s-cover-date").textContent = t("image_of", fmtDate(last.date));
+    $("#s-cover-date").textContent = t("image_of", fmtDate(last.date)) +
+      (last.visible_pct < 99 ? ` (${t("visible_note", fmt(last.visible_pct, 0))})` : "");
     if (base && base.date !== last.date) {
       const d = last.weed_pct - base.weed_pct;
       $("#s-change").innerHTML = `${d > 0 ? "+" : d < 0 ? "−" : "±"}${fmt(Math.abs(d))}<span class="unit"> ${t("change_pts")}</span>`;
@@ -134,7 +135,7 @@
           ctx.fillStyle = css("--muted");
           ctx.font = `11px ${css("--font")}`;
           ctx.textAlign = "center";
-          ctx.fillText(t("chart_gap"), (x0 + x1) / 2, a.top + 12);
+          ctx.fillText(t("chart_gap"), (x0 + x1) / 2, a.bottom - 8);
         }
       });
       ctx.restore();
@@ -206,7 +207,7 @@
         min: state.range === "campaign" ? Math.min(ms(state.site.campaign_start), ...xs) - pad : Math.min(...xs) - pad,
         max: Math.max(...xs, Date.now() - DAY) + pad,
         ticks: { color: ink2, font, maxRotation: 0, autoSkip: true, maxTicksLimit: 7,
-          callback: (v) => new Intl.DateTimeFormat(locale(), { month: "short", year: state.range === "all" ? "numeric" : "2-digit", timeZone: "UTC" }).format(new Date(v)) },
+          callback: (v) => new Intl.DateTimeFormat(locale(), { month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(v)) },
         grid: { color: line },
       };
     }
@@ -332,6 +333,7 @@
       let y = wrapText(ctx, t("ig_cover"), 56, 440, 470, 52);
       ctx.font = `400 28px ${F}`; ctx.fillStyle = "#bfe3ea";
       y = wrapText(ctx, t("range", fmt(last.weed_pct_low, 0), fmt(last.weed_pct_high, 0)), 56, y + 4, 470, 38);
+      if (last.visible_pct < 99) y = wrapText(ctx, `(${t("visible_note", fmt(last.visible_pct, 0))})`, 56, y, 470, 38);
       ctx.font = `600 34px ${F}`; ctx.fillStyle = "#ffffff";
       if (base && base.date !== last.date) {
         const d = last.weed_pct - base.weed_pct;

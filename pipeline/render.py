@@ -57,9 +57,13 @@ def true_colour(refl: dict, src_transform, epsg: int, grid: dict) -> Image.Image
 
 
 def weed_overlay(cls: np.ndarray, src_transform, epsg: int, grid: dict) -> Image.Image:
-    """Transparent PNG: green = weed, grey = hidden by cloud, clear = everything else."""
+    """Transparent PNG: green = weed, stripes = hidden by cloud/haze, clear = everything else."""
     c = _warp(cls, src_transform, epsg, grid, 255)
     rgba = np.zeros(c.shape + (4,), dtype="uint8")
     rgba[c == WEED] = (57, 255, 20, 255)
-    rgba[c == MASKED] = (200, 200, 200, 170)
+    # Hidden by cloud/haze: diagonal white/grey stripes, visible on any background.
+    yy, xx = np.indices(c.shape)
+    stripe = ((xx + yy) // 3) % 2 == 0
+    rgba[(c == MASKED) & stripe] = (255, 255, 255, 220)
+    rgba[(c == MASKED) & ~stripe] = (90, 90, 90, 160)
     return Image.fromarray(rgba, "RGBA")
