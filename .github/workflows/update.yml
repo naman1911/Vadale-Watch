@@ -18,6 +18,10 @@ on:
       end:
         description: "End date YYYY-MM-DD (empty = today)"
         required: false
+      force:
+        description: "Re-check images already checked in that date range (after changing cloud/haze rules)"
+        type: boolean
+        default: false
       reclassify:
         description: "Only re-apply config.yaml thresholds to saved data (no download)"
         type: boolean
@@ -54,9 +58,11 @@ jobs:
           START: ${{ inputs.start }}
           END: ${{ inputs.end }}
           RECLASSIFY: ${{ inputs.reclassify }}
+          FORCE: ${{ inputs.force }}
         run: |
           args=()
           if [ "$RECLASSIFY" = "true" ]; then args+=(--reclassify); fi
+          if [ "$FORCE" = "true" ]; then args+=(--force); fi
           if [ -n "$START" ]; then args+=(--start "$START"); fi
           if [ -n "$END" ]; then args+=(--end "$END"); fi
           python -m pipeline.run "${args[@]}"
