@@ -34,7 +34,7 @@
     document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
     document.title = t("title");
     if (state.site) { renderStats(); renderSelects(); renderChart(); renderTable(); renderCompare(); }
-    if (state.map) setupTimelineKeepDate();
+    if (state.map) buildStrip(hero.list[hero.idx]?.date);
   }
 
   // ---------- headline numbers ----------------------------------------------
@@ -83,10 +83,11 @@
     fillSelect($("#cmp-b"), $("#cmp-b").value || last);
   }
 
-  // ---------- hero map + time-lapse -----------------------------------------
+  // ---------- hero map + date strip ------------------------------------------
+  // Opens on the latest image. Earlier dates live in a swipeable strip
+  // (newest on the right); tapping a date shows that day's map and numbers.
   const layers = {};
-  const hero = { span: "campaign", layer: "weed", list: [], idx: 0, timer: null, touched: false, cache: [] };
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hero = { layer: "weed", list: [], idx: 0 };
   const wide = () => window.matchMedia("(min-width: 900px)").matches;
   const fitOpts = () => (wide() ? { paddingTopLeft: [470, 90], paddingBottomRight: [40, 40] }
                                 : { paddingTopLeft: [20, 80], paddingBottomRight: [20, 36] });
@@ -107,122 +108,76 @@
     }
     const glow = L.geoJSON(state.lake, { style: { color: "#ffd400", weight: 7, opacity: 0.35, fill: false, className: "lake-glow" }, interactive: false }).addTo(map);
     L.geoJSON(state.lake, { style: { color: "#fff6b0", weight: 2.5, fill: false, className: "lake-line" }, interactive: false }).addTo(map);
-    const bounds = glow.getBounds();
+    map.fitBounds(glow.getBounds(), fitOpts());
     state.map = map;
-    setupTimeline();
-    if (reduceMotion) { map.fitBounds(bounds, fitOpts()); return; }
-    // Start over Panvel, then fly in to the lake and play the time-lapse once.
-    map.setView(bounds.getCenter(), 13);
-    setTimeout(() => {
-      map.flyToBounds(bounds, { ...fitOpts(), duration: 2.6 });
-      map.once("moveend", () => { if (!hero.touched) setTimeout(() => { if (!hero.touched) play(true); }, 400); });
-    }, 700);
+    buildStrip();
   }
 
-  function setupTimeline() {
-    const g = good();
-    hero.list = hero.span === "campaign" ? inCampaign(g) : g;
-    const list = hero.list, scrub = $("#scrub");
-    if (!list.length) { $("#p-date").textContent = t("no_data"); return; }
-    scrub.min = ms(list[0].date);
-    scrub.max = ms(list[list.length - 1].date);
-    scrub.step = DAY;
-    const my = { month: "short", year: "numeric" };
-    $("#tl-start").textContent = fmtDate(list[0].date, my);
-    $("#tl-end").textContent = fmtDate(list[list.length - 1].date, my);
-    preload();
-    showFrame(list.length - 1);
+  function buildStrip(keepDate) {
+    hero.list = good();
+    const list = hero.list, strip = $("#strip");
+    strip.innerHTML = "";
+    if (!list.length) { $("#p-sub").textContent = t("no_data"); return; }
+    const monthKey = (d) => d.slice(0, 7);
+    list.forEach((e, i) => {
+      const prev = list[i - 1];
+      if (prev && ms(e.date) - ms(prev.date) > GAP_DAYS * DAY) {
+        const g = document.createElement("div");
+        g.className = "gapmark";
+        g.innerHTML = `<b>☁</b><span>${t("gap_short")}</span>`;
+        strip.appendChild(g);
+      }
+      if (!prev || monthKey(prev.date) !== monthKey(e.date)) {
+        const sep = document.createElement("div");
+        sep.className = "sep";
+        sep.innerHTML = `<span>${fmtDate(e.date, { month: "short", year: "numeric" })}</span>`;
+        strip.appendChild(sep);
+      }
+      const c = document.createElement("button");
+      c.type = "button";
+      c.className = "chip" + (i === list.length - 1 ? " latest" : "");
+      c.setAttribute("role", "option");
+      c.dataset.i = i;
+      c.innerHTML = `<span class="d">${fmtDate(e.date, { day: "numeric" })}</span>` +
+        `<span class="m">${fmtDate(e.date, { month: "short" })}</span>` +
+        `<span class="bar"><i style="height:${Math.min(100, e.weed_pct)}%"></i></span>` +
+        `<span class="v">${fmt(e.weed_pct, 0)}%</span>`;
+      c.setAttribute("aria-label", `${fmtDate(e.date)}: ${fmt(e.weed_pct, 0)}%`);
+      strip.appendChild(c);
+    });
+    const i = keepDate ? list.findIndex((e) => e.date === keepDate) : -1;
+    select(i >= 0 ? i : list.length - 1, false);
+    strip.scrollLeft = strip.scrollWidth;   // newest on screen first
+    if (i >= 0) scrollToChip(false);
   }
 
-  // Warm the browser cache so the time-lapse doesn't flicker.
-  function preload() {
-    hero.cache = hero.list.map((e) => { const i = new Image(); i.src = img(e.date, hero.layer === "photo" ? "rgb" : "weed"); return i; });
+  function scrollToChip(smooth = true) {
+    const c = $(`#strip .chip[data-i="${hero.idx}"]`), strip = $("#strip");
+    if (!c) return;
+    const left = c.offsetLeft - strip.clientWidth / 2 + c.offsetWidth / 2;
+    strip.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
   }
 
-  function nearestIdx(v) {
-    let best = 0;
-    hero.list.forEach((e, i) => { if (Math.abs(ms(e.date) - v) < Math.abs(ms(hero.list[best].date) - v)) best = i; });
-    return best;
-  }
-
-  function showFrame(i) {
+  function select(i, scroll = true) {
     const e = hero.list[i];
     if (!e) return;
     hero.idx = i;
-    $("#scrub").value = ms(e.date);
+    const isLatest = i === hero.list.length - 1;
+    document.querySelectorAll("#strip .chip").forEach((c) => c.setAttribute("aria-selected", +c.dataset.i === i));
     if (layers.weed) layers.weed.setUrl(img(e.date, "weed"));
     if (layers.photo && hero.layer === "photo") layers.photo.setUrl(img(e.date, "rgb"));
+    const label = $("#p-label");
+    label.textContent = isLatest ? t("right_now") : t("on_date", fmtDate(e.date));
+    label.classList.toggle("past", !isLatest);
     $("#p-pct").textContent = fmt(e.weed_pct, 0);
-    $("#p-date").textContent = fmtDate(e.date);
-    $("#p-range").textContent = t("range", fmt(e.weed_pct_low, 0), fmt(e.weed_pct_high, 0)) +
+    $("#p-sub").textContent = (isLatest ? t("latest_image", fmtDate(e.date)) + "\n" : "") +
+      t("range_short", fmt(e.weed_pct_low, 0), fmt(e.weed_pct_high, 0)) +
       (e.visible_pct < 99 ? ` · ${t("visible_short", fmt(e.visible_pct, 0))}` : "");
-    $("#lb-weed").style.width = `${Math.min(100, e.weed_pct)}%`;
-    $("#lb-weed-t").textContent = t("lb_weed", fmt(e.weed_ha, 1));
-    $("#lb-water-t").textContent = t("lb_water", fmt(e.open_water_ha, 1));
-    const base = inCampaign(good())[0], delta = $("#p-delta");
-    if (base && e.date > base.date) {
-      const d = e.weed_pct - base.weed_pct;
-      const sign = Math.round(d) === 0 ? "±" : d > 0 ? "+" : "−";
-      delta.textContent = t("delta", `${sign}${fmt(Math.abs(d), 0)}`, fmtDate(base.date, { month: "short", year: "numeric" }));
-      delta.classList.toggle("down", d < 0);
-      delta.hidden = false;
-    } else delta.hidden = true;
-    $("#map-stamp").textContent = fmtDate(e.date, { month: "short", year: "numeric" });
-    drawSpark();
-  }
-
-  // Weed-cover curve drawn behind the slider; monsoon gaps stay empty.
-  function drawSpark() {
-    const c = $("#spark"), list = hero.list;
-    const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
-    if (!w || !list.length) return;
-    c.width = w * dpr; c.height = h * dpr;
-    const ctx = c.getContext("2d");
-    ctx.scale(dpr, dpr);
-    const t0 = ms(list[0].date), t1 = Math.max(ms(list[list.length - 1].date), t0 + DAY);
-    const X = (d) => ((ms(d) - t0) / (t1 - t0)) * (w - 4) + 2, Y = (v) => h - 4 - (v / 100) * (h - 8);
-    ctx.fillStyle = "rgba(255,255,255,.06)";
-    ctx.fillRect(0, 0, w, h);
-    const runs = [[]];
-    list.forEach((e, i) => {
-      if (i && ms(e.date) - ms(list[i - 1].date) > GAP_DAYS * DAY) runs.push([]);
-      runs[runs.length - 1].push(e);
-    });
-    const grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, "rgba(57,255,20,.45)"); grad.addColorStop(1, "rgba(57,255,20,0)");
-    runs.forEach((run) => {
-      if (!run.length) return;
-      ctx.beginPath();
-      run.forEach((e, i) => ctx[i ? "lineTo" : "moveTo"](X(e.date), Y(e.weed_pct)));
-      ctx.strokeStyle = "rgba(57,255,20,.95)"; ctx.lineWidth = 1.5; ctx.stroke();
-      ctx.lineTo(X(run[run.length - 1].date), h); ctx.lineTo(X(run[0].date), h); ctx.closePath();
-      ctx.fillStyle = grad; ctx.fill();
-    });
-    const cur = list[hero.idx];
-    if (cur) {
-      ctx.beginPath(); ctx.arc(X(cur.date), Y(cur.weed_pct), 4.5, 0, 2 * Math.PI);
-      ctx.fillStyle = "#fff"; ctx.fill();
-    }
-  }
-
-  function play(auto = false) {
-    if (hero.timer) return stop();
-    if (!hero.list.length) return;
-    let i = hero.idx >= hero.list.length - 1 ? 0 : hero.idx;
-    const step = Math.max(60, Math.min(220, 11000 / hero.list.length));
-    $("#play").classList.add("playing");
-    $("#map-stamp").classList.add("on");
-    hero.timer = setInterval(() => {
-      showFrame(i++);
-      if (i >= hero.list.length) stop();
-    }, step);
-    if (!auto) hero.touched = true;
-  }
-  function stop() {
-    clearInterval(hero.timer);
-    hero.timer = null;
-    $("#play").classList.remove("playing");
-    setTimeout(() => { if (!hero.timer) $("#map-stamp").classList.remove("on"); }, 1200);
+    $("#to-latest").hidden = isLatest;
+    const stamp = $("#map-stamp");
+    stamp.textContent = fmtDate(e.date, { day: "numeric", month: "short", year: "numeric" });
+    stamp.classList.toggle("on", !isLatest);
+    if (scroll) scrollToChip();
   }
 
   function setLayer(layer) {
@@ -231,37 +186,34 @@
     if (!layers.weed) return;
     if (layer === "photo") { state.map.removeLayer(layers.weed); layers.photo.addTo(state.map); }
     else { state.map.removeLayer(layers.photo); layers.weed.addTo(state.map); }
-    preload();
-    showFrame(hero.idx);
-  }
-
-  function setupTimelineKeepDate() {
-    const d = hero.list[hero.idx]?.date;
-    setupTimeline();
-    const i = hero.list.findIndex((e) => e.date === d);
-    if (i >= 0) showFrame(i);
+    select(hero.idx, false);
   }
 
   function initHeroControls() {
-    $("#play").addEventListener("click", () => play());
-    $("#scrub").addEventListener("input", (ev) => {
-      hero.touched = true;
-      if (hero.timer) stop();
-      const i = nearestIdx(+ev.target.value);
-      if (i !== hero.idx) showFrame(i);
+    const strip = $("#strip");
+    strip.addEventListener("click", (ev) => {
+      const c = ev.target.closest(".chip");
+      if (c) select(+c.dataset.i);
     });
-    document.querySelectorAll("[data-layer]").forEach((b) => b.addEventListener("click", () => { hero.touched = true; setLayer(b.dataset.layer); }));
-    document.querySelectorAll("[data-span]").forEach((b) => b.addEventListener("click", () => {
-      hero.touched = true;
-      if (hero.timer) stop();
-      hero.span = b.dataset.span;
-      document.querySelectorAll("[data-span]").forEach((x) => x.setAttribute("aria-pressed", x === b));
-      setupTimeline();
-    }));
-    // Only real user gestures cancel the automatic time-lapse (not the fly-in animation).
-    ["pointerdown", "wheel", "touchstart"].forEach((ev) =>
-      $("#map").addEventListener(ev, () => { hero.touched = true; }, { passive: true }));
-    window.addEventListener("resize", drawSpark);
+    // Hide the swipe hint once someone has scrolled the strip.
+    const start = () => strip.scrollLeft;
+    let s0 = null;
+    strip.addEventListener("scroll", () => {
+      if (s0 === null) s0 = start();
+      if (Math.abs(strip.scrollLeft - s0) > 40) $("#swipe-hint").classList.add("gone");
+    }, { passive: true });
+    // Mouse wheel scrolls the strip sideways on desktop.
+    strip.addEventListener("wheel", (ev) => {
+      if (Math.abs(ev.deltaY) > Math.abs(ev.deltaX)) { strip.scrollLeft += ev.deltaY; ev.preventDefault(); }
+    }, { passive: false });
+    strip.addEventListener("keydown", (ev) => {
+      if (ev.key === "ArrowLeft") { select(Math.max(0, hero.idx - 1)); ev.preventDefault(); }
+      if (ev.key === "ArrowRight") { select(Math.min(hero.list.length - 1, hero.idx + 1)); ev.preventDefault(); }
+    });
+    $("#strip-prev").addEventListener("click", () => strip.scrollBy({ left: -strip.clientWidth * 0.8, behavior: "smooth" }));
+    $("#strip-next").addEventListener("click", () => strip.scrollBy({ left: strip.clientWidth * 0.8, behavior: "smooth" }));
+    $("#to-latest").addEventListener("click", () => select(hero.list.length - 1));
+    document.querySelectorAll("[data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
   }
 
   // ---------- chart ----------------------------------------------------------

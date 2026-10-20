@@ -32,37 +32,29 @@
   <div class="panel" id="panel">
     <div class="p-head">
       <div>
-        <p class="p-label"><span data-i18n="p_label">Weed cover</span> · <span id="p-date">–</span></p>
+        <p class="p-label" id="p-label">Right now</p>
         <p class="p-big"><span id="p-pct">–</span><span class="u">%</span></p>
-        <p class="p-sub" id="p-range"></p>
+        <p class="p-what" data-i18n="p_what">of the lake is covered by weed</p>
+        <p class="p-sub" id="p-sub"></p>
       </div>
       <div class="p-side">
-        <span class="delta" id="p-delta" hidden></span>
         <div class="seg seg-dark" role="group" aria-label="Map layer">
           <button type="button" data-layer="weed" aria-pressed="true" data-i18n="layer_btn_weed">Weed</button>
           <button type="button" data-layer="photo" aria-pressed="false" data-i18n="layer_btn_photo">Photo</button>
         </div>
+        <button type="button" class="to-latest" id="to-latest" hidden><span data-i18n="to_latest">Back to latest</span> →</button>
       </div>
     </div>
-    <div class="lakebar" aria-hidden="true"><span id="lb-weed"></span></div>
-    <p class="lb-legend"><span><i class="k-weed"></i><span id="lb-weed-t"></span></span><span><i class="k-water"></i><span id="lb-water-t"></span></span></p>
 
-    <div class="timeline">
-      <button type="button" class="play" id="play" aria-label="Play time-lapse"><span class="i-play">▶</span><span class="i-pause">❚❚</span></button>
-      <div class="track">
-        <canvas id="spark" aria-hidden="true"></canvas>
-        <input type="range" id="scrub" aria-label="Choose a date" min="0" max="1" step="1" value="1">
-      </div>
+    <div class="strip-head">
+      <span class="swipe-hint" id="swipe-hint"><span class="arr-l">←</span> <span data-i18n="swipe_hint">Swipe to see earlier dates</span></span>
     </div>
-    <div class="tl-foot">
-      <span id="tl-start"></span>
-      <div class="seg seg-dark seg-sm" role="group" aria-label="Time span">
-        <button type="button" data-span="campaign" aria-pressed="true" data-i18n="range_campaign">Sep 2025 onwards</button>
-        <button type="button" data-span="all" aria-pressed="false" data-i18n="range_all">All years</button>
-      </div>
-      <span id="tl-end"></span>
+    <div class="strip-wrap">
+      <button type="button" class="strip-nav prev" id="strip-prev" aria-label="Earlier dates">‹</button>
+      <div class="strip" id="strip" role="listbox" aria-label="Satellite image dates" tabindex="0"></div>
+      <button type="button" class="strip-nav next" id="strip-next" aria-label="Later dates">›</button>
     </div>
-    <p class="p-note"><span class="badge" data-i18n="badge">Satellite estimate</span> <span data-i18n="p_note">Drag the slider or press play. Each square is a 10 m satellite pixel.</span></p>
+    <p class="p-note"><span class="badge" data-i18n="badge">Satellite estimate</span> <span data-i18n="p_note">Each square on the map is a 10 m satellite pixel.</span></p>
   </div>
   <a class="scroll-cue" href="#story"><span data-i18n="scroll_cue">The full story</span> <span class="arr">↓</span></a>
 </section>
