@@ -8,7 +8,10 @@ lake:
   center_lon: 73.1160
   search_radius_m: 3000
   # Names to look for in OpenStreetMap (case-insensitive, regular expressions).
-  name_patterns: ["vadale", "wadale", "vadala", "wadala", "वडाळ", "वडाळे"]
+  # (In OpenStreetMap the lake is mapped as "Ballaleshwar Lake".)
+  name_patterns: ["vadale", "wadale", "vadala", "wadala", "ballaleshwar", "वडाळ", "बल्लाळेश्वर"]
+  # Ignore ponds smaller than this.
+  min_area_ha: 2
   # Once the correct outline is confirmed, its OpenStreetMap ID is pinned here
   # (e.g. "way/123456" or "relation/123456") so it never changes by accident.
   osm_id: null
@@ -43,6 +46,9 @@ detection:
   # (uses a 20 m infrared band, better at ignoring muddy water).
   water_index: "ndwi"
   water_index_max_for_weed: 0.05
+  # Pixels that are neither weed nor clearly water (water index below this)
+  # are counted as "other": exposed mud, sand banks or mixed pixels.
+  water_index_min_for_water: -0.15
   # The uncertainty range shown on the site: the same calculation repeated
   # with a stricter and a looser NDVI threshold.
   ndvi_weed_strict: 0.30

@@ -1,7 +1,7 @@
 from pipeline import fetch_boundary as fb
 
 CFG = {"lake": {"center_lat": 18.9935, "center_lon": 73.116, "search_radius_m": 3000,
-                "name_patterns": ["vadale", "वडाळे"]}}
+                "name_patterns": ["vadale", "वडाळे"], "min_area_ha": 2}}
 
 
 def sq(x0, y0, d):

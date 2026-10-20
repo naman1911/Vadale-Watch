@@ -101,7 +101,7 @@ def find_candidates(cfg: dict) -> list[dict]:
             continue
         seen.add(key)
         geom = element_geometry(el)
-        if geom is None or geom.is_empty:
+        if geom is None or geom.is_empty or area_ha(geom) < lake.get("min_area_ha", 0):
             continue
         tags = el.get("tags", {})
         names = " | ".join(v for k, v in tags.items() if k.startswith(("name", "alt_name", "old_name", "official_name")))
