@@ -15,20 +15,59 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%230e5f76'/><path d='M18 58c10-8 20-8 32 0s22 8 32 0' stroke='%237CFC00' stroke-width='9' fill='none'/></svg>">
 </head>
 <body>
-<header class="top">
-  <div class="wrap top-row">
-    <div>
+<section class="hero" aria-label="Map of Vadale Lake">
+  <div id="map"></div>
+  <header class="hero-top">
+    <div class="brand">
       <h1 data-i18n="title">Vadale Lake Watch</h1>
       <p class="sub" data-i18n="subtitle">Tracking invasive weed on Vadale Talao, Old Panvel, from space</p>
     </div>
     <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
       <button type="button" data-lang="mr" aria-pressed="false">मराठी</button>
     </div>
-  </div>
-</header>
+  </header>
+  <div class="map-stamp" id="map-stamp" aria-hidden="true"></div>
 
-<main class="wrap">
+  <div class="panel" id="panel">
+    <div class="p-head">
+      <div>
+        <p class="p-label"><span data-i18n="p_label">Weed cover</span> · <span id="p-date">–</span></p>
+        <p class="p-big"><span id="p-pct">–</span><span class="u">%</span></p>
+        <p class="p-sub" id="p-range"></p>
+      </div>
+      <div class="p-side">
+        <span class="delta" id="p-delta" hidden></span>
+        <div class="seg seg-dark" role="group" aria-label="Map layer">
+          <button type="button" data-layer="weed" aria-pressed="true" data-i18n="layer_btn_weed">Weed</button>
+          <button type="button" data-layer="photo" aria-pressed="false" data-i18n="layer_btn_photo">Photo</button>
+        </div>
+      </div>
+    </div>
+    <div class="lakebar" aria-hidden="true"><span id="lb-weed"></span></div>
+    <p class="lb-legend"><span><i class="k-weed"></i><span id="lb-weed-t"></span></span><span><i class="k-water"></i><span id="lb-water-t"></span></span></p>
+
+    <div class="timeline">
+      <button type="button" class="play" id="play" aria-label="Play time-lapse"><span class="i-play">▶</span><span class="i-pause">❚❚</span></button>
+      <div class="track">
+        <canvas id="spark" aria-hidden="true"></canvas>
+        <input type="range" id="scrub" aria-label="Choose a date" min="0" max="1" step="1" value="1">
+      </div>
+    </div>
+    <div class="tl-foot">
+      <span id="tl-start"></span>
+      <div class="seg seg-dark seg-sm" role="group" aria-label="Time span">
+        <button type="button" data-span="campaign" aria-pressed="true" data-i18n="range_campaign">Sep 2025 onwards</button>
+        <button type="button" data-span="all" aria-pressed="false" data-i18n="range_all">All years</button>
+      </div>
+      <span id="tl-end"></span>
+    </div>
+    <p class="p-note"><span class="badge" data-i18n="badge">Satellite estimate</span> <span data-i18n="p_note">Drag the slider or press play. Each square is a 10 m satellite pixel.</span></p>
+  </div>
+  <a class="scroll-cue" href="#story"><span data-i18n="scroll_cue">The full story</span> <span class="arr">↓</span></a>
+</section>
+
+<main class="wrap" id="story">
   <p class="estimate-banner"><span class="badge" data-i18n="badge">Satellite estimate</span>
     <span data-i18n="banner">All numbers on this page are estimates from 10 m satellite pixels, not ground measurements.</span></p>
 
@@ -51,20 +90,6 @@
     </article>
   </section>
   <p class="small muted" id="s-checked"></p>
-
-  <section class="card">
-    <div class="card-head">
-      <h2 data-i18n="map_title">Map: where the weed is</h2>
-      <label class="inline"><span data-i18n="map_date">Image date</span>
-        <select id="map-date"></select></label>
-    </div>
-    <div id="map" role="region" aria-label="Map of Vadale Lake"></div>
-    <p class="legend">
-      <span class="key key-weed"></span><span data-i18n="key_weed">Weed (estimated)</span>
-      <span class="key key-cloud"></span><span data-i18n="key_cloud">Hidden by cloud</span>
-      <span class="key key-line"></span><span data-i18n="key_outline">Lake outline</span>
-    </p>
-  </section>
 
   <section class="card">
     <div class="card-head">

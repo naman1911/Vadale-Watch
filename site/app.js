@@ -33,7 +33,8 @@
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
     document.title = t("title");
-    if (state.site) { renderStats(); renderSelects(); renderChart(); renderTable(); renderCompare(); renderLayerNames(); }
+    if (state.site) { renderStats(); renderSelects(); renderChart(); renderTable(); renderCompare(); }
+    if (state.map) setupTimelineKeepDate();
   }
 
   // ---------- headline numbers ----------------------------------------------
@@ -78,46 +79,189 @@
     if (!all.length) return;
     const last = all[all.length - 1].date;
     const first = (inCampaign(all)[0] || all[0]).date;
-    fillSelect($("#map-date"), $("#map-date").value || last);
     fillSelect($("#cmp-a"), $("#cmp-a").value || first);
     fillSelect($("#cmp-b"), $("#cmp-b").value || last);
   }
 
-  // ---------- map ------------------------------------------------------------
+  // ---------- hero map + time-lapse -----------------------------------------
   const layers = {};
+  const hero = { span: "campaign", layer: "weed", list: [], idx: 0, timer: null, touched: false, cache: [] };
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const wide = () => window.matchMedia("(min-width: 900px)").matches;
+  const fitOpts = () => (wide() ? { paddingTopLeft: [470, 90], paddingBottomRight: [40, 40] }
+                                : { paddingTopLeft: [20, 80], paddingBottomRight: [20, 36] });
+
   function initMap() {
-    const map = L.map("map", { zoomSnap: 0.25, attributionControl: true });
+    const map = L.map("map", { zoomSnap: 0.25, zoomControl: !L.Browser.mobile, scrollWheelZoom: false });
+    if (map.zoomControl) map.zoomControl.setPosition("topright");
+    map.on("click", () => map.scrollWheelZoom.enable());   // wheel zoom only after the user engages
     L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
       maxZoom: 19, maxNativeZoom: 19,
-      attribution: "Imagery © Esri, Maxar, Earthstar Geographics",
+      attribution: "Imagery © Esri, Maxar, Earthstar Geographics · Sentinel-2: Copernicus",
     }).addTo(map);
-    layers.outline = L.geoJSON(state.lake, { style: { color: "#ffd400", weight: 3, fill: false }, interactive: false });
     const b = state.site?.image_bounds;
-    if (b) {
-      layers.rgb = L.imageOverlay("", b, { opacity: 1 });
-      layers.weed = L.imageOverlay("", b, { opacity: 0.65 }).addTo(map);
+    const latest = good().at(-1)?.date;
+    if (b && latest) {
+      layers.photo = L.imageOverlay(img(latest, "rgb"), b, { className: "photo-layer" });
+      layers.weed = L.imageOverlay(img(latest, "weed"), b, { opacity: 0.9, className: "weed-layer" }).addTo(map);
     }
-    layers.outline.addTo(map);
-    map.fitBounds(layers.outline.getBounds(), { padding: [20, 20] });
+    const glow = L.geoJSON(state.lake, { style: { color: "#ffd400", weight: 7, opacity: 0.35, fill: false, className: "lake-glow" }, interactive: false }).addTo(map);
+    L.geoJSON(state.lake, { style: { color: "#fff6b0", weight: 2.5, fill: false, className: "lake-line" }, interactive: false }).addTo(map);
+    const bounds = glow.getBounds();
     state.map = map;
-    renderLayerNames();
-    $("#map-date").addEventListener("change", setMapDate);
-    setMapDate();
+    setupTimeline();
+    if (reduceMotion) { map.fitBounds(bounds, fitOpts()); return; }
+    // Start over Panvel, then fly in to the lake and play the time-lapse once.
+    map.setView(bounds.getCenter(), 13);
+    setTimeout(() => {
+      map.flyToBounds(bounds, { ...fitOpts(), duration: 2.6 });
+      map.once("moveend", () => { if (!hero.touched) setTimeout(() => { if (!hero.touched) play(true); }, 400); });
+    }, 700);
   }
-  function renderLayerNames() {
-    if (!state.map) return;
-    if (layers.control) layers.control.remove();
-    const over = {};
-    if (layers.weed) over[t("layer_weed")] = layers.weed;
-    if (layers.rgb) over[t("layer_rgb")] = layers.rgb;
-    over[t("layer_outline")] = layers.outline;
-    layers.control = L.control.layers(null, over, { collapsed: false }).addTo(state.map);
+
+  function setupTimeline() {
+    const g = good();
+    hero.list = hero.span === "campaign" ? inCampaign(g) : g;
+    const list = hero.list, scrub = $("#scrub");
+    if (!list.length) { $("#p-date").textContent = t("no_data"); return; }
+    scrub.min = ms(list[0].date);
+    scrub.max = ms(list[list.length - 1].date);
+    scrub.step = DAY;
+    const my = { month: "short", year: "numeric" };
+    $("#tl-start").textContent = fmtDate(list[0].date, my);
+    $("#tl-end").textContent = fmtDate(list[list.length - 1].date, my);
+    preload();
+    showFrame(list.length - 1);
   }
-  function setMapDate() {
-    const d = $("#map-date").value;
-    if (!d || !layers.weed) return;
-    layers.weed.setUrl(img(d, "weed"));
-    layers.rgb.setUrl(img(d, "rgb"));
+
+  // Warm the browser cache so the time-lapse doesn't flicker.
+  function preload() {
+    hero.cache = hero.list.map((e) => { const i = new Image(); i.src = img(e.date, hero.layer === "photo" ? "rgb" : "weed"); return i; });
+  }
+
+  function nearestIdx(v) {
+    let best = 0;
+    hero.list.forEach((e, i) => { if (Math.abs(ms(e.date) - v) < Math.abs(ms(hero.list[best].date) - v)) best = i; });
+    return best;
+  }
+
+  function showFrame(i) {
+    const e = hero.list[i];
+    if (!e) return;
+    hero.idx = i;
+    $("#scrub").value = ms(e.date);
+    if (layers.weed) layers.weed.setUrl(img(e.date, "weed"));
+    if (layers.photo && hero.layer === "photo") layers.photo.setUrl(img(e.date, "rgb"));
+    $("#p-pct").textContent = fmt(e.weed_pct, 0);
+    $("#p-date").textContent = fmtDate(e.date);
+    $("#p-range").textContent = t("range", fmt(e.weed_pct_low, 0), fmt(e.weed_pct_high, 0)) +
+      (e.visible_pct < 99 ? ` · ${t("visible_short", fmt(e.visible_pct, 0))}` : "");
+    $("#lb-weed").style.width = `${Math.min(100, e.weed_pct)}%`;
+    $("#lb-weed-t").textContent = t("lb_weed", fmt(e.weed_ha, 1));
+    $("#lb-water-t").textContent = t("lb_water", fmt(e.open_water_ha, 1));
+    const base = inCampaign(good())[0], delta = $("#p-delta");
+    if (base && e.date > base.date) {
+      const d = e.weed_pct - base.weed_pct;
+      const sign = Math.round(d) === 0 ? "±" : d > 0 ? "+" : "−";
+      delta.textContent = t("delta", `${sign}${fmt(Math.abs(d), 0)}`, fmtDate(base.date, { month: "short", year: "numeric" }));
+      delta.classList.toggle("down", d < 0);
+      delta.hidden = false;
+    } else delta.hidden = true;
+    $("#map-stamp").textContent = fmtDate(e.date, { month: "short", year: "numeric" });
+    drawSpark();
+  }
+
+  // Weed-cover curve drawn behind the slider; monsoon gaps stay empty.
+  function drawSpark() {
+    const c = $("#spark"), list = hero.list;
+    const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (!w || !list.length) return;
+    c.width = w * dpr; c.height = h * dpr;
+    const ctx = c.getContext("2d");
+    ctx.scale(dpr, dpr);
+    const t0 = ms(list[0].date), t1 = Math.max(ms(list[list.length - 1].date), t0 + DAY);
+    const X = (d) => ((ms(d) - t0) / (t1 - t0)) * (w - 4) + 2, Y = (v) => h - 4 - (v / 100) * (h - 8);
+    ctx.fillStyle = "rgba(255,255,255,.06)";
+    ctx.fillRect(0, 0, w, h);
+    const runs = [[]];
+    list.forEach((e, i) => {
+      if (i && ms(e.date) - ms(list[i - 1].date) > GAP_DAYS * DAY) runs.push([]);
+      runs[runs.length - 1].push(e);
+    });
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(57,255,20,.45)"); grad.addColorStop(1, "rgba(57,255,20,0)");
+    runs.forEach((run) => {
+      if (!run.length) return;
+      ctx.beginPath();
+      run.forEach((e, i) => ctx[i ? "lineTo" : "moveTo"](X(e.date), Y(e.weed_pct)));
+      ctx.strokeStyle = "rgba(57,255,20,.95)"; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.lineTo(X(run[run.length - 1].date), h); ctx.lineTo(X(run[0].date), h); ctx.closePath();
+      ctx.fillStyle = grad; ctx.fill();
+    });
+    const cur = list[hero.idx];
+    if (cur) {
+      ctx.beginPath(); ctx.arc(X(cur.date), Y(cur.weed_pct), 4.5, 0, 2 * Math.PI);
+      ctx.fillStyle = "#fff"; ctx.fill();
+    }
+  }
+
+  function play(auto = false) {
+    if (hero.timer) return stop();
+    if (!hero.list.length) return;
+    let i = hero.idx >= hero.list.length - 1 ? 0 : hero.idx;
+    const step = Math.max(60, Math.min(220, 11000 / hero.list.length));
+    $("#play").classList.add("playing");
+    $("#map-stamp").classList.add("on");
+    hero.timer = setInterval(() => {
+      showFrame(i++);
+      if (i >= hero.list.length) stop();
+    }, step);
+    if (!auto) hero.touched = true;
+  }
+  function stop() {
+    clearInterval(hero.timer);
+    hero.timer = null;
+    $("#play").classList.remove("playing");
+    setTimeout(() => { if (!hero.timer) $("#map-stamp").classList.remove("on"); }, 1200);
+  }
+
+  function setLayer(layer) {
+    hero.layer = layer;
+    document.querySelectorAll("[data-layer]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.layer === layer));
+    if (!layers.weed) return;
+    if (layer === "photo") { state.map.removeLayer(layers.weed); layers.photo.addTo(state.map); }
+    else { state.map.removeLayer(layers.photo); layers.weed.addTo(state.map); }
+    preload();
+    showFrame(hero.idx);
+  }
+
+  function setupTimelineKeepDate() {
+    const d = hero.list[hero.idx]?.date;
+    setupTimeline();
+    const i = hero.list.findIndex((e) => e.date === d);
+    if (i >= 0) showFrame(i);
+  }
+
+  function initHeroControls() {
+    $("#play").addEventListener("click", () => play());
+    $("#scrub").addEventListener("input", (ev) => {
+      hero.touched = true;
+      if (hero.timer) stop();
+      const i = nearestIdx(+ev.target.value);
+      if (i !== hero.idx) showFrame(i);
+    });
+    document.querySelectorAll("[data-layer]").forEach((b) => b.addEventListener("click", () => { hero.touched = true; setLayer(b.dataset.layer); }));
+    document.querySelectorAll("[data-span]").forEach((b) => b.addEventListener("click", () => {
+      hero.touched = true;
+      if (hero.timer) stop();
+      hero.span = b.dataset.span;
+      document.querySelectorAll("[data-span]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      setupTimeline();
+    }));
+    // Only real user gestures cancel the automatic time-lapse (not the fly-in animation).
+    ["pointerdown", "wheel", "touchstart"].forEach((ev) =>
+      $("#map").addEventListener(ev, () => { hero.touched = true; }, { passive: true }));
+    window.addEventListener("resize", drawSpark);
   }
 
   // ---------- chart ----------------------------------------------------------
@@ -414,6 +558,7 @@
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", renderChart);
     applyLang(lang);
     initMap();
+    initHeroControls();
     setSlider(50);
   }
   init();
