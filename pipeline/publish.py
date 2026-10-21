@@ -47,10 +47,10 @@ def main(out: Path = ROOT / "_site"):
         day = dt.date.fromisoformat(e["date"]).strftime("%-d %b %Y")
         title = f"Vadale Lake Watch: {pct}% weed cover now"
         desc = (f"Satellite estimate: {pct}% of Vadale Lake, Old Panvel, is covered by invasive weed "
-                f"(image of {day}). Updated automatically every 5 days. @savevadalelake")
+                f"(image of {day}). Checked for new satellite images every day. @savevadalelake")
     else:
         title = "Vadale Lake Watch"
-        desc = "How much of Vadale Lake is covered by weed? Satellite estimates, updated every 5 days."
+        desc = "How much of Vadale Lake is covered by weed? Satellite estimates, checked every day."
     version = os.environ.get("GITHUB_SHA", "local")[:8]
     stamp = "".join(ch for ch in site.get("generated", "") if ch.isalnum())
     page = (out / "index.html").read_text(encoding="utf-8")

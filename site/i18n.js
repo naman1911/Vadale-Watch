@@ -69,7 +69,7 @@ window.I18N = {
     how_title: "How this works",
     how_body: `
 <h3>What the satellite sees</h3>
-<p>The European Space Agency's <b>Sentinel-2</b> satellites photograph every part of the Earth roughly every 5 days. Besides normal colours they measure light our eyes can't see, especially <b>near-infrared</b>. Living leaves reflect a lot of near-infrared light; water absorbs almost all of it. So weed floating on the lake "glows" in near-infrared while open water stays dark.</p>
+<p>The European Space Agency's <b>Sentinel-2</b> satellites photograph every part of the Earth every few days. Besides normal colours they measure light our eyes can't see, especially <b>near-infrared</b>. Living leaves reflect a lot of near-infrared light; water absorbs almost all of it. So weed floating on the lake "glows" in near-infrared while open water stays dark.</p>
 <h3>How a pixel is labelled "weed"</h3>
 <p>The picture is made of squares called <b>pixels</b>, each <b>10 m × 10 m</b> on the ground (about the size of a small house plot). The lake (about 9.5 hectares) contains roughly 900 of them. For every pixel inside the fixed lake outline we calculate two scores:</p>
 <ul>
@@ -158,7 +158,7 @@ window.I18N = {
     how_title: "हे कसे काम करते",
     how_body: `
 <h3>उपग्रहाला काय दिसते</h3>
-<p>युरोपियन स्पेस एजन्सीचे <b>सेंटिनेल-२</b> उपग्रह पृथ्वीच्या प्रत्येक भागाचा साधारण दर ५ दिवसांनी फोटो घेतात. सामान्य रंगांबरोबरच ते आपल्या डोळ्यांना न दिसणारा प्रकाशही मोजतात, विशेषतः <b>निकट-अवरक्त (near-infrared)</b>. जिवंत पाने हा प्रकाश जास्त परावर्तित करतात, तर पाणी तो जवळजवळ पूर्ण शोषून घेते. म्हणून तलावावर तरंगणारे तण या प्रकाशात "उजळ" दिसते आणि मोकळे पाणी गडद राहते.</p>
+<p>युरोपियन स्पेस एजन्सीचे <b>सेंटिनेल-२</b> उपग्रह पृथ्वीच्या प्रत्येक भागाचा दर काही दिवसांनी फोटो घेतात. सामान्य रंगांबरोबरच ते आपल्या डोळ्यांना न दिसणारा प्रकाशही मोजतात, विशेषतः <b>निकट-अवरक्त (near-infrared)</b>. जिवंत पाने हा प्रकाश जास्त परावर्तित करतात, तर पाणी तो जवळजवळ पूर्ण शोषून घेते. म्हणून तलावावर तरंगणारे तण या प्रकाशात "उजळ" दिसते आणि मोकळे पाणी गडद राहते.</p>
 <h3>एखादा पिक्सेल "तण" कसा ठरतो</h3>
 <p>प्रतिमा <b>पिक्सेल</b> नावाच्या चौकोनांनी बनलेली असते; प्रत्येक पिक्सेल जमिनीवर <b>१० मी × १० मी</b> इतका असतो. तलावात (सुमारे ९.५ हेक्टर) असे सुमारे ९०० पिक्सेल आहेत. निश्चित तलाव-सीमेतील प्रत्येक पिक्सेलसाठी आम्ही दोन गुण काढतो:</p>
 <ul>

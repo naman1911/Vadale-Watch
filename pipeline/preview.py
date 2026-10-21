@@ -103,6 +103,6 @@ def make_preview(history: dict, lake, grid: dict, images: Path = IMAGES, path: P
     date = dt.date.fromisoformat(e["date"]).strftime("%-d %b %Y")
     d.text((left, y + 10), f"Satellite image · {date}", font=_font("r", 28), fill=MUTED)
     d.text((left, 538), "@savevadalelake", font=_font("x", 38), fill=WHITE)
-    d.text((left, 588), "Satellite estimate · updated every 5 days", font=_font("r", 22), fill=MUTED)
+    d.text((left, 588), "Satellite estimate · checked every day", font=_font("r", 22), fill=MUTED)
     img.save(path, quality=88, optimize=True, progressive=True)
     return path

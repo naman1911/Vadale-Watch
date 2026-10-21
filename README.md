@@ -10,7 +10,7 @@ Sentinel-2 satellite images. It supports the Instagram campaign
 
 ## What it does
 
-Every 5 days a GitHub Actions job:
+Every day a GitHub Actions job:
 
 1. asks Microsoft Planetary Computer for any new Sentinel-2 images of the lake,
 2. skips images where clouds, cloud shadow or haze hide more than 30% of the lake,
@@ -78,7 +78,7 @@ site/                       the website (plain HTML/JS, Leaflet)
 
 Everything runs on GitHub for free. Nothing needs installing.
 
-- **Automatic:** the *Update lake data & website* workflow runs on the 1st, 6th, 11th, 16th, 21st, 26th and 31st of each month.
+- **Automatic:** the *Update lake data & website* workflow runs every day at 07:47 India time (GitHub may delay or occasionally skip a scheduled run; the next day catches up).
 - **By hand:** *Actions → Update lake data & website → Run workflow*.
   - Leave the boxes empty to fetch new images.
   - Give a start and end date to process an older period (for example `2020-01-01` to `2025-08-31`; nothing before `baseline_start` in `config.yaml` is kept).

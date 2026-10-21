@@ -1,5 +1,8 @@
-# Checks for new Sentinel-2 images every 5 days, updates the numbers and
+# Checks for new Sentinel-2 images every day, updates the numbers and
 # pictures, commits them, and redeploys the website. Free on public repos.
+# (Sentinel-2 passes every 2-3 days; checking daily means a run that GitHub
+# delays or drops - which can happen with scheduled jobs - is caught up the
+# next day.)
 #
 # Run it by hand: Actions tab -> "Update lake data & website" -> Run workflow.
 # Leave the boxes empty to just fetch new images, or give a date range to
@@ -8,8 +11,8 @@ name: Update lake data & website
 
 on:
   schedule:
-    # 02:17 UTC (07:47 in India) on day 1, 6, 11, 16, 21, 26 and 31 of each month.
-    - cron: "17 2 */5 * *"
+    # Every day at 02:17 UTC (07:47 in India).
+    - cron: "17 2 * * *"
   workflow_dispatch:
     inputs:
       start:
