@@ -11,8 +11,11 @@ name: Update lake data & website
 
 on:
   schedule:
-    # Every day at 02:17 UTC (07:47 in India).
+    # Twice a day: 02:17 UTC (07:47 in India) and 13:47 UTC (19:17 in India).
+    # Two runs so a skipped one doesn't matter; the evening run often catches
+    # that morning's satellite pass (~11:00 India time) once it is published.
     - cron: "17 2 * * *"
+    - cron: "47 13 * * *"
   workflow_dispatch:
     inputs:
       start:

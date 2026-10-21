@@ -78,7 +78,7 @@ site/                       the website (plain HTML/JS, Leaflet)
 
 Everything runs on GitHub for free. Nothing needs installing.
 
-- **Automatic:** the *Update lake data & website* workflow runs every day at 07:47 India time (GitHub may delay or occasionally skip a scheduled run; the next day catches up).
+- **Automatic:** the *Update lake data & website* workflow runs twice a day, at 07:47 and 19:17 India time (GitHub may delay or occasionally skip a scheduled run; the next one catches up).
 - **By hand:** *Actions → Update lake data & website → Run workflow*.
   - Leave the boxes empty to fetch new images.
   - Give a start and end date to process an older period (for example `2020-01-01` to `2025-08-31`; nothing before `baseline_start` in `config.yaml` is kept).
