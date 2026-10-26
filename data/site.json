@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-25T17:14Z",
+ "generated": "2026-10-26T07:48Z",
  "lake": {
   "name": "Vadale Lake (Vadale Talao), Old Panvel",
   "area_ha": 9.46
@@ -24,8 +24,8 @@
   "ndvi_weed_strict": 0.3,
   "ndvi_weed_loose": 0.12
  },
- "scenes_checked": 1422,
- "last_scene_date": "2026-10-23",
+ "scenes_checked": 1423,
+ "last_scene_date": "2026-10-25",
  "next_passes": [
   "2026-10-28",
   "2026-10-30",
