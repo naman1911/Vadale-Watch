@@ -9,8 +9,9 @@ It only writes to experiments/radar/ and never touches data/ or the website.
     python -m experiments.radar_compare --start 2023-01-01
 
 Method
-  1. Every Sentinel-1 RTC image (terrain-corrected radar, VV and VH, 10 m) of
-     the lake from Microsoft Planetary Computer.
+  1. Every Sentinel-1 GRD radar image (VV and VH, 10 m) of the lake from
+     Microsoft Planetary Computer, calibrated to backscatter (sigma0) with the
+     calibration tables shipped with each image.
   2. Each one is paired with a reliable Sentinel-2 reading taken within
      --max-days days.
   3. A radar rule ("a pixel is weed if its VV (or VH) backscatter is above
@@ -33,7 +34,10 @@ from pipeline.run import read_csv
 
 OUT = ROOT / "experiments" / "radar"
 STAC_URL = "https://planetarycomputer.microsoft.com/api/stac/v1"
-COLLECTION = "sentinel-1-rtc"
+# The terrain-corrected "sentinel-1-rtc" collection needs an approved account,
+# so this uses the open "sentinel-1-grd" images and calibrates them here
+# (terrain correction does not matter for a lake on flat ground).
+COLLECTION = "sentinel-1-grd"
 VV_THRESHOLDS = list(range(-24, -5))   # dB
 VH_THRESHOLDS = list(range(-32, -13))  # dB
 MIN_VALID = 0.8                        # share of lake pixels the radar image must cover
@@ -118,16 +122,63 @@ def verdict(res: dict) -> str:
 
 # ---------------------------------------------------------------- data access
 
+def calibration_factor(xml_text: str, row: float, col: float) -> float:
+    """sigma0 calibration constant A at (row, col) from a Sentinel-1 calibration
+    XML (sigma0 = DN^2 / A^2). A varies slowly, so nearest line + interpolation
+    across pixels is plenty for a lake-sized area."""
+    import xml.etree.ElementTree as ET
+    vecs = ET.fromstring(xml_text).iter("calibrationVector")
+    best = min(vecs, key=lambda v: abs(int(v.findtext("line")) - row))
+    pix = np.array(best.findtext("pixel").split(), dtype=float)
+    sig = np.array(best.findtext("sigmaNought").split(), dtype=float)
+    return float(np.interp(col, pix, sig))
+
+
+def lake_in_image(lake, gcps):
+    """Lake outline in the raw radar image's (col, row) coordinates."""
+    from rasterio.transform import GCPTransformer
+    from shapely.geometry import Polygon
+
+    xs, ys = zip(*lake.exterior.coords)
+    with GCPTransformer(gcps, tps=True) as t:
+        rows, cols = t.rowcol(list(xs), list(ys), op=lambda v: v)
+    return Polygon(zip(np.asarray(cols, float), np.asarray(rows, float)))
+
+
+def read_lake(href: str, cal_href: str, lake, buffer_m: float, margin: int = 8):
+    """Calibrated sigma0 (linear) around the lake + the lake 'core' mask."""
+    import requests
+    import rasterio
+    from affine import Affine
+    from rasterio.features import geometry_mask
+    from rasterio.windows import Window
+
+    with rasterio.open(href) as ds:
+        gcps, _ = ds.gcps
+        poly = lake_in_image(lake, gcps)
+        c0, r0, c1, r1 = poly.bounds
+        c0, r0 = int(math.floor(c0)) - margin, int(math.floor(r0)) - margin
+        c1, r1 = int(math.ceil(c1)) + margin, int(math.ceil(r1)) + margin
+        if c0 < 0 or r0 < 0 or c1 > ds.width or r1 > ds.height:
+            return None
+        dn = ds.read(1, window=Window(c0, r0, c1 - c0, r1 - r0)).astype("float64")
+    a = calibration_factor(requests.get(cal_href, timeout=60).text, (r0 + r1) / 2, (c0 + c1) / 2)
+    sigma0 = np.where(dn > 0, dn ** 2 / a ** 2, np.nan)
+    local = Polygon_shift(poly, -c0, -r0)
+    core_geom = local.buffer(-buffer_m / 10)   # GRD pixels are ~10 m
+    core = geometry_mask([core_geom if not core_geom.is_empty else local], dn.shape,
+                         Affine.identity(), invert=True)
+    return sigma0, core
+
+
+def Polygon_shift(poly, dx, dy):
+    from shapely import affinity
+    return affinity.translate(poly, dx, dy)
+
+
 def fetch(lake, start: str, end: str, buffer_m: float) -> list[dict]:
     import planetary_computer
     import pystac_client
-    import rasterio
-    from rasterio.features import geometry_mask
-    from rasterio.transform import from_origin
-    from rasterio.windows import from_bounds
-
-    from pipeline.sentinel import analysis_bounds, lake_in_crs
-
     from shapely.geometry import shape
 
     client = pystac_client.Client.open(STAC_URL)
@@ -141,22 +192,14 @@ def fetch(lake, start: str, end: str, buffer_m: float) -> list[dict]:
     for it in items:
         try:
             s = planetary_computer.sign(it)
-            with rasterio.open(s.assets["vv"].href) as ds:
-                epsg = ds.crs.to_epsg()
-                lake_utm = lake_in_crs(lake, epsg)
-                b = analysis_bounds(lake_utm, 60)
-                w, h = round((b[2] - b[0]) / 10), round((b[3] - b[1]) / 10)
-                win = from_bounds(*b, transform=ds.transform)
-                vv = ds.read(1, window=win, boundless=True, fill_value=np.nan, out_shape=(h, w)).astype("float32")
-            with rasterio.open(s.assets["vh"].href) as ds:
-                vh = ds.read(1, window=from_bounds(*b, transform=ds.transform), boundless=True,
-                             fill_value=np.nan, out_shape=(h, w)).astype("float32")
-            tr = from_origin(b[0], b[3], 10, 10)
-            core_geom = lake_utm.buffer(-buffer_m)
-            core = geometry_mask([core_geom if not core_geom.is_empty else lake_utm], (h, w), tr, invert=True)
-            st = scene_stats(vv, vh, core)
+            vv = read_lake(s.assets["vv"].href, s.assets["schema-calibration-vv"].href, lake, buffer_m)
+            vh = read_lake(s.assets["vh"].href, s.assets["schema-calibration-vh"].href, lake, buffer_m)
+            if vv is None or vh is None:
+                print(f"{it.datetime.date()} {it.id}: lake at image edge, skipped")
+                continue
+            st = scene_stats(vv[0], vh[0], vv[1])
         except Exception as e:  # skip unreadable scenes
-            print(f"{it.datetime.date()} {it.id}: ERROR {e}")
+            print(f"{it.datetime.date()} {it.id}: ERROR {str(e)[:160]}")
             continue
         if st is None:
             print(f"{it.datetime.date()} {it.id}: lake not fully covered, skipped")
