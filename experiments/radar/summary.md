@@ -1,6 +1,6 @@
 # Radar (Sentinel-1) vs optical (Sentinel-2) weed estimates
 
-*Generated 2026-10-27 08:02 UTC. Experiment only — not used on the website.*
+*Generated 2026-10-27 08:05 UTC. Experiment only — not used on the website.*
 
 **Verdict:** Not enough test pairs to judge.
 
