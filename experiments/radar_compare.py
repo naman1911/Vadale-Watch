@@ -128,10 +128,15 @@ def fetch(lake, start: str, end: str, buffer_m: float) -> list[dict]:
 
     from pipeline.sentinel import analysis_bounds, lake_in_crs
 
+    from shapely.geometry import shape
+
     client = pystac_client.Client.open(STAC_URL)
-    items = sorted(client.search(collections=[COLLECTION], intersects=lake.__geo_interface__,
-                                 datetime=f"{start}/{end}").items(), key=lambda i: i.datetime)
-    print(f"Found {len(items)} Sentinel-1 images {start}..{end}")
+    # A bounding-box search (the polygon search returned nothing for this
+    # collection), then keep only scenes whose footprint covers the lake.
+    found = list(client.search(collections=[COLLECTION], bbox=list(lake.bounds),
+                               datetime=f"{start}/{end}").items())
+    items = sorted((i for i in found if shape(i.geometry).contains(lake)), key=lambda i: i.datetime)
+    print(f"Found {len(found)} Sentinel-1 images near the lake {start}..{end}; {len(items)} cover it fully")
     rows = []
     for it in items:
         try:
