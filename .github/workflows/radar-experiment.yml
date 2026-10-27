@@ -12,6 +12,10 @@ on:
       split:
         description: "Pairs before this date train the radar rule; later pairs test it"
         default: "2025-01-01"
+      probe:
+        description: "Only list which radar images the catalogue has (diagnostics)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -35,7 +39,10 @@ jobs:
         env:
           START: ${{ inputs.start }}
           SPLIT: ${{ inputs.split }}
-        run: python -m experiments.radar_compare --start "$START" --split "$SPLIT"
+          PROBE: ${{ inputs.probe }}
+        run: |
+          if [ "$PROBE" = "true" ]; then python -m experiments.radar_compare --probe; exit 0; fi
+          python -m experiments.radar_compare --start "$START" --split "$SPLIT"
       - name: Save results
         run: |
           git config user.name "vadale-watch-bot"

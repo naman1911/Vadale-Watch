@@ -242,6 +242,26 @@ def plot(pairs: list[dict], rule: str, split: str) -> None:
     fig.savefig(OUT / "comparison.png", dpi=130)
 
 
+def probe(lake) -> None:
+    """Print what the catalogue holds for Sentinel-1 around the lake (diagnostics)."""
+    import pystac_client
+    client = pystac_client.Client.open(STAC_URL)
+    lon, lat = lake.centroid.x, lake.centroid.y
+    bbox = [lon - 0.5, lat - 0.5, lon + 0.5, lat + 0.5]
+    for coll in ("sentinel-1-rtc", "sentinel-1-grd"):
+        try:
+            c = client.get_collection(coll)
+            print(f"{coll}: temporal extent {c.extent.temporal.intervals}")
+        except Exception as e:
+            print(f"{coll}: cannot read collection ({e})")
+            continue
+        for rng in ("2023-01-01/2023-12-31", "2025-01-01/2025-12-31", "2026-09-01/2026-10-31"):
+            items = list(client.search(collections=[coll], bbox=bbox, datetime=rng, max_items=500).items())
+            first = items[0] if items else None
+            print(f"  {rng}: {len(items)} items near the lake"
+                  + (f"; e.g. {first.id} assets={sorted(first.assets)[:6]}" if first else ""))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--start", default="2023-01-01")
@@ -249,8 +269,11 @@ def main(argv=None):
     ap.add_argument("--split", default="2025-01-01", help="pairs before this date train the rule; later ones test it")
     ap.add_argument("--max-days", type=int, default=3)
     ap.add_argument("--buffer", type=float, default=20, help="shore buffer in metres (radar picks up walls/trees)")
+    ap.add_argument("--probe", action="store_true", help="only list what the catalogue holds")
     args = ap.parse_args(argv)
     lake = load_lake()
+    if args.probe:
+        return probe(lake)
     rows = fetch(lake, args.start, args.end or dt.date.today().isoformat(), args.buffer)
     pairs = pair_with_s2(rows, read_csv(HISTORY_FILE, "date"), args.max_days)
     res = evaluate(pairs, args.split) if pairs else {"rule": "vv>-15"}
