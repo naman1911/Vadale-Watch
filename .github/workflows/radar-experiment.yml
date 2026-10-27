@@ -1,0 +1,50 @@
+# EXPERIMENT ONLY - run by hand. Compares Sentinel-1 radar with the
+# Sentinel-2 weed figures and saves the results to experiments/radar/.
+# It does not change data/ or the website.
+name: "Experiment: radar vs optical"
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Compare from this date (YYYY-MM-DD)"
+        default: "2023-01-01"
+      split:
+        description: "Pairs before this date train the radar rule; later pairs test it"
+        default: "2025-01-01"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt matplotlib
+      - name: Compare radar with optical
+        env:
+          START: ${{ inputs.start }}
+          SPLIT: ${{ inputs.split }}
+        run: python -m experiments.radar_compare --start "$START" --split "$SPLIT"
+      - name: Save results
+        run: |
+          git config user.name "vadale-watch-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add experiments/radar/
+          git diff --cached --quiet && { echo "No results"; exit 0; }
+          git commit -m "Radar experiment results $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((2 ** i))
+          done
+          exit 1
