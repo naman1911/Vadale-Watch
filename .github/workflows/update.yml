@@ -33,8 +33,11 @@ on:
         type: boolean
         default: false
   push:
+    # Website edits, or data corrected by hand, redeploy straight away. (The
+    # bot's own data commits don't trigger this; GitHub ignores them.)
     paths:
       - "site/**"
+      - "data/**"
 
 permissions:
   contents: write

@@ -39,6 +39,11 @@ It is available in English and Marathi.
 So a lake pixel brighter than 0.12 in blue light also counts as hidden, and an image is skipped
 if the visible lake's median blue is above 0.10 (clean water and weed are both dark in blue).
 
+**Damaged files.** Very rarely an image file arrives broken (on 28 Oct 2026 every value was 0–255
+instead of about 1,000–5,000, so the photo was black and the whole lake read as "water").
+An image is skipped as `bad_data` if the visible lake's median green reflectance is below 0.01;
+real water and weed never get that dark (the darkest real date since 2020 is 0.036).
+
 **Low-confidence dates.** Some clear images still give unreliable numbers. These are kept in
 `history.csv` with a `flag`, drawn as hollow grey dots, and never used for the headline numbers:
 - `lake_bed_exposed`: more than 15% of the lake is bare mud or dry bed (the lake was partly dry

@@ -107,3 +107,11 @@ def test_refined_grid_covers_same_area():
     assert (f["width"], f["height"]) == (g["width"] * 2, g["height"] * 2)
     assert abs((t.c + t.a * g["width"]) - (u.c + u.a * f["width"])) < 1e-6
     assert abs((t.f + t.e * g["height"]) - (u.f + u.e * f["height"])) < 1e-6
+
+
+def test_broken_file_is_rejected():
+    from pipeline.run import quality_status
+    arrs, epsg, pb, tr = synthetic_scene(0.8)
+    # 28 Oct 2026: every band 0-255 instead of ~1000-5000 -> all "water"
+    broken = {**{b: (arrs[b] % 256) for b in ["B02", "B03", "B04", "B08", "B11"]}, "SCL": arrs["SCL"]}
+    assert quality_status(analyse(broken, epsg, pb, tr, LAKE, CFG), CFG) == "bad_data"

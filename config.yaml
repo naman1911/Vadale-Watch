@@ -39,6 +39,11 @@ satellite:
   haze_blue_pixel_max: 0.12
   #  - an image is skipped as "hazy" if the median blue of the visible lake is above this.
   haze_blue_median_max: 0.10
+  # Broken files: real lake pixels (water or weed) are never this dark in green
+  # light (darkest real date since 2020: 0.036). Darker means the image file is
+  # damaged (e.g. 28 Oct 2026: every value 0-255 instead of ~1000-5000, which
+  # read as "100% water"). Such images are skipped as "bad_data".
+  min_green_median: 0.01
   # Campaign period (processed first) and the longer-term baseline.
   campaign_start: "2025-09-01"
   # Nothing older than this is processed or kept.

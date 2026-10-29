@@ -74,6 +74,7 @@ def analyse(arrs: dict, epsg: int, baseline, transform, lake, cfg: dict) -> dict
              & (refl["B02"] <= sat["haze_blue_pixel_max"]))
     visible_pct = 100 * (valid & inside).sum() / max(inside.sum(), 1)
     haze_blue = float(np.median(refl["B02"][valid & inside])) if (valid & inside).any() else None
+    green = float(np.median(refl["B03"][valid & inside])) if (valid & inside).any() else None
     idx = C.indices(refl)
     det = cfg["detection"]
     area = lake_area_ha(lake)
@@ -81,7 +82,7 @@ def analyse(arrs: dict, epsg: int, baseline, transform, lake, cfg: dict) -> dict
     main = C.summarise(cls, area)
     low = C.summarise(C.classify(idx, valid, core, det, det["ndvi_weed_strict"]), area)
     high = C.summarise(C.classify(idx, valid, core, det, det["ndvi_weed_loose"]), area)
-    return {"visible_pct": visible_pct, "haze_blue": haze_blue, "cls": cls, "refl": refl, "stats": main,
+    return {"visible_pct": visible_pct, "haze_blue": haze_blue, "green": green, "cls": cls, "refl": refl, "stats": main,
             "weed_pct_low": low["weed_pct"], "weed_pct_high": high["weed_pct"]}
 
 
@@ -90,6 +91,8 @@ def quality_status(res: dict, cfg: dict) -> str | None:
     sat = cfg["satellite"]
     if res["visible_pct"] < sat["min_visible_pct"]:
         return "too_cloudy"
+    if res["green"] < sat["min_green_median"]:
+        return "bad_data"  # damaged file: impossibly dark, everything reads as water
     if res["haze_blue"] is None or res["haze_blue"] > sat["haze_blue_median_max"]:
         return "hazy"
     return None
