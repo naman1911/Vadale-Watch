@@ -12,7 +12,8 @@ Sentinel-2 satellite images. It supports the Instagram campaign
 
 Every day a GitHub Actions job:
 
-1. asks Microsoft Planetary Computer for any new Sentinel-2 images of the lake,
+1. asks Microsoft Planetary Computer, and optionally ESA's own Copernicus Data Space,
+   for any new Sentinel-2 images of the lake,
 2. skips images where clouds, cloud shadow or haze hide more than 30% of the lake,
 3. labels every 10 m pixel inside the lake as **open water**, **weed**, or **other** (mud/mixed),
 4. saves the numbers to `data/history.csv` and pictures to `data/images/`,
@@ -60,6 +61,7 @@ Reflectance is corrected for ESA's +1000 offset in images processed after Januar
 config.yaml                 all adjustable settings (thresholds, cloud rules, lake)
 pipeline/fetch_boundary.py  downloads the lake outline from OpenStreetMap
 pipeline/sentinel.py        finds images and reads just the pixels around the lake
+pipeline/cdse.py            the same from ESA's Copernicus Data Space (optional second source)
 pipeline/classify.py        NDVI / NDWI / MNDWI and the water-vs-weed rule
 pipeline/render.py          true-colour and weed-overlay pictures
 pipeline/run.py             runs everything; writes the files below
@@ -90,6 +92,26 @@ Everything runs on GitHub for free. Nothing needs installing.
   - Tick **reclassify** after editing thresholds in `config.yaml`. This recalculates the
     whole history from the saved pixels in a minute, with no downloading.
 - **Website setup (one time):** *Settings → Pages → Source: GitHub Actions*.
+
+### Second image source (optional)
+
+ESA publishes the same Sentinel-2 images on its own
+[Copernicus Data Space](https://dataspace.copernicus.eu), often hours before Microsoft does.
+With it switched on, new images reach the website sooner, and if one copy of an image is
+damaged (as on 28 Oct 2026) the other copy is used. Without it, everything works as before.
+Each image needs only the few pixels around the lake, a tiny part of the free monthly allowance.
+
+1. Create a free account at [dataspace.copernicus.eu](https://dataspace.copernicus.eu) and confirm your email.
+2. Open the [Sentinel Hub dashboard](https://shapps.dataspace.copernicus.eu/dashboard/), log in with
+   the same account, go to *User settings → OAuth clients → Create*, give it a name and create it.
+   Copy the **client ID** and **client secret** (the secret is shown only once).
+3. In this repository: *Settings → Secrets and variables → Actions → New repository secret*.
+   Add `CDSE_CLIENT_ID` and `CDSE_CLIENT_SECRET` with those two values.
+4. *Actions → Check second image source → Run workflow*. Its log compares ESA's copy of the
+   newest clear date with Microsoft's; the weed figures should match closely.
+
+`data/scenes.csv` records in its `source` column which copy each image came from
+(`planetary` or `cdse`).
 
 To run it on your own computer (Python 3.10+):
 

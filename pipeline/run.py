@@ -34,9 +34,44 @@ from .render import display_grid, refine, true_colour, weed_overlay
 CACHE = DATA / "cache"
 HISTORY_COLS = ["date", "weed_pct", "open_water_ha", "visible_pct",
                 "weed_pct_low", "weed_pct_high", "weed_ha", "other_pct", "flag", "scene_id"]
-SCENE_COLS = ["scene_id", "date", "tile_cloud_pct", "lake_visible_pct", "status"]
+SCENE_COLS = ["scene_id", "date", "tile_cloud_pct", "lake_visible_pct", "status", "source"]
 BANDS = ["B02", "B03", "B04", "B08", "B11", "SCL"]
 OVERLAY_DETAIL = 4   # weed map pixels per photo pixel
+
+
+def add_cdse(items: list, cfg: dict, lake, start: str, end: str) -> list:
+    """Add ESA's copy (CDSE) of each image as a second source: images only ESA
+    has published so far, and a fallback when a Planetary Computer file fails."""
+    from . import cdse
+    if not cdse.enabled():
+        return items
+    try:
+        extra = cdse.search(lake, start, end, cfg["satellite"]["max_tile_cloud_pct"])
+    except Exception as e:  # ESA down or login problem: carry on with Planetary Computer only
+        print(f"CDSE search failed, using Planetary Computer only: {e}", file=sys.stderr)
+        return items
+    by_id = {it.id: it for it in items}
+    print(f"CDSE: {len(extra)} images, {sum(it.id not in by_id for it in extra)} not yet on Planetary Computer")
+    for it in extra:
+        if it.id in by_id:
+            by_id[it.id].sources.append(("cdse", it))
+        else:
+            it.sources = [("cdse", it)]
+            by_id[it.id] = it
+    return sorted(by_id.values(), key=lambda it: it.datetime)
+
+
+def _read_cdse(item, bounds):
+    from . import cdse
+    return cdse.read_window(item, bounds)
+
+
+def _read_planetary(item, bounds):
+    from . import sentinel
+    return sentinel.read_window(item, bounds)
+
+
+READERS = {"planetary": _read_planetary, "cdse": _read_cdse}
 
 
 def lake_area_ha(lake) -> float:
@@ -225,13 +260,20 @@ def main(argv=None):
             save_outputs(date, res, epsg, transform, grid)
             print(f"{date}  weed {history[date]['weed_pct']:>5}%")
     else:
-        from .sentinel import analysis_bounds, item_epsg, lake_in_crs, read_window, search
+        from .sentinel import analysis_bounds, item_epsg, lake_in_crs, search
         today = dt.date.today().isoformat()
-        start = a.start or (max((s["date"] for s in scenes.values()), default=cfg["satellite"]["campaign_start"]))
+        # Look a few days back from the newest image checked, so an image that
+        # one source publishes late (or that failed to download) isn't skipped.
+        last = max((s["date"] for s in scenes.values()), default=None)
+        start = a.start or ((dt.date.fromisoformat(last) - dt.timedelta(days=5)).isoformat() if last
+                            else cfg["satellite"]["campaign_start"])
         start = max(start, first)
         end = a.end or today
         print(f"Searching Sentinel-2 images {start} .. {end}")
         items = search(cfg, lake, start, end)
+        for it in items:
+            it.sources = [("planetary", it)]
+        items = add_cdse(items, cfg, lake, start, end)
         print(f"Found {len(items)} images; {sum(i.id not in scenes for i in items)} not checked before")
         if a.force:  # forget earlier results in this range; they are recomputed below
             history = {d: r for d, r in history.items() if not start <= d <= end}
@@ -239,21 +281,35 @@ def main(argv=None):
         failures = 0
         for it in items:
             if it.id in scenes and not a.force:
-                continue
+                # A damaged file is retried once from ESA's copy when there is one.
+                prev = scenes[it.id]
+                if not (prev["status"] == "bad_data" and prev.get("source") != "cdse"
+                        and any(src == "cdse" for src, _ in it.sources)):
+                    continue
+                it.sources = [x for x in it.sources if x[0] == "cdse"]
             date = it.datetime.date().isoformat()
             if date < first:
                 continue
             tile_cloud = it.properties.get("eo:cloud_cover")
-            try:
-                epsg = item_epsg(it)
-                bounds = analysis_bounds(lake_in_crs(lake, epsg), out["image_margin_m"])
-                arrs = read_window(it, bounds)
-                res = analyse(arrs, epsg, it.properties.get("s2:processing_baseline"),
-                              arrs["transform"], lake, cfg)
-            except Exception as e:  # network hiccup: don't record, retry next run
+            got = None
+            for source, src_item in it.sources:
+                try:
+                    epsg = item_epsg(src_item)
+                    bounds = analysis_bounds(lake_in_crs(lake, epsg), out["image_margin_m"])
+                    arrs = READERS[source](src_item, bounds)
+                    baseline = src_item.properties.get("s2:processing_baseline")
+                    res = analyse(arrs, epsg, baseline, arrs["transform"], lake, cfg)
+                except Exception as e:  # network hiccup: try the other copy, or retry next run
+                    print(f"{date} {it.id} ({source}): ERROR {e}", file=sys.stderr)
+                    continue
+                got = (source, epsg, bounds, arrs, baseline, res)
+                if quality_status(res, cfg) != "bad_data":
+                    break
+                print(f"{date} {it.id} ({source}): damaged file, trying the other copy")
+            if got is None:
                 failures += 1
-                print(f"{date} {it.id}: ERROR {e}", file=sys.stderr)
                 continue
+            source, epsg, bounds, arrs, baseline, res = got
             vis = res["visible_pct"]
             bad = quality_status(res, cfg)
             if bad:
@@ -268,12 +324,12 @@ def main(argv=None):
                     scenes[prev]["status"] = "duplicate_date"
                 history[date] = history_row(date, it.id, res, cfg)
                 save_outputs(date, res, epsg, arrs["transform"], grid)
-                save_cache(date, it.id, arrs, epsg, it.properties.get("s2:processing_baseline"), bounds)
+                save_cache(date, it.id, arrs, epsg, baseline, bounds)
             scenes[it.id] = {"scene_id": it.id, "date": date,
                              "tile_cloud_pct": f"{tile_cloud:.1f}" if tile_cloud is not None else "",
-                             "lake_visible_pct": f"{vis:.1f}", "status": status}
+                             "lake_visible_pct": f"{vis:.1f}", "status": status, "source": source}
             extra = f"weed {history[date]['weed_pct']}%" if status == "used" else ""
-            print(f"{date} {it.id[:38]:<38} visible {vis:5.1f}%  {status:<14} {extra}")
+            print(f"{date} {it.id[:38]:<38} {source:<9} visible {vis:5.1f}%  {status:<14} {extra}")
         if failures:
             print(f"{failures} images failed to download and will be retried next run", file=sys.stderr)
 

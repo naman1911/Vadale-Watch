@@ -68,6 +68,9 @@ jobs:
           END: ${{ inputs.end }}
           RECLASSIFY: ${{ inputs.reclassify }}
           FORCE: ${{ inputs.force }}
+          # Optional second source (ESA's Copernicus Data Space); see README.
+          CDSE_CLIENT_ID: ${{ secrets.CDSE_CLIENT_ID }}
+          CDSE_CLIENT_SECRET: ${{ secrets.CDSE_CLIENT_SECRET }}
         run: |
           args=()
           if [ "$RECLASSIFY" = "true" ]; then args+=(--reclassify); fi
