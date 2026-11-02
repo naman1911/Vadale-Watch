@@ -291,7 +291,7 @@ def main(argv=None):
             if date < first:
                 continue
             tile_cloud = it.properties.get("eo:cloud_cover")
-            got = None
+            got, retry = None, it.id in scenes
             for source, src_item in it.sources:
                 try:
                     epsg = item_epsg(src_item)
@@ -302,12 +302,20 @@ def main(argv=None):
                 except Exception as e:  # network hiccup: try the other copy, or retry next run
                     print(f"{date} {it.id} ({source}): ERROR {e}", file=sys.stderr)
                     continue
-                got = (source, epsg, bounds, arrs, baseline, res)
-                if quality_status(res, cfg) != "bad_data":
+                ok = quality_status(res, cfg) != "bad_data"
+                if got is None or ok:
+                    got = (source, epsg, bounds, arrs, baseline, res)
+                if ok:
                     break
                 print(f"{date} {it.id} ({source}): damaged file, trying the other copy")
             if got is None:
                 failures += 1
+                continue
+            if got[0] == "cdse" and quality_status(got[5], cfg) and not retry:
+                # Only ESA's copy so far and it can't be used: don't record it, so
+                # Planetary Computer's copy is still checked when it appears.
+                print(f"{date} {it.id} (cdse): {quality_status(got[5], cfg)}, "
+                      "waiting for the Planetary Computer copy")
                 continue
             source, epsg, bounds, arrs, baseline, res = got
             vis = res["visible_pct"]

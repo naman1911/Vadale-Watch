@@ -105,7 +105,7 @@ def search(lake_lonlat, start: str, end: str, max_cloud: float) -> list:
     return items
 
 
-def read_window(item, bounds) -> dict:
+def read_window(item, bounds, order: str = "mostRecent", minutes: float = 10) -> dict:
     """The lake window (in the image's UTM projection) at 10 m, all bands.
     The two overlapping tiles of the same pass are joined automatically."""
     import rasterio
@@ -114,8 +114,8 @@ def read_window(item, bounds) -> dict:
     epsg = item.properties["proj:epsg"]
     w = int(round((bounds[2] - bounds[0]) / 10))
     h = int(round((bounds[3] - bounds[1]) / 10))
-    t0 = item.datetime - dt.timedelta(minutes=10)
-    t1 = item.datetime + dt.timedelta(minutes=10)
+    t0 = item.datetime - dt.timedelta(minutes=minutes)
+    t1 = item.datetime + dt.timedelta(minutes=minutes)
     iso = lambda t: t.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     body = {
         "input": {
@@ -123,7 +123,7 @@ def read_window(item, bounds) -> dict:
                        "properties": {"crs": f"http://www.opengis.net/def/crs/EPSG/0/{epsg}"}},
             "data": [{"type": "sentinel-2-l2a",
                       "dataFilter": {"timeRange": {"from": iso(t0), "to": iso(t1)},
-                                     "mosaickingOrder": "mostRecent"},
+                                     "mosaickingOrder": order},
                       "processing": {"harmonizeValues": True, "upsampling": "NEAREST",
                                      "downsampling": "NEAREST"}}]},
         "output": {"width": w, "height": h,
@@ -174,6 +174,32 @@ def compare():
         res = run.analyse(a, epsg, pb, tr, lake, cfg)
         print(f"  {name:>4}: weed {res['stats']['weed_pct']:.1f}%  visible {res['visible_pct']:.1f}%  "
               f"status {run.quality_status(res, cfg) or 'ok'}")
+
+    # Why pixels are missing: blank pixels per source, and other ways of joining tiles.
+    from rasterio.features import geometry_mask
+    inside = geometry_mask([lake_in_crs(lake, epsg)], arrs_pc["SCL"].shape, tr, invert=True)
+    print("\nDiagnostics")
+    for f in _raw_features(lake, date):
+        print(f"  catalogue: {f['id']}  {f['properties'].get('datetime')}  cloud {f['properties'].get('eo:cloud_cover')}")
+    for name, a in (("PC", arrs_pc), ("CDSE", arrs_cd)):
+        print(f"  {name:>4}: lake pixels {inside.sum()}, blank (SCL 0) {(a['SCL'][inside] == 0).sum()}, "
+              f"B04 zero {(a['B04'][inside] == 0).sum()}, SCL classes {np.unique(a['SCL'][inside]).tolist()}")
+    for order, minutes in (("leastRecent", 10), ("leastCC", 10), ("mostRecent", 0.05), ("mostRecent", 60)):
+        try:
+            a = read_window(it, bounds, order, minutes)
+            res = run.analyse(a, epsg, NO_OFFSET_BASELINE, tr, lake, cfg)
+            print(f"  {order:<11} +-{minutes:>5} min: visible {res['visible_pct']:.1f}%  "
+                  f"blank {(a['SCL'][inside] == 0).sum()}  weed {res['stats']['weed_pct']:.1f}%")
+        except Exception as e:
+            print(f"  {order} +-{minutes} min: ERROR {e}")
+
+
+def _raw_features(lake_lonlat, date: str) -> list:
+    body = {"collections": ["sentinel-2-l2a"], "bbox": list(lake_lonlat.bounds),
+            "datetime": f"{date}T00:00:00Z/{date}T23:59:59Z", "limit": 100}
+    r = requests.post(CATALOG_URL, json=body, headers=_auth(), timeout=60)
+    r.raise_for_status()
+    return r.json().get("features", [])
 
 
 if __name__ == "__main__":

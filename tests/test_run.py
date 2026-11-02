@@ -114,7 +114,8 @@ def test_second_source(tmp_path, monkeypatch):
         return {**arrs, "transform": tr}
     monkeypatch.setattr(sentinel, "read_window", pc_read)
 
-    esa = [fake_item("BROKEN", "2025-09-08", 0.3), fake_item("NEW", "2025-09-18", 0.7)]
+    esa = [fake_item("BROKEN", "2025-09-08", 0.3), fake_item("NEW", "2025-09-18", 0.7),
+           fake_item("ESACLOUDY", "2025-09-16", 0.2, cloud=0.7)]  # not recorded: wait for PC's copy
     for it in esa:
         it.properties["s2:processing_baseline"] = cdse.NO_OFFSET_BASELINE
     monkeypatch.setattr(cdse, "enabled", lambda: True)
