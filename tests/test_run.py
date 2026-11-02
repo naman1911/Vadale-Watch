@@ -132,6 +132,30 @@ def test_second_source(tmp_path, monkeypatch):
     hist = {h["date"]: float(h["weed_pct"]) for h in csv.DictReader(open(tmp_path / "history.csv"))}
     assert list(hist) == ["2025-09-08", "2025-09-13", "2025-09-18"]
     assert hist["2025-09-08"] < hist["2025-09-13"] < hist["2025-09-18"]
+    # ESA's copy missing part of the lake (as near the edge of a satellite strip):
+    # used for now, then replaced by Planetary Computer's fuller copy.
+    def partial(item, bounds):
+        arrs = esa_read(item, bounds)
+        if item.id == "PARTIAL":
+            arrs = {**arrs, **{b: arrs[b].copy() for b in ("B04", "SCL")}}
+            arrs["B04"][12:18] = 0   # rows inside the lake (12 px margin)
+            arrs["SCL"][12:18] = 0
+        return arrs
+    monkeypatch.setattr(cdse, "read_window", partial)
+    esa.append(fake_item("PARTIAL", "2025-09-28", 0.5))
+    esa[-1].properties["s2:processing_baseline"] = cdse.NO_OFFSET_BASELINE
+    run.main(["--start", "2025-09-01", "--end", "2025-09-30"])
+    first_vis = next(r for r in csv.DictReader(open(tmp_path / "scenes.csv")) if r["scene_id"] == "PARTIAL")
+    assert first_vis["source"] == "cdse" and 70 <= float(first_vis["lake_visible_pct"]) < 99.5
+    pc.append(fake_item("PARTIAL", "2025-09-28", 0.5))
+    run.main(["--start", "2025-09-01", "--end", "2025-09-30"])
+    row = next(r for r in csv.DictReader(open(tmp_path / "scenes.csv")) if r["scene_id"] == "PARTIAL")
+    assert (row["status"], row["source"], row["lake_visible_pct"]) == ("used", "planetary", "100.0")
+    hist = {h["date"]: float(h["weed_pct"]) for h in csv.DictReader(open(tmp_path / "history.csv"))}
+    assert float(next(h for h in csv.DictReader(open(tmp_path / "history.csv")) if h["date"] == "2025-09-28")["visible_pct"]) == 100
+    run.main(["--start", "2025-09-01", "--end", "2025-09-30"])  # nothing left to upgrade
+    assert {h["date"]: float(h["weed_pct"]) for h in csv.DictReader(open(tmp_path / "history.csv"))} == hist
+
     run.main(["--reclassify"])  # images saved from ESA re-classify the same way
     assert {h["date"]: float(h["weed_pct"]) for h in csv.DictReader(open(tmp_path / "history.csv"))} == hist
 

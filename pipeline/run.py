@@ -280,13 +280,21 @@ def main(argv=None):
         best: dict[str, float] = {d: float(r["visible_pct"]) for d, r in history.items()}
         failures = 0
         for it in items:
+            upgrade = False
             if it.id in scenes and not a.force:
-                # A damaged file is retried once from ESA's copy when there is one.
                 prev = scenes[it.id]
-                if not (prev["status"] == "bad_data" and prev.get("source") != "cdse"
-                        and any(src == "cdse" for src, _ in it.sources)):
+                has = lambda name: any(src == name for src, _ in it.sources)
+                if prev["status"] == "bad_data" and prev.get("source") != "cdse" and has("cdse"):
+                    # A damaged file is retried once from ESA's copy.
+                    it.sources = [x for x in it.sources if x[0] == "cdse"]
+                elif (prev.get("source") == "cdse" and prev["status"] == "used" and has("planetary")
+                      and float(prev["lake_visible_pct"] or 0) < 99.5):
+                    # ESA's copy sometimes leaves out part of the lake near the edge
+                    # of the satellite's strip; Planetary Computer's may show more.
+                    it.sources = [x for x in it.sources if x[0] == "planetary"]
+                    upgrade = True
+                else:
                     continue
-                it.sources = [x for x in it.sources if x[0] == "cdse"]
             date = it.datetime.date().isoformat()
             if date < first:
                 continue
@@ -320,6 +328,8 @@ def main(argv=None):
             source, epsg, bounds, arrs, baseline, res = got
             vis = res["visible_pct"]
             bad = quality_status(res, cfg)
+            if upgrade and (bad or vis <= float(scenes[it.id]["lake_visible_pct"])):
+                continue  # keep ESA's result
             if bad:
                 status = bad
             elif vis <= best.get(date, -1):

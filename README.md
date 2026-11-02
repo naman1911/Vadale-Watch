@@ -110,6 +110,12 @@ Each image needs only the few pixels around the lake, a tiny part of the free mo
 4. *Actions → Check second image source → Run workflow*. Its log compares ESA's copy of the
    newest clear date with Microsoft's; the weed figures should match closely.
 
+ESA's service can leave out part of the lake when it lies near the edge of the satellite's
+strip (22 Oct 2026: 687 of 952 lake pixels blank, while Microsoft's file had them all). So an
+ESA image is used only if it passes the usual 70% visibility rule, and is replaced by
+Microsoft's copy when that shows more of the lake; an ESA image that fails the rule is not
+recorded, so Microsoft's copy is still checked.
+
 `data/scenes.csv` records in its `source` column which copy each image came from
 (`planetary` or `cdse`).
 
