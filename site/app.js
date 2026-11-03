@@ -414,6 +414,16 @@
     ctx.closePath();
   }
 
+  function cloud(ctx, x, y, r, col) {   // a small cloud: "no clear picture"
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.arc(x - r * 0.9, y + r * 0.25, r * 0.7, 0, 2 * Math.PI);
+    ctx.arc(x, y - r * 0.15, r, 0, 2 * Math.PI);
+    ctx.arc(x + r * 0.95, y + r * 0.3, r * 0.65, 0, 2 * Math.PI);
+    ctx.fill();
+    rrect(ctx, x - r * 1.6, y + r * 0.1, r * 3.2, r * 0.85, r * 0.42); ctx.fill();
+  }
+
   // The level stamp: how bad it is, in one word.
   const stampFor = (p) => (p >= 80 ? ["SOS", "#ff3b3b"] : p >= 50 ? [t("ig_stamp_alert"), "#ff8a00"]
     : p >= 20 ? [t("ig_stamp_spread"), YELLOW] : [t("ig_stamp_better"), WATER]);
@@ -543,7 +553,7 @@
     });
 
     // Weed / water bar
-    const by = 905, bw = W - 2 * L;
+    const by = 895, bw = W - 2 * L;
     const wp = Math.max(0, Math.min(100, last.weed_pct)), op = Math.max(0, Math.min(100 - wp, water / area * 100));
     ctx.save();
     rrect(ctx, L, by, bw, 46, 23); ctx.clip();
@@ -557,7 +567,7 @@
     ctx.textAlign = "left";
 
     // Month by month since the campaign started
-    const ty = 985, th = 218;
+    const ty = 965, th = 255;
     ctx.fillStyle = "rgba(255,255,255,.06)"; rrect(ctx, L, ty, bw, th, 22); ctx.fill();
     ctx.fillStyle = "#ffffff"; font(800, 26); ctx.fillText(t("ig_trend"), L + 26, ty + 42);
     if (base && base.date !== last.date) {
@@ -566,15 +576,31 @@
       ctx.fillText(t("ig_change", `${d >= 0 ? "+" : "−"}${fmt(Math.abs(d), 0)}`, fmtDate(base.date, { month: "short", year: "numeric" })), W - L - 26, ty + 42);
       ctx.textAlign = "left";
     }
+    // legend for the empty months
+    ctx.save();
+    ctx.setLineDash([4, 3]); ctx.strokeStyle = "rgba(191,227,234,.6)"; ctx.lineWidth = 1.5;
+    rrect(ctx, L + 26, ty + 62, 34, 26, 5); ctx.stroke();
+    ctx.restore();
+    cloud(ctx, L + 43, ty + 75, 6, "#bfe3ea");
+    ctx.fillStyle = "#bfe3ea"; fit(t("ig_no_image"), 600, 20, bw - 110); ctx.textAlign = "left"; ctx.fillText(t("ig_no_image"), L + 72, ty + 82);
     const mon = monthly(), keys = monthKeys(state.site.campaign_start.slice(0, 7), last.date.slice(0, 7)).slice(-15);
-    const cw = (bw - 52) / keys.length, cb = ty + th - 62, ch = 98;
+    const cw = (bw - 52) / keys.length, cb = ty + th - 62, ch = 92;
     keys.forEach((key, i) => {
       const m = mon[key], cx = L + 26 + i * cw, isLast = i === keys.length - 1;
-      ctx.fillStyle = "rgba(255,255,255,.08)"; rrect(ctx, cx + 5, cb - ch, cw - 10, ch, 6); ctx.fill();
       if (m && m.weed != null) {
+        ctx.fillStyle = "rgba(255,255,255,.08)"; rrect(ctx, cx + 5, cb - ch, cw - 10, ch, 6); ctx.fill();
         const hh = Math.max(4, ch * m.weed / 100);
         ctx.fillStyle = isLast ? NEON : "rgba(57,255,20,.55)";
         rrect(ctx, cx + 5, cb - hh, cw - 10, hh, 6); ctx.fill();
+      } else {
+        // No clear picture that month: a dashed empty bar with a cloud, never a low bar.
+        ctx.save();
+        ctx.setLineDash([6, 5]); ctx.strokeStyle = "rgba(191,227,234,.45)"; ctx.lineWidth = 2;
+        rrect(ctx, cx + 6, cb - ch + 1, cw - 12, ch - 2, 6); ctx.stroke();
+        ctx.restore();
+        if (m) {  // only low-confidence pictures
+          ctx.fillStyle = "#bfe3ea"; font(800, 30); ctx.textAlign = "center"; ctx.fillText("?", cx + cw / 2, cb - ch / 2 + 11);
+        } else cloud(ctx, cx + cw / 2, cb - ch / 2, 11, "#bfe3ea");
       }
       ctx.fillStyle = isLast ? NEON : "#9fbfba"; font(isLast ? 800 : 600, 18); ctx.textAlign = "center";
       ctx.fillText(t("months_short")[+key.slice(5) - 1], cx + cw / 2, cb + 26);
