@@ -402,65 +402,208 @@
     return y + lineH;
   }
 
-  async function makeCard() {
+  // ---------- Instagram card (1080 x 1350, Instagram's tall feed format) -------
+  const PITCH_HA = 0.714;   // a football pitch, 105 m x 68 m
+  const NEON = "#39ff14", WATER = "#2a8fd6", MUD = "#c4a062", YELLOW = "#ffd400", INK = "#062a35";
+
+  function rrect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  // The level stamp: how bad it is, in one word.
+  const stampFor = (p) => (p >= 80 ? ["SOS", "#ff3b3b"] : p >= 50 ? [t("ig_stamp_alert"), "#ff8a00"]
+    : p >= 20 ? [t("ig_stamp_spread"), YELLOW] : [t("ig_stamp_better"), WATER]);
+
+  async function drawCard(c) {
     const all = good();
-    if (!all.length) return;
+    const last = all[all.length - 1], base = inCampaign(all)[0];
+    const F = state.lang === "mr" ? '"Noto Sans Devanagari", "Noto Sans", sans-serif' : '"Noto Sans", sans-serif';
+    await Promise.all(["800 100px", "600 40px", "400 30px"].map((w) => document.fonts.load(`${w} ${F.split(",")[0]}`).catch(() => {})));
+    const [rgb, weed] = await Promise.all([loadImg(img(last.date, "rgb")), loadImg(img(last.date, "weed"))]);
+    const ctx = c.getContext("2d");
+    const W = 1080, H = 1350, L = 60;
+    c.width = W; c.height = H;
+    const font = (w, s) => { ctx.font = `${w} ${s}px ${F}`; };
+    const fit = (text, w, s, maxW) => { font(w, s); while (ctx.measureText(text).width > maxW && s > 12) font(w, --s); };
+
+    // Background: deep teal, a faint satellite grid, a green glow behind the number.
+    const g = ctx.createLinearGradient(0, 0, W * 0.4, H);
+    g.addColorStop(0, "#0b4152"); g.addColorStop(1, "#04161c");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(120,220,210,.07)"; ctx.lineWidth = 1;
+    for (let v = 0; v <= W; v += 54) { ctx.beginPath(); ctx.moveTo(v + .5, 0); ctx.lineTo(v + .5, H); ctx.stroke(); }
+    for (let v = 0; v <= H; v += 54) { ctx.beginPath(); ctx.moveTo(0, v + .5); ctx.lineTo(W, v + .5); ctx.stroke(); }
+    const glow = ctx.createRadialGradient(270, 330, 20, 270, 330, 420);
+    glow.addColorStop(0, "rgba(57,255,20,.22)"); glow.addColorStop(1, "rgba(57,255,20,0)");
+    ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+    // Header
+    ctx.textBaseline = "alphabetic"; ctx.textAlign = "left";
+    ctx.fillStyle = NEON; font(800, 34);
+    ctx.fillText(state.lang === "mr" ? t("title") : t("title").toUpperCase(), L, 92);
+    ctx.fillStyle = "#bfe3ea"; font(400, 28); ctx.fillText(t("image_of", fmtDate(last.date)), L, 136);
+
+    // Sticker: where the picture was taken from.
+    ctx.save();
+    ctx.translate(878, 104); ctx.rotate(-0.07);
+    fit(t("ig_sticker"), 800, 26, 300);
+    const sw = ctx.measureText(t("ig_sticker")).width + 44;
+    ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 18; ctx.shadowOffsetY = 6;
+    ctx.fillStyle = YELLOW; rrect(ctx, -sw / 2, -30, sw, 60, 14); ctx.fill();
+    ctx.shadowColor = "transparent";
+    ctx.fillStyle = INK; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(t("ig_sticker"), 0, 2);
+    ctx.restore();
+
+    // The lake, as satellite pixels, cropped to the lake (right column).
+    const [[S, Wl], [N, E]] = state.site.image_bounds;
+    const my = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+    const toImg = ([lon, lat], im) => [((lon - Wl) / (E - Wl)) * im.width, ((my(N) - my(lat)) / (my(N) - my(S))) * im.height];
+    const rings = [];
+    state.lake.features.forEach((f) => (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates)
+      .forEach((p) => p.forEach((r) => rings.push(r))));
+    const pts = rings.flat().map((p) => toImg(p, rgb));
+    let [x0, y0, x1, y1] = [Math.min(...pts.map((p) => p[0])), Math.min(...pts.map((p) => p[1])),
+      Math.max(...pts.map((p) => p[0])), Math.max(...pts.map((p) => p[1]))];
+    const pad = 0.07 * Math.max(x1 - x0, y1 - y0);
+    x0 = Math.max(0, x0 - pad); y0 = Math.max(0, y0 - pad); x1 = Math.min(rgb.width, x1 + pad); y1 = Math.min(rgb.height, y1 + pad);
+    const box = { x: 590, y: 175, w: 430, h: 655 };
+    const s = Math.min(box.w / (x1 - x0), box.h / (y1 - y0));
+    const mw = (x1 - x0) * s, mh = (y1 - y0) * s, mx = box.x + (box.w - mw) / 2, my0 = box.y + (box.h - mh) / 2;
+    ctx.save();
+    ctx.shadowColor = "rgba(57,255,20,.45)"; ctx.shadowBlur = 40;
+    ctx.fillStyle = "#06161b"; rrect(ctx, mx - 14, my0 - 14, mw + 28, mh + 28, 26); ctx.fill();
+    ctx.restore();
+    ctx.save();
+    rrect(ctx, mx, my0, mw, mh, 16); ctx.clip();
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(rgb, x0, y0, x1 - x0, y1 - y0, mx, my0, mw, mh);
+    ctx.fillStyle = "rgba(4,22,28,.45)"; ctx.fillRect(mx, my0, mw, mh);       // dim the surroundings
+    const k = weed.width / rgb.width;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(weed, x0 * k, y0 * k, (x1 - x0) * k, (y1 - y0) * k, mx, my0, mw, mh);
+    ctx.restore();
+    ctx.save();
+    ctx.strokeStyle = YELLOW; ctx.lineWidth = 4; ctx.lineJoin = "round";
+    ctx.shadowColor = "rgba(255,212,0,.8)"; ctx.shadowBlur = 12;
+    rings.forEach((r) => {
+      ctx.beginPath();
+      r.forEach((p, i) => { const [u, v] = toImg(p, rgb); ctx[i ? "lineTo" : "moveTo"](mx + (u - x0) * s, my0 + (v - y0) * s); });
+      ctx.stroke();
+    });
+    ctx.restore();
+    // The number
+    ctx.textBaseline = "alphabetic";
+    const pct = `${fmt(last.weed_pct, 0)}%`;
+    fit(pct, 800, 250, 500);
+    ctx.save();
+    ctx.shadowColor = "rgba(57,255,20,.75)"; ctx.shadowBlur = 50;
+    ctx.fillStyle = NEON; ctx.fillText(pct, L - 8, 410);
+    ctx.shadowBlur = 0; ctx.fillText(pct, L - 8, 410);
+    ctx.restore();
+    ctx.fillStyle = "#ffffff"; font(800, 50);
+    let y = wrapText(ctx, t("ig_cover"), L, 482, 490, 60);
+
+    // Level stamp, slapped on the corner of the map
+    const [stamp, scol] = stampFor(last.weed_pct);
+    ctx.save();
+    ctx.translate(615, 205); ctx.rotate(-0.21);
+    fit(stamp, 800, 56, 230);
+    const stw = ctx.measureText(stamp).width + 40;
+    ctx.globalAlpha = 0.95;
+    ctx.fillStyle = "rgba(4,22,28,.75)"; rrect(ctx, -stw / 2, -40, stw, 80, 12); ctx.fill();
+    ctx.strokeStyle = scol; ctx.lineWidth = 6; rrect(ctx, -stw / 2, -40, stw, 80, 12); ctx.stroke();
+    ctx.lineWidth = 2; rrect(ctx, -stw / 2 + 8, -32, stw - 16, 64, 8); ctx.stroke();
+    ctx.fillStyle = scol; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(stamp, 0, 3);
+    ctx.restore();
+
+    // Fun facts, in football pitches
+    const area = state.site.lake.area_ha;
+    const weedHa = last.weed_pct / 100 * area, water = last.open_water_ha;
+    const nWeed = Math.round(weedHa / PITCH_HA), nWater = water / PITCH_HA;
+    const facts = [[NEON, t("ig_fields_weed", fmt(nWeed, 0))],
+      [WATER, nWater < 1 ? t("ig_fields_water_lt1") : t("ig_fields_water", fmt(Math.round(nWater), 0))]];
+    y = Math.max(y + 18, 640);
+    ctx.textBaseline = "alphabetic";
+    facts.forEach(([col, text]) => {
+      font(600, 30);
+      const lines = [];
+      let cur = "";
+      text.split(" ").forEach((w) => { const tt = cur ? `${cur} ${w}` : w; if (ctx.measureText(tt).width > 400 && cur) { lines.push(cur); cur = w; } else cur = tt; });
+      lines.push(cur);
+      const h = 34 + lines.length * 40;
+      ctx.fillStyle = "rgba(255,255,255,.07)"; rrect(ctx, L, y, 500, h, 18); ctx.fill();
+      ctx.fillStyle = col; rrect(ctx, L, y, 8, h, 4); ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      lines.forEach((ln, i) => ctx.fillText(ln, L + 30, y + 50 + i * 40));
+      y += h + 16;
+    });
+
+    // Weed / water bar
+    const by = 905, bw = W - 2 * L;
+    const wp = Math.max(0, Math.min(100, last.weed_pct)), op = Math.max(0, Math.min(100 - wp, water / area * 100));
+    ctx.save();
+    rrect(ctx, L, by, bw, 46, 23); ctx.clip();
+    ctx.fillStyle = MUD; ctx.fillRect(L, by, bw, 46);
+    ctx.fillStyle = NEON; ctx.fillRect(L, by, bw * wp / 100, 46);
+    ctx.fillStyle = WATER; ctx.fillRect(L + bw * (1 - op / 100), by, bw * op / 100 + 1, 46);
+    ctx.restore();
+    font(800, 28); ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = NEON; ctx.textAlign = "left"; ctx.fillText(t("ig_bar_weed", fmt(weedHa, 1)), L, by - 14);
+    ctx.fillStyle = "#7cc4f5"; ctx.textAlign = "right"; ctx.fillText(t("ig_bar_water", fmt(water, 2)), W - L, by - 14);
+    ctx.textAlign = "left";
+
+    // Month by month since the campaign started
+    const ty = 985, th = 218;
+    ctx.fillStyle = "rgba(255,255,255,.06)"; rrect(ctx, L, ty, bw, th, 22); ctx.fill();
+    ctx.fillStyle = "#ffffff"; font(800, 26); ctx.fillText(t("ig_trend"), L + 26, ty + 42);
+    if (base && base.date !== last.date) {
+      const d = last.weed_pct - base.weed_pct;
+      ctx.fillStyle = d > 0 ? "#ff7a7a" : NEON; font(800, 24); ctx.textAlign = "right";
+      ctx.fillText(t("ig_change", `${d >= 0 ? "+" : "−"}${fmt(Math.abs(d), 0)}`, fmtDate(base.date, { month: "short", year: "numeric" })), W - L - 26, ty + 42);
+      ctx.textAlign = "left";
+    }
+    const mon = monthly(), keys = monthKeys(state.site.campaign_start.slice(0, 7), last.date.slice(0, 7)).slice(-15);
+    const cw = (bw - 52) / keys.length, cb = ty + th - 62, ch = 98;
+    keys.forEach((key, i) => {
+      const m = mon[key], cx = L + 26 + i * cw, isLast = i === keys.length - 1;
+      ctx.fillStyle = "rgba(255,255,255,.08)"; rrect(ctx, cx + 5, cb - ch, cw - 10, ch, 6); ctx.fill();
+      if (m && m.weed != null) {
+        const hh = Math.max(4, ch * m.weed / 100);
+        ctx.fillStyle = isLast ? NEON : "rgba(57,255,20,.55)";
+        rrect(ctx, cx + 5, cb - hh, cw - 10, hh, 6); ctx.fill();
+      }
+      ctx.fillStyle = isLast ? NEON : "#9fbfba"; font(isLast ? 800 : 600, 18); ctx.textAlign = "center";
+      ctx.fillText(t("months_short")[+key.slice(5) - 1], cx + cw / 2, cb + 26);
+      if (i === 0 || key.endsWith("-01")) {   // year mark under the first month of each year
+        ctx.fillStyle = "#6f9a94"; font(600, 16); ctx.textAlign = "left";
+        ctx.fillText(fmt(+key.slice(0, 4), 0), cx + 5, cb + 50);
+      }
+      ctx.textAlign = "left";
+    });
+
+    // Footer: who, where, credits
+    ctx.fillStyle = "#ffffff"; font(800, 50); ctx.fillText("@savevadalelake", L, 1282);
+    const url = (location.host + location.pathname).replace(/index\.html$/, "").replace(/\/$/, "");
+    ctx.fillStyle = "#bfe3ea"; fit(`${t("ig_live")} ${url}`, 600, 24, 560); ctx.fillText(`${t("ig_live")} ${url}`, L, 1318);
+    ctx.textAlign = "right"; ctx.fillStyle = YELLOW; fit(t("ig_cta"), 800, 26, 400); ctx.fillText(t("ig_cta"), W - L, 1282);
+    ctx.fillStyle = "rgba(255,255,255,.55)"; font(400, 15);
+    ctx.fillText(t("ig_note"), W - L, 1306);
+    ctx.fillText("Contains modified Copernicus Sentinel data · © OpenStreetMap", W - L, 1326);
+    ctx.textAlign = "left";
+    return last;
+  }
+
+  async function makeCard() {
+    if (!good().length) return;
     const btn = $("#ig-btn");
     btn.disabled = true;
     try {
-      const last = all[all.length - 1], base = inCampaign(all)[0];
-      const F = state.lang === "mr" ? '"Noto Sans Devanagari", "Noto Sans", sans-serif' : '"Noto Sans", sans-serif';
-      await Promise.all(["800 100px", "600 40px", "400 30px"].map((w) => document.fonts.load(`${w} ${F.split(",")[0]}`).catch(() => {})));
-      const [rgb, weed] = await Promise.all([loadImg(img(last.date, "rgb")), loadImg(img(last.date, "weed"))]);
-      const c = $("#ig-canvas"), ctx = c.getContext("2d");
-      const W = 1080;
-      const g = ctx.createLinearGradient(0, 0, 0, W);
-      g.addColorStop(0, "#0b4152"); g.addColorStop(1, "#062a35");
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
-
-      // satellite picture (right side), aspect preserved
-      const box = { x: 560, y: 150, w: 470, h: 760 };
-      const s = Math.min(box.w / rgb.width, box.h / rgb.height);
-      const iw = rgb.width * s, ih = rgb.height * s, ix = box.x + (box.w - iw) / 2, iy = box.y + (box.h - ih) / 2;
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(rgb, ix, iy, iw, ih);
-      ctx.globalAlpha = 0.92; ctx.drawImage(weed, ix, iy, iw, ih); ctx.globalAlpha = 1;
-      // lake outline
-      const [[S, Wl], [N, E]] = state.site.image_bounds;
-      const my = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
-      const px = ([lon, lat]) => [ix + ((lon - Wl) / (E - Wl)) * iw, iy + ((my(N) - my(lat)) / (my(N) - my(S))) * ih];
-      ctx.strokeStyle = "#ffd400"; ctx.lineWidth = 3;
-      state.lake.features.forEach((f) => {
-        const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
-        polys.forEach((p) => p.forEach((ring) => { ctx.beginPath(); ring.forEach((pt, i) => ctx[i ? "lineTo" : "moveTo"](...px(pt))); ctx.stroke(); }));
-      });
-      ctx.strokeStyle = "rgba(255,255,255,.35)"; ctx.lineWidth = 2; ctx.strokeRect(ix, iy, iw, ih);
-
-      // text (left side)
-      ctx.fillStyle = "#ffffff"; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left";
-      ctx.font = `800 46px ${F}`; ctx.fillText(t("title"), 56, 92);
-      ctx.font = `400 30px ${F}`; ctx.fillStyle = "#bfe3ea"; ctx.fillText(t("image_of", fmtDate(last.date)), 56, 138);
-      ctx.fillStyle = "#39ff14"; ctx.font = `800 170px ${F}`;
-      ctx.fillText(`${Math.round(last.weed_pct)}%`, 48, 380);
-      ctx.fillStyle = "#ffffff"; ctx.font = `600 40px ${F}`;
-      let y = wrapText(ctx, t("ig_cover"), 56, 440, 470, 52);
-      ctx.font = `400 28px ${F}`; ctx.fillStyle = "#bfe3ea";
-      y = wrapText(ctx, t("range", fmt(last.weed_pct_low, 0), fmt(last.weed_pct_high, 0)), 56, y + 4, 470, 38);
-      if (last.visible_pct < 99) y = wrapText(ctx, `(${t("visible_note", fmt(last.visible_pct, 0))})`, 56, y, 470, 38);
-      ctx.font = `600 34px ${F}`; ctx.fillStyle = "#ffffff";
-      if (base && base.date !== last.date) {
-        const d = last.weed_pct - base.weed_pct;
-        y = wrapText(ctx, t("ig_change", `${d >= 0 ? "+" : "−"}${fmt(Math.abs(d))}`, fmtDate(base.date)), 56, y + 40, 470, 46);
-      }
-      y = wrapText(ctx, t("ig_water", fmt(last.open_water_ha, 1), fmt(state.site.lake.area_ha, 1)), 56, y + 20, 470, 46);
-
-      ctx.font = `400 26px ${F}`; ctx.fillStyle = "#ffe08a";
-      wrapText(ctx, t("ig_note"), 56, 930, 470, 34);
-      ctx.fillStyle = "#ffffff"; ctx.font = `800 44px ${F}`; ctx.fillText("@savevadalelake", 56, 1020);
-      ctx.font = `400 18px ${F}`; ctx.fillStyle = "rgba(255,255,255,.6)"; ctx.textAlign = "right";
-      ctx.fillText("Contains modified Copernicus Sentinel data", 1030, 1040);
-      ctx.fillText("© OpenStreetMap contributors", 1030, 1062);
-
+      const c = $("#ig-canvas");
+      const last = await drawCard(c);
       const blob = await new Promise((ok) => c.toBlob(ok, "image/png"));
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
