@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T01:14Z",
+ "generated": "2026-11-24T12:29Z",
  "lake": {
   "name": "Vadale Lake (Vadale Talao), Old Panvel",
   "area_ha": 9.46
@@ -24,8 +24,8 @@
   "ndvi_weed_strict": 0.3,
   "ndvi_weed_loose": 0.12
  },
- "scenes_checked": 1440,
- "last_scene_date": "2026-11-22",
+ "scenes_checked": 1442,
+ "last_scene_date": "2026-11-24",
  "next_passes": [
   "2026-11-27",
   "2026-11-29",
@@ -4483,6 +4483,18 @@
    "other_pct": 0.7,
    "flag": "",
    "scene_id": "S2C_MSIL2A_20261122T054141_R005_T43QCB_20261122T082911"
+  },
+  {
+   "date": "2026-11-24",
+   "weed_pct": 90.0,
+   "open_water_ha": 0.89,
+   "visible_pct": 100.0,
+   "weed_pct_low": 88.8,
+   "weed_pct_high": 91.1,
+   "weed_ha": 8.51,
+   "other_pct": 0.6,
+   "flag": "",
+   "scene_id": "S2A_MSIL2A_20261124T054241_R005_T43QCB_20261124T102457"
   }
  ]
 }
